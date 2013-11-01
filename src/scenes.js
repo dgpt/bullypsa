@@ -1,9 +1,7 @@
 Crafty.scene('Room', function() {
     Game.setBG('room');
-    Game.debug();
 
-    var sara = Crafty.e('Sara')
-        .attr({x: 250, y: Game.height - 143, z: 3});
+    var sara = Crafty.e('Sara');
 
     Game.setView(sara);
 
@@ -35,6 +33,11 @@ Crafty.scene('Room', function() {
 
 Crafty.scene('Street', function() {
     Game.setBG('street');
+
+    var sara = Crafty.e('Sara')
+        .attr({x: 250, y: Game.height - 143, z: 3});
+
+    Game.setView(sara);
 });
 
 Crafty.scene('Park', function() {
@@ -76,5 +79,6 @@ Crafty.scene('Load', function() {
         Crafty.asset('park', assets.park);
 
         Crafty.scene('Room');
+        Game.debug();
     });
 });

@@ -33,18 +33,25 @@ Crafty.c('Player', {
     },
 
     player: function(settings) {
-        var speed = settings.speed || 1.7;
-        var animSpeed = settings.animSpeed || 35;
-        var animBlinkSpeed = settings.animBlinkSpeed || 15;
-        var blinkSpeed = settings.blinkSpeed || 3750;  // in milliseconds
+        var s = _.defaults(settings || {}, {
+            speed: 1.7,
+            animSpeed: 35,
+            animBlinkSpeed: 15,
+            blinkSpeed: 3750,       //in milliseconds
+            x: 250,
+            y: 187,
+            z: 3
+        });
         var spr = settings.sprite;
         // Positions for sprite map (Arrays [fromX, Y, toX])
         var l = settings.left;
         var lb = settings.leftBlink;
         var r = settings.right;
         var rb = settings.rightBlink;
+
         var lastX = 0;
         var idler;
+
         if (!_.isString(spr))
             fail('Player.config: spr is not a string.');
         if (!(_.isArray(l) && _.isArray(lb) &&
@@ -60,12 +67,13 @@ Crafty.c('Player', {
             .animate('Right',     r[0] + 1, r[1], r[2])
             .animate('RightStop', r[0], r[1], r[0])
             .animate('RightBlink',rb[0], rb[1], rb[2])
-            .multiway(speed, {
+            .multiway(s.speed, {
                 D: 0,
                 RIGHT_ARROW: 0,
                 A: 180,
                 LEFT_ARROW: 180
             })
+            .attr({ x: s.x, y: s.y, z: s.z })
             .onHit('Solid', this.stopMovement)
             .onHit('Portal', function() { Crafty.trigger('PortalOn'); },
                              function() { Crafty.trigger('PortalOff'); });
@@ -74,7 +82,7 @@ Crafty.c('Player', {
             if (!existy(lx))
                 fail('Player.init->anim: lastX must be specified');
             count = existy(count) && _.isNumber(count) ? count : -1;
-            speed = speed || animSpeed;
+            speed = speed || s.animSpeed;
             lastX = lx;
             this.stop();
             return this.animate(reel, speed, count);
@@ -84,8 +92,8 @@ Crafty.c('Player', {
             if (!_.isString(dir))
                 fail('Blink bind: dir must be a string.');
             return Crafty.e('Idler').start(function() {
-                anim(dir + 'Blink', 0, animBlinkSpeed, 0);
-            }, blinkSpeed);
+                anim(dir + 'Blink', 0, s.animBlinkSpeed, 0);
+            }, s.blinkSpeed);
         }, this);
 
         var setDirection = function(data) {
