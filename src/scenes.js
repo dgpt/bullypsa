@@ -1,7 +1,8 @@
 Crafty.scene('Room', function() {
     Game.setBG('room');
 
-    var sara = Crafty.e('Sara');
+    var sara = Crafty.e('Sara')
+        .attr({y: Game.playerPos.room[1]});
 
     Game.setView(sara);
 
@@ -15,13 +16,14 @@ Crafty.scene('Room', function() {
 
     // Collision bounds
     Crafty.e('Boundary')
-        .attr({x: 0, y: 0, w: 152, h: Game.height});
+        .attr({x: 152});
 
     Crafty.e('Portal')
-        .portal({x: 620, y: 0, w: 40, h: Game.height})
+        .portal({x: 620})
         .action(function() {
             sara.emote('Think');
             sara.action = function() {
+                Game.playerX = Game.playerPos.street.left[0];
                 Crafty.scene('Street');
             };
         }, function() {
@@ -35,9 +37,24 @@ Crafty.scene('Street', function() {
     Game.setBG('street');
 
     var sara = Crafty.e('Sara')
-        .attr({x: 250, y: Game.height - 143, z: 3});
+        .attr({y: 230});
 
     Game.setView(sara);
+
+    // Boundaries
+    // Left side - To Room
+    Crafty.e('Portal')
+        .portal({orientation: 'right'})
+        .action(function() {
+            sara.emote('Think');
+            sara.action = function() {
+                Game.playerX = Game.playerPos.room[0];
+                Crafty.scene('Room');
+            };
+        }, function() {
+            sara.action = null;
+        });
+
 });
 
 Crafty.scene('Park', function() {
@@ -78,7 +95,7 @@ Crafty.scene('Load', function() {
         Crafty.asset('street', assets.street);
         Crafty.asset('park', assets.park);
 
-        Crafty.scene('Room');
+        Crafty.scene('Street');
         Game.debug();
     });
 });

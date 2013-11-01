@@ -33,13 +33,15 @@ Crafty.c('Player', {
     },
 
     player: function(settings) {
-        var s = _.defaults(settings || {}, {
+        if (!existy(settings) || !_.isObject(settings))
+            fail('Player.player: settings is undefined or invalid');
+        var s = _.defaults(settings, {
             speed: 1.7,
-            animSpeed: 35,
-            animBlinkSpeed: 15,
-            blinkSpeed: 3750,       //in milliseconds
-            x: 250,
-            y: 187,
+            animSpeed: 35,          // lower = faster
+            animBlinkSpeed: 15,     // lower = faster
+            blinkSpeed: 3750,       // in milliseconds
+            x: Game.playerPos.start[0],
+            y: Game.playerPos.start[1],
             z: 3
         });
         var spr = settings.sprite;
@@ -145,14 +147,16 @@ Crafty.c('Sara', {
                 left:       [0, 2, 6],
                 leftBlink:  [0, 0, 4],
                 right:      [0, 3, 6],
-                rightBlink: [0, 1, 4]
+                rightBlink: [0, 1, 4],
+                x: Game.playerX
             });
     }
 });
 
 Crafty.c('Boundary', {
     init: function() {
-        this.requires('2D, Solid');
+        this.requires('2D, Solid')
+            .attr({x: 0, y: 0, w: 0, h: Game.height});
     }
 });
 
@@ -160,11 +164,23 @@ Crafty.c('Boundary', {
 // portalWidth indicates the non-solid portion of the portal that still registers collisions
 Crafty.c('Portal', {
     portal: function(attr) {
+        attr = _.defaults(attr || {}, {
+            x: 0,
+            y: 0,
+            w: 40,
+            h: Game.height,
+            orientation: 'left'
+        });
+        var bx;
+        if (attr.orientation === 'right')
+            bx = attr.x;
+        else
+            bx = attr.x + attr.w;
+
         this.requires('2D')
             .attr(attr);
         var bound = Crafty.e('Boundary')
-            .attr({x: attr.x + attr.w, y: attr.y,
-                   w: 30, h: attr.h});
+            .attr({x: bx, y: attr.y});
 
         return this;
     },
