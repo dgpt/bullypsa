@@ -20,13 +20,21 @@ Crafty.c('Idler', {
 
 
 Crafty.c('Player', {
+    action: null,
+
     init: function() {
-        this.requires('2D, Canvas, Delay');
+        this.requires('2D, Canvas');
+        this.bind('KeyDown', function(e) {
+            if (e.key == Crafty.keys.W || e.key == Crafty.keys.UP_ARROW) {
+                if (existy(this.action) && _.isFunction(this.action))
+                    this.action();
+            }
+        });
     },
 
-    config: function(settings) {
-        var speed = settings.speed || 1.3;
-        var animSpeed = settings.animSpeed || 40;
+    player: function(settings) {
+        var speed = settings.speed || 1.7;
+        var animSpeed = settings.animSpeed || 35;
         var animBlinkSpeed = settings.animBlinkSpeed || 15;
         var blinkSpeed = settings.blinkSpeed || 3750;  // in milliseconds
         var spr = settings.sprite;
@@ -59,7 +67,8 @@ Crafty.c('Player', {
                 LEFT_ARROW: 180
             })
             .onHit('Solid', this.stopMovement)
-            .onHit('Portal', function() { Crafty.trigger('PortalAction'); });
+            .onHit('Portal', function() { Crafty.trigger('PortalOn'); },
+                             function() { Crafty.trigger('PortalOff'); });
 
         var anim = _.bind(function(reel, lx, speed, count) {
             if (!existy(lx))
@@ -114,21 +123,22 @@ Crafty.c('Player', {
 
     emote: function(type) {
         if (Crafty('spr' + type).length === 0) {
-            var e = Crafty.e('Emotion').emotion(this)[type.toLowerCase()]();
+            Crafty.e('Emotion').emotion(this, type);
         }
     }
 });
 
 Crafty.c('Sara', {
     init: function() {
-        this.requires('Player').config({
-            sprite: 'sprSara',
-            //           x1 y  x2
-            left:       [0, 2, 6],
-            leftBlink:  [0, 0, 4],
-            right:      [0, 3, 6],
-            rightBlink: [0, 1, 4]
-        });
+        this.requires('Player')
+            .player({
+                sprite: 'sprSara',
+                //           x1 y  x2
+                left:       [0, 2, 6],
+                leftBlink:  [0, 0, 4],
+                right:      [0, 3, 6],
+                rightBlink: [0, 1, 4]
+            });
     }
 });
 
@@ -141,9 +151,6 @@ Crafty.c('Boundary', {
 // Portal is a boundary that has an action (like doorways, etc)
 // portalWidth indicates the non-solid portion of the portal that still registers collisions
 Crafty.c('Portal', {
-    init: function() {
-    },
-
     portal: function(attr) {
         this.requires('2D')
             .attr(attr);
@@ -154,32 +161,45 @@ Crafty.c('Portal', {
         return this;
     },
 
-    action: function(callback) {
-        this.bind('PortalAction', callback);
+    action: function(onHit, offHit) {
+        this.bind('PortalOn', onHit);
+        if (existy(offHit) && _.isFunction(offHit))
+            this.bind('PortalOff', offHit);
+        return this;
     }
 });
 
 Crafty.c('Emotion', {
-    animSpeed: 1,
-    hideTime: 2200,
-    fadeTime: 90,
+    animSpeed: 10,
+    hideTime: 1800,
+    fadeTime: 110,
 
-    emotion: function(player) {
+    emotion: function(player, type) {
+        if (!_.isString(type))
+            fail('Emotion.emotion: type must be string.');
+
         var xOffset = 5;
         var yOffset = -50;
-        this.requires('2D, DOM, Delay, Tween')
+        var frames = this.getFrames(type);
+
+        this.requires('2D, DOM, Delay, Tween, spr'+type+', SpriteAnimation')
             .attr({
                 alpha: 1,
                 x: player.x + xOffset,
                 y: player.y + yOffset,
                 z: player.z
-            });
+            })
+            .animate(type, frames[0], frames[1], frames[2])
+            .animate(type, this.animSpeed, 0);
 
+        // Follow player
         var updateX = _.bind(function() {
             this.x = player.x + xOffset;
         }, this);
         this.bind('EnterFrame', updateX);
 
+        // Start the emotion
+        this.delay(this.hide, this.hideTime, 0);
         return this;
     },
 
@@ -192,20 +212,33 @@ Crafty.c('Emotion', {
         this.destroy();
     },
 
-    // Starts delays,
-    // Hides for a little bit, then destroys
-    start: function() {
-        this.delay(this.hide, this.hideTime, 0);
-    },
+    getFrames: function(type) {
+        switch (type) {
+            case 'Think':
+                return [0, 0, 10];
+                break;
 
-    think: function() {
-        this.addComponent('sprThink, SpriteAnimation')
-            .animate('Think', 0, 0, 10)
-            .animate('Think', this.animSpeed, 0);
+            case 'Question':
+                return [0, 1, 11];
+                break;
 
-        this.start();
-        return this;
-    },
+            case 'Exclamation':
+                return [0, 2, 8];
+                break;
+
+            case 'Music':
+                return [0, 3, 17];
+                break;
+
+            case 'Sigh':
+                return [0, 4, 10];
+                break;
+
+            case 'Anger':
+                return [0, 5, 5];
+                break;
+        }
+    }
 
 });
 

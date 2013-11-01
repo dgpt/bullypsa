@@ -6,17 +6,17 @@ Game = {
 
     fps: Crafty.e('FPS'),
 
-    fpsMeter: function(attr) {
-        var text = Crafty.e('2D, DOM, Text')
-            .attr(attr)
-            .text('0')
-            .textFont({size: '18px', weight: 'bold'});
+    debug: function() {
+        $('#cr-stage').after('<div id="debug">Debug Information<br />FPS: <span id="fps"></span></div>');
 
-        var updateText = _.bind(function() {
-            this.text(_.last(Game.fps.values));
-        }, text);
-
-        text.bind('EnterFrame', updateText);
+        var lastFPS = 0;
+        Crafty.bind('EnterFrame', function() {
+            var curFPS = _.last(Game.fps.values);
+            if (curFPS != lastFPS) {
+                $('#fps').text(curFPS);
+                lastFPS = curFPS;
+            }
+        });
     },
 
     setView: function(follow) {
@@ -29,9 +29,8 @@ Game = {
     // Set background image, set Game.width to width of the image.
     setBG: function(asset) {
         asset = Crafty.asset(asset);
-        console.log(asset);
         if (!existy(asset))
-            fail('Game.setBG: '+asset+' is not defined.');
+            fail('Game.setBG: background image is not defined.');
         var bg = Crafty.e('2D, Canvas, Image')
             .attr({z: 1})
             .image(asset);
