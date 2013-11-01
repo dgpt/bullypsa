@@ -160,15 +160,16 @@ Crafty.c('Portal', {
 });
 
 Crafty.c('Emotion', {
-    animSpeed: 5,
-    dieTime: 1000,
-    hideTime: 3000,
+    animSpeed: 1,
+    hideTime: 2200,
+    fadeTime: 90,
 
     emotion: function(player) {
         var xOffset = 5;
         var yOffset = -50;
         this.requires('2D, DOM, Delay, Tween')
             .attr({
+                alpha: 1,
                 x: player.x + xOffset,
                 y: player.y + yOffset,
                 z: player.z
@@ -183,8 +184,8 @@ Crafty.c('Emotion', {
     },
 
     hide: function() {
-        this.visible = false;
-        this.delay(this.die, this.dieTime, 0);
+        this.tween({alpha: -0.5}, this.fadeTime);
+        this.bind('TweenEnd', this.die);
     },
 
     die: function() {
