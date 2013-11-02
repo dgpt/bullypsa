@@ -1,0 +1,49 @@
+Level Order
+             ->Park     ->Class
+Room->Street/->Corridor/->Library
+
+
+street:
+    create right bound
+    create upstairs portal to corridor
+    create right portal to park
+
+park:
+    create
+        left bound
+        right bound
+        left portal to street
+
+corridor:
+    create
+        left portal to street
+        up portal to class
+        down portal to library
+        right bound
+
+class:
+    create
+        right portal to corridor
+        left bound
+
+library:
+    create
+        right portal to corridor
+        left bound
+
+
+Load:
+    better loading screen
+
+
+
+
+Sounds Needed:
+    Corridor
+        Walking downstairs
+        Walking through hallway
+            hallway reverb
+
+    Street
+        City noises
+        Steps on street
