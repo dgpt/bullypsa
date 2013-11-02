@@ -5,20 +5,33 @@ Game = {
     height: 330,
 
     // Use to place player in a more logical position between scenes
-    playerX: undefined,
+    player: {
+        // Initially set to Game.playerPos.start
+        x: 250,
+        y: 187,
+        orientation: 'left'
+    },
 
     // Pre-Set player positions for each room (since they're figured out by hand)
     playerPos: {
-        start:       [250, 187],
-        room:        [600, 187],
+        start:       [250 , 187],
+        room:        [600 , 187],
         street: {
-            left:  [0, 230],
-            right: [1430, 230],
+            left:    [0   , 230],
+            stairs:  [1200, 230],
+            right:   [1430, 230]
         },
-        park:        [30, 230]
+        park:        [30  , 230],
+        corridor: {
+            left:    [0   , 190],
+            up:      [],
+            down:    []
+        },
+        library:     [],
+        classroom:   []
     },
 
-    startingScene: 'Park',
+    startingScene: 'Corridor',
 
     fps: Crafty.e('FPS'),
 

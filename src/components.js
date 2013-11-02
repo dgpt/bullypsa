@@ -40,10 +40,13 @@ Crafty.c('Player', {
             animSpeed: 35,          // lower = faster
             animBlinkSpeed: 15,     // lower = faster
             blinkSpeed: 3750,       // in milliseconds
-            x: Game.playerPos.start[0],
-            y: Game.playerPos.start[1],
-            z: 3
+            x: Game.player.x,
+            y: Game.player.y,
+            z: 3,
+            orientation: Game.player.orientation // left or right
         });
+
+        s.orientation = s.orientation[0].toUpperCase();
         var spr = settings.sprite;
         // Positions for sprite map (Arrays [fromX, Y, toX])
         var l = settings.left;
@@ -60,7 +63,7 @@ Crafty.c('Player', {
               _.isArray(r) && _.isArray(rb)))
             fail('Player.config: l, r, lb, or rb are not arrays/defined');
 
-        this.addComponent('Multiway', spr, 'SpriteAnimation', 'Collision')
+        this.addComponent('Multiway', spr + s.orientation, 'SpriteAnimation', 'Collision')
             // Very specific to sprite sheet. Tried to make it as flexible as possible
             // On right and left, stop sprite is pos 0, movement is 1+
             .animate('Left',      l[0] + 1, l[1], l[2])
@@ -148,7 +151,7 @@ Crafty.c('Sara', {
                 leftBlink:  [0, 0, 4],
                 right:      [0, 3, 6],
                 rightBlink: [0, 1, 4],
-                x: Game.playerX         // Necessary for tracking x between rooms
+                //x: Game.player.x         // Necessary for tracking x between rooms
             });
     }
 });
@@ -169,7 +172,8 @@ Crafty.c('Portal', {
             y: 0,
             w: 40,
             h: Game.height,
-            orientation: 'right'
+            orientation: 'right',
+            boundary: true
         });
         var bx;
         if (attr.orientation === 'left')
@@ -179,8 +183,10 @@ Crafty.c('Portal', {
 
         this.requires('2D')
             .attr(attr);
-        var bound = Crafty.e('Boundary')
-            .attr({x: bx, y: attr.y});
+        if (attr.boundary) {
+            Crafty.e('Boundary')
+                .attr({x: bx, y: attr.y});
+        }
 
         return this;
     },
@@ -270,7 +276,4 @@ Crafty.c('Emotion', {
                 break;
         }
     }
-
 });
-
-

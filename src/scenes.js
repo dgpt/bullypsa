@@ -23,7 +23,7 @@ Crafty.scene('Room', function() {
         .action(function() {
             player.emote('Think');
             player.action = function() {
-                Game.playerX = Game.playerPos.street.left[0];
+                Game.player.x = Game.playerPos.street.left[0];
                 Crafty.scene('Street');
             };
         }, function() {
@@ -48,28 +48,57 @@ Crafty.scene('Street', function() {
         .action(function() {
             player.emote('Think');
             player.action = function() {
-                Game.playerX = Game.playerPos.room[0];
+                Game.player.x = Game.playerPos.room[0];
                 Crafty.scene('Room');
             };
         }, function() {
             player.action = null;
         });
 
+    // Right - To Park
     Crafty.e('Portal')
         .portal({x: Game.width - 40})
         .action(function() {
             player.emote('Think');
             player.action = function() {
-                Game.playerX = Game.playerPos.park[0];
+                Game.player.x = Game.playerPos.park[0];
                 Crafty.scene('Park');
             };
         }, function() {
             player.action = null;
         });
+
+    // Stairs - To Corridor
+    Crafty.e('Portal')
+        .portal({x: 1195, w: 80, boundary: false})
+        .action(function() {
+            player.emote('Think');
+            player.action = function() {
+                //Game.player.x = Game.playerPos.corridor.left[0]
+                Crafty.scene('Corridor');
+            };
+        }, function() { player.action = null; });
 });
 
 Crafty.scene('Corridor', function() {
     Game.setBG('corridor');
+
+    var player = Crafty.e('Sara')
+        .attr({y: Game.playerPos.corridor.left[1]});
+
+    Game.setView(player);
+    
+    // Left - To Street
+    Crafty.e('Portal')
+        .portal({orientation: 'left'})
+        .action(function() {
+            player.emote('Think');
+            player.action = function() {
+                Game.player.x = Game.playerPos.street.stairs[0];
+                Game.player.orientation = 'right';
+                Crafty.scene('Street');
+            };
+        }, function() { player.action = null; });
 });
 
 Crafty.scene('Park', function() {
@@ -80,18 +109,20 @@ Crafty.scene('Park', function() {
 
     Game.setView(player);
 
+    // Left - to street
     Crafty.e('Portal')
         .portal({orientation: 'left'})
         .action(function() {
             player.emote('Think');
             player.action = function() {
-                Game.playerX = Game.playerPos.street.right[0];
+                Game.player.x = Game.playerPos.street.right[0];
                 Crafty.scene('Street');
             };
         }, function() {
             player.action = null;
         });
 
+    // Right - bound
     Crafty.e('Boundary')
         .attr({x: Game.width});
 });
@@ -133,7 +164,8 @@ Crafty.scene('Load', function() {
     };
     Crafty.load(_.values(assets), function() {
         Crafty.sprite(54, 95, assets.sara, {
-            sprSara: [0, 3]
+            sprSaraR: [0, 3],
+            sprSaraL: [0, 2]
         });
         Crafty.sprite(48, 48, assets.emotions, {
             sprThink: [0, 0],
