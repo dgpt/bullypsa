@@ -36,7 +36,7 @@ Crafty.c('Player', {
         if (!existy(settings) || !_.isObject(settings))
             fail('Player.player: settings is undefined or invalid');
         var s = _.defaults(settings, {
-            speed: 1.7,
+            speed: 3,
             animSpeed: 35,          // lower = faster
             animBlinkSpeed: 15,     // lower = faster
             blinkSpeed: 3750,       // in milliseconds
@@ -148,7 +148,7 @@ Crafty.c('Sara', {
                 leftBlink:  [0, 0, 4],
                 right:      [0, 3, 6],
                 rightBlink: [0, 1, 4],
-                x: Game.playerX
+                x: Game.playerX         // Necessary for tracking x between rooms
             });
     }
 });
@@ -169,10 +169,10 @@ Crafty.c('Portal', {
             y: 0,
             w: 40,
             h: Game.height,
-            orientation: 'left'
+            orientation: 'right'
         });
         var bx;
-        if (attr.orientation === 'right')
+        if (attr.orientation === 'left')
             bx = attr.x;
         else
             bx = attr.x + attr.w;

@@ -14,15 +14,19 @@ Game = {
         street: {
             left:  [0, 230],
             right: [],
-        }
+        },
+        park:        [10, 230]
     },
 
     fps: Crafty.e('FPS'),
 
     debug: function() {
+        $('head')
         $('#cr-stage').after('<div id="debug">Debug Information<br />' +
             'FPS: <span id="fps"></span><br />' +
-            'Player Position: <span id="pos"></span></div>');
+            'Player Position:<br />' +
+            '<span id="pos"></span></div>')
+            .add('span').css('font-size', '14px');
 
         var lastFPS = 0;
         var lastX = 0;
@@ -32,7 +36,7 @@ Game = {
                 $('#fps').text(curFPS);
                 lastFPS = curFPS;
             }
-            var curX = Crafty('Player')._x;
+            var curX = Math.round(Crafty('Player')._x);
             var curY = Crafty('Player')._y;
             if (lastX != curX) {
                 $('#pos').text('x: ' + curX + ' y: ' + curY);
