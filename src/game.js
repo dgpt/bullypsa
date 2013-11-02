@@ -13,15 +13,16 @@ Game = {
         room:        [600, 187],
         street: {
             left:  [0, 230],
-            right: [],
+            right: [1430, 230],
         },
-        park:        [10, 230]
+        park:        [30, 230]
     },
+
+    startingScene: 'Park',
 
     fps: Crafty.e('FPS'),
 
     debug: function() {
-        $('head')
         $('#cr-stage').after('<div id="debug">Debug Information<br />' +
             'FPS: <span id="fps"></span><br />' +
             'Player Position:<br />' +

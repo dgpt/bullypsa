@@ -81,10 +81,19 @@ Crafty.scene('Park', function() {
     Game.setView(player);
 
     Crafty.e('Portal')
-        .portal()
+        .portal({orientation: 'left'})
         .action(function() {
             player.emote('Think');
+            player.action = function() {
+                Game.playerX = Game.playerPos.street.right[0];
+                Crafty.scene('Street');
+            };
+        }, function() {
+            player.action = null;
         });
+
+    Crafty.e('Boundary')
+        .attr({x: Game.width});
 });
 
 
@@ -153,7 +162,7 @@ Crafty.scene('Load', function() {
         Crafty.asset('classDeskMiddle', assets.classDeskMiddle);
         Crafty.asset('classDeskRight', assets.classDeskRight);
 
-        Crafty.scene('Street');
+        Crafty.scene(Game.startingScene);
         Game.debug();
     });
 });

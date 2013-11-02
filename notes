@@ -2,7 +2,7 @@ Level Order
              ->Park     ->Class
 Room->Street/->Corridor/->Library
 
-
+fix portal bug
 street:
     create right bound
     create upstairs portal to corridor

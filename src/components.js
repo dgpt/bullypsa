@@ -77,7 +77,7 @@ Crafty.c('Player', {
             })
             .attr({ x: s.x, y: s.y, z: s.z })
             .onHit('Solid', this.stopMovement)
-            .onHit('Portal', function() { Crafty.trigger('PortalOn'); },
+            .onHit('Portal', function(data) { var portal = data[0].obj; portal.trigger('PortalOn');},
                              function() { Crafty.trigger('PortalOff'); });
 
         var anim = _.bind(function(reel, lx, speed, count) {
@@ -185,7 +185,14 @@ Crafty.c('Portal', {
         return this;
     },
 
+    hitCheck: function(callback) {
+        if (this.intersect(Crafty('Player').mbr())) {
+            callback();
+        }
+    },
+
     action: function(onHit, offHit) {
+        //var hc = _.bind(this.hitCheck, this);
         this.bind('PortalOn', onHit);
         if (existy(offHit) && _.isFunction(offHit))
             this.bind('PortalOff', offHit);
