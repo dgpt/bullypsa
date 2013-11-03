@@ -54,11 +54,11 @@ Crafty.scene('Street', function() {
 
     // Right - To Park
     Crafty.e('Portal')
-        .portal({x: Game.width - 40})
+        .portal({x: Game.width - 45})
         .action(function() {
             player.emote('Think');
             player.action = function() {
-                Game.player.x = Game.playerPos.park[0];
+                Game.player.x = Game.playerPos.park.left[0];
                 Crafty.scene('Park');
             };
         }, function() {

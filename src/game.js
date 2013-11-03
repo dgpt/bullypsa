@@ -13,6 +13,7 @@ Game = {
     },
 
     // Pre-Set player positions for each room (since they're figured out by hand)
+    // only the first listed Y position per object is used. listing the rest of the Y positions is unnecessary
     playerPos: {
         room: {
             left:    [250 , 187],
@@ -28,9 +29,9 @@ Game = {
             right:   []
         },
         corridor: {
-            left:    [0   , 200],
-            up:      [745 , 200],
-            down:    [870 , 200]
+            left:    [0   , 220],
+            up:      [745 , 220],
+            down:    [870 , 220]
         },
         library:     [],
         classroom:   [600, 130]
@@ -58,12 +59,17 @@ Game = {
 
     fps: Crafty.e('FPS'),
 
+    // Changes state to specified, reloads current scene, sets Game.player.x to first listed x pos for scene
     changeState: function(state) {
         Game.currentState = state;
-        Crafty.scene(Crafty._current);
+        var scene = Crafty._current;
+        // Choose first listed x position
+        Game.player.x = _.flatten(Game.playerPos[scene.toLowerCase()])[0];
+        Crafty.scene(scene);
     },
     debug: function() {
         $('#cr-stage').after(
+            // Debug Quick Links Table
             '<table id="debug_right" style="position:absolute;top:10px;left:520px">' +
             '<caption>Debug Quick Links</caption>' +
             '<tr><td><button onclick="Crafty.scene(\'Room\');Crafty(\'Player\').x=250;">Room</button></td>' +
@@ -75,12 +81,13 @@ Game = {
             '<tr><td><button onclick="Crafty.scene(\'Park\')">Park</button></td>' +
             '<tr><td><button onclick="Crafty.scene(\'Library\')">Library</button></td>' +
             '<tr><td><button onclick="Crafty.scene(\'Classroom\')">Classroom</button></td>' +
+            // Set initial x
             '<tr><td><button onclick="var xxx=+$(\'#xchange\')[0].value; var ddd = 250; Game.player.x = _.isNaN(xxx) ? ddd : (xxx < '+Game.width+' && xxx > 0 ? xxx : ddd)">Change Initial X:</button></td><td><input id="xchange" style="width:70" type="text" /></td>' +
             '</table>' +
+            // Debug Info Table
             '<table id="debug" style="table-layout:fixed;width:120px;margin-left:auto;margin-right:auto;position:absolute;top:275px;left:520px">' +
             '<caption>Debug Info</caption>' +
             '<tr><td>FPS:</td><td id="fps"></td>' +
-            //'<tr><td style="text-align:right">Player :</td>' +
             '<tr><td id="posx"></td><td id="posy"></td>' +
             '</div>')
             .add('span').css('font-size', '14px');
@@ -132,7 +139,6 @@ Game = {
         if (_.isObject(Game.playerPos[scene])) {
             // Y for scene is always 1st position in array when flattened
             var pos = _.flatten(_.values(Game.playerPos[scene]));
-            console.log(pos[1]);
             player.attr({y: pos[1]});
         }
         Game.setView(player);

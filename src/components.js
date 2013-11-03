@@ -21,6 +21,7 @@ Crafty.c('Idler', {
 
 Crafty.c('Player', {
     action: null,
+    emotion: null,
 
     init: function() {
         this.requires('2D, Canvas');
@@ -81,8 +82,8 @@ Crafty.c('Player', {
             })
             .attr({ x: s.x, y: s.y, z: s.z })
             .onHit('Solid', this.stopMovement)
-            .onHit('Portal', function(data) { var portal = data[0].obj; portal.trigger('PortalOn');},
-                             function() { Crafty.trigger('PortalOff'); });
+            .onHit('Portal', this.onHitPortal, this.offHitPortal);
+
         if (blinkSupport) {
             this.animate('LeftBlink', lb[0], lb[1], lb[2])
                 .animate('RightBlink',rb[0], rb[1], rb[2]);
@@ -141,9 +142,26 @@ Crafty.c('Player', {
         }
     },
 
-    emote: function(type) {
-        if (Crafty('spr' + type).length === 0) {
-            Crafty.e('Emotion').emotion(this, type);
+    onHitPortal: function(data) {
+        this.emote('Think', true);
+        var portal = data[0].obj;
+        portal.trigger('PortalOn');
+    },
+
+    offHitPortal: function() {
+        this.stopEmote();
+        Crafty.trigger('PortalOff');
+    },
+
+    emote: function(type, hold) {
+        if (!this.emotion)
+            this.emotion = Crafty.e('Emotion').emotion(this, type, hold);
+    },
+
+    stopEmote: function() {
+        if (this.emotion) {
+            this.emotion.hide();
+            this.emotion = null;
         }
     }
 });
@@ -240,7 +258,7 @@ Crafty.c('Emotion', {
     hideTime: 1600,
     fadeTime: 60,
 
-    emotion: function(player, type) {
+    emotion: function(player, type, hold) {
         if (!_.isString(type))
             fail('Emotion.emotion: type must be string.');
 
@@ -265,16 +283,19 @@ Crafty.c('Emotion', {
         this.bind('EnterFrame', updateX);
 
         // Start the emotion
-        this.delay(this.hide, this.hideTime, 0);
+        if (!hold)
+            this.delay(_.partial(this.hide, player), this.hideTime, 0);
         return this;
     },
 
-    hide: function() {
+    hide: function(player) {
         this.tween({alpha: -2.5}, this.fadeTime);
-        this.bind('TweenEnd', this.die);
+        this.bind('TweenEnd', _.partial(this.die, player));
     },
 
-    die: function() {
+    die: function(player) {
+        if (player && player.emotion)
+            player.emotion = null;
         this.destroy();
     },
 
