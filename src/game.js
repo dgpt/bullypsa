@@ -29,16 +29,16 @@ Game = {
             right:   []
         },
         corridor: {
-            left:    [0   , 220],
+            left:    [0   , 200],
             up:      [745 , 220],
             down:    [870 , 220]
         },
-        library:     [],
-        classroom:   [600, 130]
+        library:     [930 , 190],
+        classroom:   [550 , 127]
     },
 
     // Keep track of game state
-    currentState: 0,
+    currentState: 1,
     state: [{
         player: 'Boy'
     }, {
@@ -55,10 +55,11 @@ Game = {
     },
 
     // Scene to load when finished loading
-    startingScene: 'Corridor',
+    startingScene: 'Room',
 
     fps: Crafty.e('FPS'),
 
+    /* DEBUG STUFF */
     // Changes state to specified, reloads current scene, sets Game.player.x to first listed x pos for scene
     changeState: function(state) {
         Game.currentState = state;
@@ -72,28 +73,45 @@ Game = {
             // Debug Quick Links Table
             '<table id="debug_right" style="position:absolute;top:10px;left:520px">' +
             '<caption>Debug Quick Links</caption>' +
+            '<tr style="text-align:center"><td>Scenes</td><td>Players</td><td>Emotes</td>' + 
             '<tr><td><button onclick="Crafty.scene(\'Room\');Crafty(\'Player\').x=250;">Room</button></td>' +
             '<td><button onclick="Game.changeState(0);">Boy</button></td>' +
+            '<td><button onclick="Crafty(\'Player\').emote(\'Think\')">Think</button></td>' +
+
             '<tr><td><button onclick="Crafty.scene(\'Street\')">Street</button></td>' +
             '<td><button onclick="Game.changeState(1);">Girl</button></td>' +
+            '<td><button onclick="Crafty(\'Player\').emote(\'Question\')">Question</button></td>' +
+
             '<tr><td><button onclick="Crafty.scene(\'Corridor\')">Corridor</button></td>' +
             '<td><button onclick="Game.changeState(2);">Sara</button></td>' +
+            '<td><button onclick="Crafty(\'Player\').emote(\'Exclamation\')">Exclaim</button></td>' +
+
             '<tr><td><button onclick="Crafty.scene(\'Park\')">Park</button></td>' +
+            '<td></td>' +
+            '<td><button onclick="Crafty(\'Player\').emote(\'Music\')">Music</button></td>' +
+
             '<tr><td><button onclick="Crafty.scene(\'Library\')">Library</button></td>' +
+            '<td></td>' +
+            '<td><button onclick="Crafty(\'Player\').emote(\'Sigh\')">Sigh</button></td>' +
+
             '<tr><td><button onclick="Crafty.scene(\'Classroom\')">Classroom</button></td>' +
+            '<td></td>' +
+            '<td><button onclick="Crafty(\'Player\').emote(\'Anger\')">Anger</button></td>' +
             // Set initial x
             '<tr><td><button onclick="var xxx=+$(\'#xchange\')[0].value; var ddd = 250; Game.player.x = _.isNaN(xxx) ? ddd : (xxx < '+Game.width+' && xxx > 0 ? xxx : ddd)">Change Initial X:</button></td><td><input id="xchange" style="width:70" type="text" /></td>' +
             '</table>' +
             // Debug Info Table
-            '<table id="debug" style="table-layout:fixed;width:120px;margin-left:auto;margin-right:auto;position:absolute;top:275px;left:520px">' +
+            '<table id="debug" style="font-size:14px;table-layout:fixed;width:120px;margin-left:auto;margin-right:auto;position:absolute;top:260px;left:520px">' +
             '<caption>Debug Info</caption>' +
             '<tr><td>FPS:</td><td id="fps"></td>' +
             '<tr><td id="posx"></td><td id="posy"></td>' +
+            '<tr><td>Emote? <td id="emoting"></td>' + 
             '</div>')
             .add('span').css('font-size', '14px');
 
         var lastFPS = 0;
         var lastX = 0;
+        var lastEmote = false;
         Crafty.bind('EnterFrame', function() {
             var curFPS = _.last(Game.fps.values);
             if (curFPS != lastFPS) {
@@ -107,8 +125,14 @@ Game = {
                 $('#posy').text('Y: ' + curY);
                 lastX = curX;
             }
+            var emoting = !!Crafty('Player').emotion;
+            if (lastEmote !== emoting) {
+                $('#emoting').text(emoting);
+                lastEmote = emoting;
+            }
         });
     },
+    /* END DEBUG */
 
     // Set background image, set Game.width to width of the image.
     setBG: function(asset) {
@@ -143,6 +167,33 @@ Game = {
         }
         Game.setView(player);
         return player;
+    },
+
+    // Change Scene, set up player position for next scene
+    // Uses Game.playerPos to determine position, pass settings.x to match the key entry from Game.playerPos.scene (typically left, right)
+    // If Game.playerPos.scene is not an object, do not pass anything for settings.x
+    setScene: function(scene, settings) {
+        var s = _.defaults(settings || {}, {
+            orientation: 'right',
+            x: 0
+        });
+        if (!_.isString(scene) || !(scene in Crafty._scenes))
+            fail('Game.setScene: scene is invalid');
+        if (s.orientation !== 'left' && s.orientation !== 'right')
+            fail('Game.setScene: orientation is invalid');
+
+        var x = Game.playerPos[scene.toLowerCase()][s.x];
+        if (_.isArray(x))
+            x = x[0];
+        if (!_.isNumber(x))
+            fail('Game.setScene: invalid playerX position');
+
+        Game.player = {
+            x: x,
+            orientation: s.orientation
+        };
+
+        Crafty.scene(scene);
     },
 
     start: function() {
