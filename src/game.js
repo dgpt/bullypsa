@@ -6,7 +6,6 @@ Game = {
 
     // Use to place player in a more logical position between scenes
     player: {
-        // Initially set to Game.playerPos.start
         // These are all default values and will be changed
         x: 250,
         y: 187,
@@ -15,35 +14,47 @@ Game = {
 
     // Pre-Set player positions for each room (since they're figured out by hand)
     playerPos: {
-        start:       [250 , 187],
-        room:        [600 , 187],
+        room: {
+            left:    [250 , 187],
+            right:   [600 , 187]
+        },
         street: {
             left:    [0   , 230],
             stairs:  [1200, 230],
             right:   [1430, 230]
         },
-        park:        [30  , 230],
+        park: {
+            left:    [30  , 230],
+            right:   []
+        },
         corridor: {
-            left:    [0   , 190],
-            up:      [],
-            down:    []
+            left:    [0   , 200],
+            up:      [745 , 200],
+            down:    [870 , 200]
         },
         library:     [],
-        classroom:   []
+        classroom:   [600, 130]
     },
 
     // Keep track of game state
-    currentState: 2,
+    currentState: 0,
     state: [{
         player: 'Boy'
     }, {
-        player: 'Girl'
+        player: 'Girl',
+        roomAccess: true
     }, {
-        player: 'Sara'
+        player: 'Sara',
+        roomAccess: true
     }],
 
+    // Returns current global state object
+    s: function() {
+        return Game.state[Game.currentState];
+    },
+
     // Scene to load when finished loading
-    startingScene: 'Street',
+    startingScene: 'Corridor',
 
     fps: Crafty.e('FPS'),
 
@@ -63,6 +74,7 @@ Game = {
             '<tr><td><button onclick="Crafty.scene(\'Park\')">Park</button></td>' +
             '<tr><td><button onclick="Crafty.scene(\'Library\')">Library</button></td>' +
             '<tr><td><button onclick="Crafty.scene(\'Classroom\')">Classroom</button></td>' +
+            '<tr><td><button onclick="var xxx=+$(\'#xchange\')[0].value; var ddd = 250; Game.player.x = _.isNaN(xxx) ? ddd : (xxx < '+Game.width+' && xxx > 0 ? xxx : ddd)">Change Initial X:</button></td><td><input id="xchange" style="width:70" type="text" /></td>' +
             '</table>' +
             '<table id="debug">' +
             '<caption>Debug Information</caption>' +
@@ -114,6 +126,12 @@ Game = {
     setupScene: function(scene) {
         Game.setBG(scene);
         var player = Crafty.e(Game.state[Game.currentState].player);
+        if (_.isObject(Game.playerPos[scene])) {
+            // Y for scene is always 1st position in array when flattened
+            var pos = _.flatten(_.values(Game.playerPos[scene]));
+            console.log(pos[1]);
+            player.attr({y: pos[1]});
+        }
         Game.setView(player);
         return player;
     },

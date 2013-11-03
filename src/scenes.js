@@ -1,6 +1,5 @@
 Crafty.scene('Room', function() {
     var player = Game.setupScene('room');
-    player.attr({y: Game.playerPos.room[1]});
 
     // Overlays for bg image - so player appears to be walking behind these things
     var bgTable = Crafty.e('2D, Canvas, Image')
@@ -33,21 +32,22 @@ Crafty.scene('Room', function() {
 
 Crafty.scene('Street', function() {
     var player = Game.setupScene('street');
-    player.attr({y: Game.playerPos.street.left[1]});
 
     // Boundaries
     // Left side - To Room
     Crafty.e('Portal')
         .portal({orientation: 'left'})
         .action(function() {
-            player.emote('Think');
-            player.action = function() {
-                Game.player = {
-                    x: Game.playerPos.room[0],
-                    orientation: 'left'
+            if (Game.s().roomAccess) {
+                player.emote('Think');
+                player.action = function() {
+                    Game.player = {
+                        x: Game.playerPos.room.right[0],
+                        orientation: 'left'
+                    };
+                    Crafty.scene('Room');
                 };
-                Crafty.scene('Room');
-            };
+            }
         }, function() {
             player.action = null;
         });
@@ -79,7 +79,6 @@ Crafty.scene('Street', function() {
 
 Crafty.scene('Corridor', function() {
     var player = Game.setupScene('corridor');
-    player.attr({y: Game.playerPos.corridor.left[1]});
 
     // Left - To Street
     Crafty.e('Portal')
@@ -93,6 +92,19 @@ Crafty.scene('Corridor', function() {
             };
         }, function() { player.action = null; });
 
+    // Upstairs - Classroom
+    Crafty.e('Portal')
+        .portal({x: 740, w: 60, boundary: false})
+        .action(function() {
+            player.emote('Think');
+            player.action = function() {
+                Game.player = {
+                    x: Game.playerPos.classroom[0],
+                    orientation: 'left'
+                };
+                Crafty.scene('Classroom');
+            };
+        }, function() { player.action = null; });
 
     // Right - bound
     Crafty.e('Boundary')
@@ -101,7 +113,6 @@ Crafty.scene('Corridor', function() {
 
 Crafty.scene('Park', function() {
     var player = Game.setupScene('park');
-    player.attr({y: Game.playerPos.park[1]});
 
     // Left - to street
     Crafty.e('Portal')
