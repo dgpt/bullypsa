@@ -53,25 +53,26 @@ Crafty.c('Player', {
         var lb = settings.leftBlink;
         var r = settings.right;
         var rb = settings.rightBlink;
+        var blinkSupport = true;
 
         var lastX = 0;
         var idler;
 
         if (!_.isString(spr))
-            fail('Player.config: spr is not a string.');
-        if (!(_.isArray(l) && _.isArray(lb) &&
-              _.isArray(r) && _.isArray(rb)))
-            fail('Player.config: l, r, lb, or rb are not arrays/defined');
+            fail('Player.player: spr is not a string.');
+        if (!(_.isArray(l) && _.isArray(r)))
+            fail('Player.player: Animation reels are not defined.');
+        if (!(_.isArray(lb) && _.isArray(rb)))
+            blinkSupport = false;
 
         this.addComponent('Multiway', spr + s.orientation, 'SpriteAnimation', 'Collision')
             // Very specific to sprite sheet. Tried to make it as flexible as possible
             // On right and left, stop sprite is pos 0, movement is 1+
-            .animate('Left',      l[0] + 1, l[1], l[2])
-            .animate('LeftStop',  l[0], l[1], l[0])
-            .animate('LeftBlink', lb[0], lb[1], lb[2])
-            .animate('Right',     r[0] + 1, r[1], r[2])
-            .animate('RightStop', r[0], r[1], r[0])
-            .animate('RightBlink',rb[0], rb[1], rb[2])
+            //                    from x        y   to x
+            .animate('Left',      l[0] + 1  , l[1], l[2])
+            .animate('LeftStop',  l[0]      , l[1], l[0])
+            .animate('Right',     r[0] + 1  , r[1], r[2])
+            .animate('RightStop', r[0]      , r[1], r[0])
             .multiway(s.speed, {
                 D: 0,
                 RIGHT_ARROW: 0,
@@ -82,6 +83,10 @@ Crafty.c('Player', {
             .onHit('Solid', this.stopMovement)
             .onHit('Portal', function(data) { var portal = data[0].obj; portal.trigger('PortalOn');},
                              function() { Crafty.trigger('PortalOff'); });
+        if (blinkSupport) {
+            this.animate('LeftBlink', lb[0], lb[1], lb[2])
+                .animate('RightBlink',rb[0], rb[1], rb[2]);
+        }
 
         var anim = _.bind(function(reel, lx, speed, count) {
             if (!existy(lx))
@@ -94,11 +99,13 @@ Crafty.c('Player', {
         }, this);
 
         var blink = _.bind(function(dir) {
-            if (!_.isString(dir))
-                fail('Blink bind: dir must be a string.');
-            return Crafty.e('Idler').start(function() {
-                anim(dir + 'Blink', 0, s.animBlinkSpeed, 0);
-            }, s.blinkSpeed);
+            if (blinkSupport) {
+                if (!_.isString(dir))
+                    fail('Blink bind: dir must be a string.');
+                return Crafty.e('Idler').start(function() {
+                    anim(dir + 'Blink', 0, s.animBlinkSpeed, 0);
+                }, s.blinkSpeed);
+            }
         }, this);
 
         var setDirection = function(data) {
@@ -156,6 +163,28 @@ Crafty.c('Sara', {
     }
 });
 
+Crafty.c('Girl', {
+    init: function() {
+        this.requires('Player')
+            .player({
+                sprite: 'sprGirl',
+                left:  [0, 0, 6],
+                right: [0, 1, 6]
+            });
+    }
+});
+
+Crafty.c('Boy', {
+    init: function() {
+        this.requires('Player')
+            .player({
+                sprite: 'sprBoy',
+                left:  [0, 0, 6],
+                right: [0, 1, 6]
+            });
+    }
+});
+
 Crafty.c('Boundary', {
     init: function() {
         this.requires('2D, Solid')
@@ -208,8 +237,8 @@ Crafty.c('Portal', {
 
 Crafty.c('Emotion', {
     animSpeed: 10,
-    hideTime: 1800,
-    fadeTime: 110,
+    hideTime: 1500,
+    fadeTime: 30,
 
     emotion: function(player, type) {
         if (!_.isString(type))

@@ -1,10 +1,6 @@
 Crafty.scene('Room', function() {
-    Game.setBG('room');
-
-    var player = Crafty.e('Sara')
-        .attr({y: Game.playerPos.room[1]});
-
-    Game.setView(player);
+    var player = Game.setupScene('room');
+    player.attr({y: Game.playerPos.room[1]});
 
     // Overlays for bg image - so player appears to be walking behind these things
     var bgTable = Crafty.e('2D, Canvas, Image')
@@ -18,28 +14,26 @@ Crafty.scene('Room', function() {
     Crafty.e('Boundary')
         .attr({x: 152});
 
+    // Right - Street
     Crafty.e('Portal')
         .portal({x: 620})
         .action(function() {
             player.emote('Think');
             player.action = function() {
-                Game.player.x = Game.playerPos.street.left[0];
+                Game.player = {
+                    x: Game.playerPos.street.left[0],
+                    orientation: 'right'
+                };
                 Crafty.scene('Street');
             };
         }, function() {
             player.action = null;
         });
-
-    player.emote('Sigh');
 });
 
 Crafty.scene('Street', function() {
-    Game.setBG('street');
-
-    var player = Crafty.e('Sara')
-        .attr({y: Game.playerPos.street.left[1]});
-
-    Game.setView(player);
+    var player = Game.setupScene('street');
+    player.attr({y: Game.playerPos.street.left[1]});
 
     // Boundaries
     // Left side - To Room
@@ -48,7 +42,10 @@ Crafty.scene('Street', function() {
         .action(function() {
             player.emote('Think');
             player.action = function() {
-                Game.player.x = Game.playerPos.room[0];
+                Game.player = {
+                    x: Game.playerPos.room[0],
+                    orientation: 'left'
+                };
                 Crafty.scene('Room');
             };
         }, function() {
@@ -74,20 +71,16 @@ Crafty.scene('Street', function() {
         .action(function() {
             player.emote('Think');
             player.action = function() {
-                //Game.player.x = Game.playerPos.corridor.left[0]
+                Game.player.x = Game.playerPos.corridor.left[0];
                 Crafty.scene('Corridor');
             };
         }, function() { player.action = null; });
 });
 
 Crafty.scene('Corridor', function() {
-    Game.setBG('corridor');
+    var player = Game.setupScene('corridor');
+    player.attr({y: Game.playerPos.corridor.left[1]});
 
-    var player = Crafty.e('Sara')
-        .attr({y: Game.playerPos.corridor.left[1]});
-
-    Game.setView(player);
-    
     // Left - To Street
     Crafty.e('Portal')
         .portal({orientation: 'left'})
@@ -99,15 +92,16 @@ Crafty.scene('Corridor', function() {
                 Crafty.scene('Street');
             };
         }, function() { player.action = null; });
+
+
+    // Right - bound
+    Crafty.e('Boundary')
+        .attr({x: Game.width});
 });
 
 Crafty.scene('Park', function() {
-    Game.setBG('park');
-
-    var player = Crafty.e('Sara')
-        .attr({y: Game.playerPos.park[1]});
-
-    Game.setView(player);
+    var player = Game.setupScene('park');
+    player.attr({y: Game.playerPos.park[1]});
 
     // Left - to street
     Crafty.e('Portal')
@@ -115,7 +109,10 @@ Crafty.scene('Park', function() {
         .action(function() {
             player.emote('Think');
             player.action = function() {
-                Game.player.x = Game.playerPos.street.right[0];
+                Game.player = {
+                    x: Game.playerPos.street.right[0],
+                    orientation: 'left'
+                };
                 Crafty.scene('Street');
             };
         }, function() {
@@ -129,11 +126,11 @@ Crafty.scene('Park', function() {
 
 
 Crafty.scene('Library', function() {
-    Game.setBG('library');
+    var player = Game.setupScene('library');
 });
 
 Crafty.scene('Classroom', function() {
-    Game.setBG('classroom');
+    var player = Game.setupScene('classroom');
 });
 
 Crafty.scene('Load', function() {
@@ -143,6 +140,8 @@ Crafty.scene('Load', function() {
 
     var assets = {
         sara: 'assets/char/sara_54x95.png',
+        girl: 'assets/char/girl_54x96.png',
+        boy:  'assets/char/boy.png',
         emotions: 'assets/emotions_48x48.png',
 
         room: 'assets/bg/room.png',
@@ -167,13 +166,21 @@ Crafty.scene('Load', function() {
             sprSaraR: [0, 3],
             sprSaraL: [0, 2]
         });
+        Crafty.sprite(54, 96, assets.girl, {
+            sprGirlR: [0, 1],
+            sprGirlL: [0, 0]
+        });
+        Crafty.sprite(52, 85, assets.boy, {
+            sprBoyR: [0, 1],
+            sprBoyL: [0, 0]
+        });
         Crafty.sprite(48, 48, assets.emotions, {
-            sprThink: [0, 0],
-            sprQuestion: [0, 1],
+            sprThink:       [0, 0],
+            sprQuestion:    [0, 1],
             sprExclamation: [0, 2],
-            sprMusic: [0, 3],
-            sprSigh: [0, 4],
-            sprAnger: [0, 5]
+            sprMusic:       [0, 3],
+            sprSigh:        [0, 4],
+            sprAnger:       [0, 5]
         });
 
         // Scenes

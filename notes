@@ -2,21 +2,15 @@ Level Order
              ->Park     ->Class
 Room->Street/->Corridor/->Library
 
-fix portal bug
-street:
-    create right bound
-    create upstairs portal to corridor
-    create right portal to park
+VIM!
+gd - go to local declaration
+gD - go to global declaration
 
-park:
-    create
-        left bound
-        right bound
-        left portal to street
+street:
+    player start right
 
 corridor:
     create
-        left portal to street
         up portal to class
         down portal to library
         right bound
