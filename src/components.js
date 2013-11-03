@@ -18,6 +18,23 @@ Crafty.c('Idler', {
     }
 });
 
+Crafty.c('Overlay', {
+    init: function() {
+        this.requires('2D, Canvas, Image');
+    },
+
+    overlay: function(pos, asset) {
+        if (!(_.isString(asset) && Crafty.asset(asset)))
+            fail('Overlay.overlay: asset is invalid.');
+        pos = _.defaults(pos || {}, {
+            x: 0,
+            y: 0,
+            z: 4
+        });
+        this.attr(pos)
+            .image(Crafty.asset(asset));
+    }
+});
 
 Crafty.c('Player', {
     action: null,
@@ -49,6 +66,7 @@ Crafty.c('Player', {
 
         s.orientation = s.orientation[0].toUpperCase();
         var spr = settings.sprite;
+        this.currentCharacter = spr.substr(3);
         // Positions for sprite map (Arrays [fromX, Y, toX])
         var l = settings.left;
         var lb = settings.leftBlink;
@@ -143,7 +161,6 @@ Crafty.c('Player', {
     },
 
     onHitPortal: function(data) {
-        this.emote('Think', true);
         var portal = data[0].obj;
         portal.trigger('PortalOn');
     },
@@ -154,14 +171,97 @@ Crafty.c('Player', {
     },
 
     emote: function(type, hold) {
-        if (!this.emotion)
-            this.emotion = Crafty.e('Emotion').emotion(this, type, hold);
+        if (!this.emotion) {
+            this.emotion = Crafty.e('Emotion');
+            // Adjust emotion y pos if boy
+            // (he's really short - looks funny without this)
+            if (this.currentCharacter === 'Boy') {
+                this.emotion.attr({yOffset: -35});
+            }
+            this.emotion.emotion(this, type, hold);
+        }
     },
 
     stopEmote: function() {
         if (this.emotion) {
             this.emotion.hide();
             this.emotion = null;
+        }
+    }
+});
+
+Crafty.c('Emotion', {
+    animSpeed: 10,
+    hideTime: 1600,
+    fadeTime: 60,
+    // Offset from player pos
+    xOffset: 5,
+    yOffset: -50,
+
+    emotion: function(player, type, hold) {
+        if (!_.isString(type))
+            fail('Emotion.emotion: type must be string.');
+
+        var frames = this.getFrames(type);
+
+        this.requires('2D, DOM, Delay, Tween, spr'+type+', SpriteAnimation')
+            .attr({
+                alpha: 1,
+                x: player.x + this.xOffset,
+                y: player.y + this.yOffset,
+                z: player.z
+            })
+            .animate(type, frames[0], frames[1], frames[2])
+            .animate(type, this.animSpeed, 0);
+
+        // Follow player
+        var updateX = _.bind(function() {
+            this.x = player.x + this.xOffset;
+        }, this);
+        this.bind('EnterFrame', updateX);
+
+        // Start the emotion
+        if (!hold)
+            this.delay(_.partial(this.hide, player), this.hideTime, 0);
+        return this;
+    },
+
+    hide: function(player) {
+        this.tween({alpha: -2.5}, this.fadeTime);
+        this.bind('TweenEnd', _.partial(this.die, player));
+    },
+
+    die: function(player) {
+        if (player && player.emotion)
+            player.emotion = null;
+        this.destroy();
+    },
+
+    getFrames: function(type) {
+        switch (type) {
+            case 'Think':
+                return [0, 0, 10];
+                break;
+
+            case 'Question':
+                return [0, 1, 11];
+                break;
+
+            case 'Exclamation':
+                return [0, 2, 8];
+                break;
+
+            case 'Music':
+                return [0, 3, 17];
+                break;
+
+            case 'Sigh':
+                return [0, 4, 10];
+                break;
+
+            case 'Anger':
+                return [0, 5, 5];
+                break;
         }
     }
 });
@@ -253,77 +353,3 @@ Crafty.c('Portal', {
     }
 });
 
-Crafty.c('Emotion', {
-    animSpeed: 10,
-    hideTime: 1600,
-    fadeTime: 60,
-
-    emotion: function(player, type, hold) {
-        if (!_.isString(type))
-            fail('Emotion.emotion: type must be string.');
-
-        var xOffset = 5;
-        var yOffset = -50;
-        var frames = this.getFrames(type);
-
-        this.requires('2D, DOM, Delay, Tween, spr'+type+', SpriteAnimation')
-            .attr({
-                alpha: 1,
-                x: player.x + xOffset,
-                y: player.y + yOffset,
-                z: player.z
-            })
-            .animate(type, frames[0], frames[1], frames[2])
-            .animate(type, this.animSpeed, 0);
-
-        // Follow player
-        var updateX = _.bind(function() {
-            this.x = player.x + xOffset;
-        }, this);
-        this.bind('EnterFrame', updateX);
-
-        // Start the emotion
-        if (!hold)
-            this.delay(_.partial(this.hide, player), this.hideTime, 0);
-        return this;
-    },
-
-    hide: function(player) {
-        this.tween({alpha: -2.5}, this.fadeTime);
-        this.bind('TweenEnd', _.partial(this.die, player));
-    },
-
-    die: function(player) {
-        if (player && player.emotion)
-            player.emotion = null;
-        this.destroy();
-    },
-
-    getFrames: function(type) {
-        switch (type) {
-            case 'Think':
-                return [0, 0, 10];
-                break;
-
-            case 'Question':
-                return [0, 1, 11];
-                break;
-
-            case 'Exclamation':
-                return [0, 2, 8];
-                break;
-
-            case 'Music':
-                return [0, 3, 17];
-                break;
-
-            case 'Sigh':
-                return [0, 4, 10];
-                break;
-
-            case 'Anger':
-                return [0, 5, 5];
-                break;
-        }
-    }
-});
