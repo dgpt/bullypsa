@@ -237,8 +237,8 @@ Crafty.c('Portal', {
 
 Crafty.c('Emotion', {
     animSpeed: 10,
-    hideTime: 1500,
-    fadeTime: 30,
+    hideTime: 1600,
+    fadeTime: 60,
 
     emotion: function(player, type) {
         if (!_.isString(type))
@@ -270,7 +270,7 @@ Crafty.c('Emotion', {
     },
 
     hide: function() {
-        this.tween({alpha: -0.5}, this.fadeTime);
+        this.tween({alpha: -2.5}, this.fadeTime);
         this.bind('TweenEnd', this.die);
     },
 

@@ -65,6 +65,7 @@ Game = {
     debug: function() {
         $('#cr-stage').after(
             '<table id="debug_right" style="position:absolute;top:10px;left:520px">' +
+            '<caption>Debug Quick Links</caption>' +
             '<tr><td><button onclick="Crafty.scene(\'Room\');Crafty(\'Player\').x=250;">Room</button></td>' +
             '<td><button onclick="Game.changeState(0);">Boy</button></td>' +
             '<tr><td><button onclick="Crafty.scene(\'Street\')">Street</button></td>' +
@@ -76,10 +77,11 @@ Game = {
             '<tr><td><button onclick="Crafty.scene(\'Classroom\')">Classroom</button></td>' +
             '<tr><td><button onclick="var xxx=+$(\'#xchange\')[0].value; var ddd = 250; Game.player.x = _.isNaN(xxx) ? ddd : (xxx < '+Game.width+' && xxx > 0 ? xxx : ddd)">Change Initial X:</button></td><td><input id="xchange" style="width:70" type="text" /></td>' +
             '</table>' +
-            '<table id="debug">' +
-            '<caption>Debug Information</caption>' +
-            '<tr><td>FPS: <span id="fps"></span></td>' +
-            '<tr><td>Player Position:</td><td><span id="pos"></span></td>' +
+            '<table id="debug" style="table-layout:fixed;width:120px;margin-left:auto;margin-right:auto;position:absolute;top:275px;left:520px">' +
+            '<caption>Debug Info</caption>' +
+            '<tr><td>FPS:</td><td id="fps"></td>' +
+            //'<tr><td style="text-align:right">Player :</td>' +
+            '<tr><td id="posx"></td><td id="posy"></td>' +
             '</div>')
             .add('span').css('font-size', '14px');
 
@@ -94,7 +96,8 @@ Game = {
             var curX = Math.round(Crafty('Player')._x);
             var curY = Crafty('Player')._y;
             if (lastX != curX) {
-                $('#pos').text('x: ' + curX + ' y: ' + curY);
+                $('#posx').text('X: ' + curX);
+                $('#posy').text('Y: ' + curY);
                 lastX = curX;
             }
         });
