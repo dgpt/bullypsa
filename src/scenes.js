@@ -123,7 +123,6 @@ Crafty.scene('Park', function() {
         .attr({x: Game.width});
 });
 
-
 Crafty.scene('Library', function() {
     var player = Game.setupScene('library');
 
@@ -245,6 +244,5 @@ Crafty.scene('Load', function() {
         Crafty.asset('classDeskRight', assets.classDeskRight);
 
         Crafty.scene(Game.startingScene);
-        Game.debug();
     });
 });

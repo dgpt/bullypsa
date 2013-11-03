@@ -6,6 +6,8 @@ VIM!
 gd - go to local declaration
 gD - go to global declaration
 
+Add text
+tutorial text
 
 Load:
     add loading bar

@@ -1,41 +1,3 @@
-
-
-// Wrapper for Delay.
-// Start starts the delay interval indefinitely
-// Stop destroys the entity, stopping the delay
-Crafty.c('Idler', {
-    init: function() {
-        this.requires('Delay');
-    },
-
-    start: function(callback, delay) {
-        this.delay(callback, delay, -1);
-        return this;
-    },
-
-    stop: function() {
-        this.destroy();
-    }
-});
-
-Crafty.c('Overlay', {
-    init: function() {
-        this.requires('2D, Canvas, Image');
-    },
-
-    overlay: function(pos, asset) {
-        if (!(_.isString(asset) && Crafty.asset(asset)))
-            fail('Overlay.overlay: asset is invalid.');
-        pos = _.defaults(pos || {}, {
-            x: 0,
-            y: 0,
-            z: 4
-        });
-        this.attr(pos)
-            .image(Crafty.asset(asset));
-    }
-});
-
 Crafty.c('Player', {
     action: null,
     emotion: null,
@@ -353,3 +315,38 @@ Crafty.c('Portal', {
     }
 });
 
+// Wrapper for Delay.
+// Start starts the delay interval indefinitely
+// Stop destroys the entity, stopping the delay
+Crafty.c('Idler', {
+    init: function() {
+        this.requires('Delay');
+    },
+
+    start: function(callback, delay) {
+        this.delay(callback, delay, -1);
+        return this;
+    },
+
+    stop: function() {
+        this.destroy();
+    }
+});
+
+Crafty.c('Overlay', {
+    init: function() {
+        this.requires('2D, Canvas, Image');
+    },
+
+    overlay: function(pos, asset) {
+        if (!(_.isString(asset) && Crafty.asset(asset)))
+            fail('Overlay.overlay: asset is invalid.');
+        pos = _.defaults(pos || {}, {
+            x: 0,
+            y: 0,
+            z: 4
+        });
+        this.attr(pos)
+            .image(Crafty.asset(asset));
+    }
+});
