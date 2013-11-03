@@ -6,30 +6,9 @@ VIM!
 gd - go to local declaration
 gD - go to global declaration
 
-street:
-    player start right
-
-corridor:
-    create
-        up portal to class
-        down portal to library
-        right bound
-
-class:
-    create
-        right portal to corridor
-        left bound
-
-library:
-    create
-        right portal to corridor
-        left bound
-
 
 Load:
-    better loading screen
-
-
+    add loading bar
 
 
 Sounds Needed:
