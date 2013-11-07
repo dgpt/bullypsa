@@ -199,7 +199,7 @@ Game = {
     start: function() {
         Crafty.init(Game.width, Game.height);
         Crafty.background('black');
-        //Game.debug();
+        Game.debug();
         Crafty.scene('Load');
     }
 };

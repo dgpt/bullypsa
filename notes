@@ -6,12 +6,15 @@ VIM!
 gd - go to local declaration
 gD - go to global declaration
 
-Add text
 tutorial text
+    need intro text
+
+going between rooms while holding the movement key makes the character glide without moving their legs
 
 Load:
     add loading bar
 
+On scene change, fade to black, then unfade onto the next scene
 
 Sounds Needed:
     Corridor

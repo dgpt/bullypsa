@@ -265,6 +265,70 @@ Crafty.c('Boy', {
     }
 });
 
+Crafty.c('Speech', {
+    init: function() {
+        this.requires('2D, DOM, Text');
+    },
+
+    speech: function(text, type, entity) {
+        var s = {
+            // offsets (in relation to entity)
+            x: -150,
+            y: -150,
+            get: function(xory) {
+                // pass either x or y
+               return s[xory] + entity[xory];
+            },
+            w: 350,
+            z: entity._z + 4,
+            fontSize: 18
+        };
+        s.font = s.fontSize + 'px arial';
+        s.h = text.height(s.font, s.w + 'px');
+        this.text(text)
+            .textFont({size: s.font})
+            //.css('border', '2px black solid')     // Bounding box around text - make sure sizes are correct
+            .attr({x: s.get('x'), y: s.get('y'), w: s.w, h: s.h, z: s.z})
+            .unselectable();
+        var bubble = Crafty.e('SpeechBubble')
+            .speechBubble(this, type);
+        this.attach(bubble);
+
+        // Disable control because wiggle text
+        entity.disableControl();
+
+        this.bind('KeyDown', function(e) {
+            if (e.key == Crafty.keys.DOWN_ARROW || e.key == Crafty.keys.S)
+                this.die(entity);
+        });
+    },
+
+    die: function(entity) {
+        entity.enableControl();
+        this.destroy();
+    }
+});
+
+Crafty.c('SpeechBubble', {
+    speechBubble: function(entity, type) {
+        if (!(entity))
+            fail('SpeechBubble.speechBubble: not enough position information');
+        // offsets
+        var s = {
+            x: entity.x + -75,
+            y: entity.y + -35,
+            w: entity.w + 140,
+            h: entity.h + 140,
+            z: entity.z - 1
+        };
+
+        this.requires('2D, Canvas, spr'+type)
+            .attr({x: s.x, y: s.y, z: s.z, w: s.w, h: s.h});
+        return this;
+    }
+});
+
+
 Crafty.c('Boundary', {
     init: function() {
         this.requires('2D, Solid')

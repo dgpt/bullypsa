@@ -22,6 +22,8 @@ Crafty.scene('Room', function() {
         }, function() {
             player.action = null;
         });
+
+    this.bind('KeyDown', (e) => { if (e.key == Crafty.keys.SPACE) Crafty.e('Speech').speech(Dialog.girl.room[0], 'Speech', player) });
 });
 
 Crafty.scene('Street', function() {
@@ -201,7 +203,9 @@ Crafty.scene('Load', function() {
         classroom: 'assets/bg/class.png',
         classDeskLeft: 'assets/bg/class_desk_left.png',
         classDeskMiddle: 'assets/bg/class_desk_middle.png',
-        classDeskRight: 'assets/bg/class_desk_right.png'
+        classDeskRight: 'assets/bg/class_desk_right.png',
+
+        speech: 'assets/speech_640x180.png'
     };
     Crafty.load(_.values(assets), function() {
         Crafty.sprite(54, 95, assets.sara, {
@@ -224,6 +228,13 @@ Crafty.scene('Load', function() {
             sprSigh:        [0, 4],
             sprAnger:       [0, 5]
         });
+        Crafty.sprite(640, 180, assets.speech, {
+            sprSpeechExclaimL: [0, 0],
+            sprSpeechExclaimR: [0, 1],
+            sprSpeechL:        [0, 2],
+            sprSpeechR:        [0, 3],
+            sprSpeech:         [0, 4]
+        });
 
         // Scenes
         Crafty.asset('room', assets.room);
@@ -242,6 +253,8 @@ Crafty.scene('Load', function() {
         Crafty.asset('classDeskLeft', assets.classDeskLeft);
         Crafty.asset('classDeskMiddle', assets.classDeskMiddle);
         Crafty.asset('classDeskRight', assets.classDeskRight);
+
+        //Crafty.asset('speech0', assets.speech);
 
         Crafty.scene(Game.startingScene);
     });
