@@ -288,13 +288,16 @@ Crafty.c('Speech', {
         this.text(text)
             .textFont({size: s.font})
             //.css('border', '2px black solid')     // Bounding box around text - make sure sizes are correct
-            .attr({x: s.get('x'), y: s.get('y'), w: s.w, h: s.h, z: s.z})
-            .unselectable();
+            .attr({x: s.get('x'), y: s.get('y'), w: s.w, h: s.h, z: s.z});
+            //.unselectable();
         var bubble = Crafty.e('SpeechBubble')
             .speechBubble(this, type);
         this.attach(bubble);
 
-        // Disable control because wiggle text
+        // pause because wiggle text
+        //if (!(Crafty.isPaused())) Crafty.pause();
+        entity.enabled = false;
+        entity.stopMovement();
         entity.disableControl();
 
         this.bind('KeyDown', function(e) {
@@ -304,7 +307,10 @@ Crafty.c('Speech', {
     },
 
     die: function(entity) {
-        entity.enableControl();
+        //if (Crafty.isPaused()) Crafty.pause();
+        if (!entity.enabled)
+            entity.enableControl();
+        entity.enabled = true;
         this.destroy();
     }
 });
