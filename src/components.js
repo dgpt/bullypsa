@@ -280,13 +280,15 @@ Crafty.c('Speech', {
             // offsets (in relation to entity)
             x: -150,
             y: -150,
+            // Get constrained X or Y positions
             get: function(xory) {
                 // pass either x or y
                 var val = s[xory] + entity[xory];
                 if (xory == 'x') {
-                    var w = s.w + 50;
-                    if (val + w >= Game.width) val -= 150;
-                    if (val < 30) val = 100;
+                    var w = s.w + 70;
+                    var left = 75;
+                    if (val + w >= Game.width) val = Game.width - w;
+                    if (val < left) val = left;
                 }
                 return val;
             },
