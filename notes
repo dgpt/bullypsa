@@ -9,6 +9,11 @@ gD - go to global declaration
 tutorial text
     need intro text
 
+text system
+    trigger an event with the current state, make something to react to the event and display the proper text
+    pan viewport to text box when it appears
+    create text box in constraints
+
 going between rooms while holding the movement key makes the character glide without moving their legs
 
 Load:

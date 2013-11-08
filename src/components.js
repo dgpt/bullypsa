@@ -1,6 +1,7 @@
 Crafty.c('Player', {
     action: null,
     emotion: null,
+    enabled: true,
 
     init: function() {
         this.requires('2D, Canvas');
@@ -9,6 +10,10 @@ Crafty.c('Player', {
                 if (existy(this.action) && _.isFunction(this.action))
                     this.action();
             }
+        });
+        this.bind('EnterFrame', function() {
+            if (!this.enabled)
+                this.stopMovement();
         });
     },
 
@@ -277,7 +282,13 @@ Crafty.c('Speech', {
             y: -150,
             get: function(xory) {
                 // pass either x or y
-               return s[xory] + entity[xory];
+                var val = s[xory] + entity[xory];
+                if (xory == 'x') {
+                    var w = s.w + 50;
+                    if (val + w >= Game.width) val -= 150;
+                    if (val < 30) val = 100;
+                }
+                return val;
             },
             w: 350,
             z: entity._z + 4,
@@ -288,17 +299,14 @@ Crafty.c('Speech', {
         this.text(text)
             .textFont({size: s.font})
             //.css('border', '2px black solid')     // Bounding box around text - make sure sizes are correct
-            .attr({x: s.get('x'), y: s.get('y'), w: s.w, h: s.h, z: s.z});
-            //.unselectable();
+            .attr({x: s.get('x'), y: s.get('y'), w: s.w, h: s.h, z: s.z})
+            .unselectable();
         var bubble = Crafty.e('SpeechBubble')
             .speechBubble(this, type);
         this.attach(bubble);
 
-        // pause because wiggle text
-        //if (!(Crafty.isPaused())) Crafty.pause();
+        // stop player because wiggle text
         entity.enabled = false;
-        entity.stopMovement();
-        entity.disableControl();
 
         this.bind('KeyDown', function(e) {
             if (e.key == Crafty.keys.DOWN_ARROW || e.key == Crafty.keys.S)
@@ -307,10 +315,10 @@ Crafty.c('Speech', {
     },
 
     die: function(entity) {
-        //if (Crafty.isPaused()) Crafty.pause();
-        if (!entity.enabled)
-            entity.enableControl();
         entity.enabled = true;
+        // Make sure player resumes walking correctly
+        // if movement button held down during message.
+        entity.trigger('NewDirection', {x: entity._movement.x});
         this.destroy();
     }
 });

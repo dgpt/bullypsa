@@ -24,6 +24,7 @@ Crafty.scene('Room', function() {
         });
 
     this.bind('KeyDown', function(e) { if (e.key == Crafty.keys.SPACE) Crafty.e('Speech').speech(Dialog.girl.room[0], 'Speech', player) });
+/*    Crafty.e('Speech').speech(Dialog.girl.room[0], 'Speech', player);*/
 }, function() {
     this.unbind('KeyDown');
 });
