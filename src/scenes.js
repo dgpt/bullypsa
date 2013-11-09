@@ -208,7 +208,11 @@ Crafty.scene('Load', function() {
         classDeskMiddle: 'assets/bg/class_desk_middle.png',
         classDeskRight: 'assets/bg/class_desk_right.png',
 
-        speech: 'assets/speech_640x180.png'
+        spSpeech: 'assets/speech.png',
+        spSpeechL: 'assets/speechL.png',
+        spSpeechR: 'assets/speechR.png',
+        spExclaimL: 'assets/exclaimL.png',
+        spExclaimR: 'assets/exclaimR.png'
     };
     Crafty.load(_.values(assets), function() {
         Crafty.sprite(54, 95, assets.sara, {
@@ -239,6 +243,12 @@ Crafty.scene('Load', function() {
             sprSpeech:         [0, 4]
         });
 
+        Crafty.asset('speech', assets.spSpeech);
+        Crafty.asset('speechL', assets.spSpeechL);
+        Crafty.asset('speechR', assets.spSpeechR);
+        Crafty.asset('exclaimL', assets.spExclaimL);
+        Crafty.asset('exclaimR', assets.spExclaimR);
+
         // Scenes
         Crafty.asset('room', assets.room);
         Crafty.asset('table', assets.table);
@@ -256,8 +266,6 @@ Crafty.scene('Load', function() {
         Crafty.asset('classDeskLeft', assets.classDeskLeft);
         Crafty.asset('classDeskMiddle', assets.classDeskMiddle);
         Crafty.asset('classDeskRight', assets.classDeskRight);
-
-        //Crafty.asset('speech0', assets.speech);
 
         Crafty.scene(Game.startingScene);
     });

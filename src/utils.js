@@ -18,13 +18,17 @@ String.prototype.width = function(font) {
 
 // Same as above, but returns height based on a fixed width
 String.prototype.height = function(font, width) {
-  var f = font || '12px arial',
+  var f = font,
       o = $('<div>' + this + '</div>')
-            .css({'position': 'absolute', 'float': 'left', 'width': width, 'visibility': 'hidden', 'font': f})
+            .css({'word-wrap': 'break-word', 'width': width, /*'visibility': 'hidden', */'font': f, 'border': '2px black solid', 'min-width': width})
             .appendTo($('body')),
       h = o.height();
 
-  o.remove();
+  //o.remove();
 
   return h;
+};
+
+String.prototype.lowerFirst = function() {
+    return this[0].toLowerCase() + this.substr(1);
 };

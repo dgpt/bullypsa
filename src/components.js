@@ -271,6 +271,7 @@ Crafty.c('Boy', {
 });
 
 Crafty.c('Speech', {
+    fontSize: 10,
     init: function() {
         this.requires('2D, DOM, Text');
     },
@@ -293,14 +294,15 @@ Crafty.c('Speech', {
                 return val;
             },
             w: 350,
-            z: entity._z + 4,
-            fontSize: 18
+            z: entity._z + 4
         };
-        s.font = s.fontSize + 'px arial';
+        s.font = this.fontSize + 'px arial sans-serif';
         s.h = text.height(s.font, s.w + 'px');
+        console.log(s.h);
         this.text(text)
             .textFont({size: s.font})
-            //.css('border', '2px black solid')     // Bounding box around text - make sure sizes are correct
+            // Bounding box around text - use to make sure text sizes are correct
+            .css({'border': '2px black solid', 'word-wrap': 'break-word'})
             .attr({x: s.get('x'), y: s.get('y'), w: s.w, h: s.h, z: s.z})
             .unselectable();
         var bubble = Crafty.e('SpeechBubble')
@@ -331,15 +333,25 @@ Crafty.c('SpeechBubble', {
             fail('SpeechBubble.speechBubble: not enough position information');
         // offsets
         var s = {
-            x: entity.x + -75,
-            y: entity.y + -35,
-            w: entity.w + 140,
-            h: entity.h + 140,
+            x: entity.x / 3.2,
+            y: entity.y,
+            w: entity.w * 1.4,
+            h: entity.h,
             z: entity.z - 1
         };
 
-        this.requires('2D, Canvas, spr'+type)
+        var img = new Image();
+        img.src = Crafty.asset(type.lowerFirst());
+        console.log(img);
+        var nine = NineSlice(img);
+        nine.setDimensions({x: 13, y: 14, width: 474, height: 85});
+        console.log(s);
+        nine.render(Crafty.canvas.context, s.x, s.y, s.w, s.h);
+
+
+        this.requires('2D, Canvas, Image')
             .attr({x: s.x, y: s.y, z: s.z, w: s.w, h: s.h});
+
         return this;
     }
 });
