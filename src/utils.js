@@ -5,7 +5,7 @@ function fail(error) {
 }
 
 String.prototype.width = function(font) {
-  var f = font || '12px arial',
+  var f = font,
       o = $('<div>' + this + '</div>')
             .css({'position': 'absolute', 'float': 'left', 'white-space': 'nowrap', 'visibility': 'hidden', 'font': f})
             .appendTo($('body')),

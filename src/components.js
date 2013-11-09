@@ -271,7 +271,6 @@ Crafty.c('Boy', {
 });
 
 Crafty.c('Speech', {
-    fontSize: 16,
     init: function() {
         this.requires('2D, DOM, Text');
     },
@@ -293,10 +292,13 @@ Crafty.c('Speech', {
                 }
                 return val;
             },
-            w: 340,
+            fontSize: 12,
             z: entity._z + 4
         };
-        s.font = this.fontSize + 'px arial sans-serif';
+        s.font = s.fontSize + 'px arial sans-serif';
+        var minW = 350;
+        var width = text.width(s.font);
+        s.w = width < minW ? width : minW;
         s.h = text.height(s.font, s.w + 'px');
         this.text(text)
             .textFont({size: s.font})
@@ -321,7 +323,7 @@ Crafty.c('Speech', {
         var s = {
             x: this._x - 12,
             y: this._y - 12,
-            w: this._w + 100,
+            w: this._w + 10,
             h: this._h + 10,
             z: this._z - 1
         };
