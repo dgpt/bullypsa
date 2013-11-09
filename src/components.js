@@ -271,7 +271,7 @@ Crafty.c('Boy', {
 });
 
 Crafty.c('Speech', {
-    fontSize: 10,
+    fontSize: 16,
     init: function() {
         this.requires('2D, DOM, Text');
     },
@@ -293,12 +293,11 @@ Crafty.c('Speech', {
                 }
                 return val;
             },
-            w: 350,
+            w: 340,
             z: entity._z + 4
         };
         s.font = this.fontSize + 'px arial sans-serif';
         s.h = text.height(s.font, s.w + 'px');
-        console.log(s.h);
         this.text(text)
             .textFont({size: s.font})
             // Bounding box around text - use to make sure text sizes are correct
@@ -308,6 +307,7 @@ Crafty.c('Speech', {
         var bubble = Crafty.e('SpeechBubble')
             .speechBubble(this, type);
         this.attach(bubble);
+        console.log('speech y: ' + this._y);
 
         // stop player because wiggle text
         entity.enabled = false;
@@ -331,26 +331,19 @@ Crafty.c('SpeechBubble', {
     speechBubble: function(entity, type) {
         if (!(entity))
             fail('SpeechBubble.speechBubble: not enough position information');
+        this.requires('2D, Canvas');
         // offsets
         var s = {
-            x: entity.x / 3.2,
-            y: entity.y,
-            w: entity.w * 1.4,
-            h: entity.h,
+            x: entity.x - 12,
+            y: entity.y - 12,
+            w: entity.w + 10,
+            h: entity.h + 10,
             z: entity.z - 1
         };
 
-        var img = new Image();
-        img.src = Crafty.asset(type.lowerFirst());
-        console.log(img);
-        var nine = NineSlice(img);
+        var nine = NineSlice(Crafty.assets[Crafty.asset(type.lowerFirst())]);
         nine.setDimensions({x: 13, y: 14, width: 474, height: 85});
-        console.log(s);
         nine.render(Crafty.canvas.context, s.x, s.y, s.w, s.h);
-
-
-        this.requires('2D, Canvas, Image')
-            .attr({x: s.x, y: s.y, z: s.z, w: s.w, h: s.h});
 
         return this;
     }

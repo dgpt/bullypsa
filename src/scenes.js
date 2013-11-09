@@ -208,6 +208,7 @@ Crafty.scene('Load', function() {
         classDeskMiddle: 'assets/bg/class_desk_middle.png',
         classDeskRight: 'assets/bg/class_desk_right.png',
 
+        speech: 'assets/speech_640x180.png',
         spSpeech: 'assets/speech.png',
         spSpeechL: 'assets/speechL.png',
         spSpeechR: 'assets/speechR.png',

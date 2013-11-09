@@ -20,11 +20,11 @@ String.prototype.width = function(font) {
 String.prototype.height = function(font, width) {
   var f = font,
       o = $('<div>' + this + '</div>')
-            .css({'word-wrap': 'break-word', 'width': width, /*'visibility': 'hidden', */'font': f, 'border': '2px black solid', 'min-width': width})
+            .css({'word-wrap': 'break-word', 'width': width, 'visibility': 'hidden', 'font': f, 'border': '2px black solid', 'min-width': width})
             .appendTo($('body')),
       h = o.height();
 
-  //o.remove();
+  o.remove();
 
   return h;
 };
