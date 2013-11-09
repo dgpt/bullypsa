@@ -301,13 +301,10 @@ Crafty.c('Speech', {
         this.text(text)
             .textFont({size: s.font})
             // Bounding box around text - use to make sure text sizes are correct
-            .css({'border': '2px black solid', 'word-wrap': 'break-word'})
+            //.css({'border': '2px black solid', 'word-wrap': 'break-word'})
             .attr({x: s.get('x'), y: s.get('y'), w: s.w, h: s.h, z: s.z})
             .unselectable();
-        var bubble = Crafty.e('SpeechBubble')
-            .speechBubble(this, type);
-        this.attach(bubble);
-        console.log('speech y: ' + this._y);
+        this.bubble = this.createBubble(type);
 
         // stop player because wiggle text
         entity.enabled = false;
@@ -316,6 +313,23 @@ Crafty.c('Speech', {
             if (e.key == Crafty.keys.DOWN_ARROW || e.key == Crafty.keys.S)
                 this.die(entity);
         });
+        this.bind('Draw', function(e) { this.trigger('Poop'); });
+    },
+
+    createBubble: function(type) {
+        // offsets
+        var s = {
+            x: this._x - 12,
+            y: this._y - 12,
+            w: this._w + 100,
+            h: this._h + 10,
+            z: this._z - 1
+        };
+        var image = NineSlice(Crafty.assets[Crafty.asset(type.lowerFirst())]);
+        image.setDimensions({x: 13, y: 14, width: 474, height: 85});
+        return Crafty.e('2D, DOM, Image')
+            .attr({x: s.x, y: s.y, w: s.w, h: s.h, z: s.z})
+            .image(image.renderCache(s.x, s.y, s.w, s.h));
     },
 
     die: function(entity) {
@@ -323,32 +337,10 @@ Crafty.c('Speech', {
         // Make sure player resumes walking correctly
         // if movement button held down during message.
         entity.trigger('NewDirection', {x: entity._movement.x});
+        this.bubble.destroy();
         this.destroy();
     }
 });
-
-Crafty.c('SpeechBubble', {
-    speechBubble: function(entity, type) {
-        if (!(entity))
-            fail('SpeechBubble.speechBubble: not enough position information');
-        this.requires('2D, Canvas');
-        // offsets
-        var s = {
-            x: entity.x - 12,
-            y: entity.y - 12,
-            w: entity.w + 10,
-            h: entity.h + 10,
-            z: entity.z - 1
-        };
-
-        var nine = NineSlice(Crafty.assets[Crafty.asset(type.lowerFirst())]);
-        nine.setDimensions({x: 13, y: 14, width: 474, height: 85});
-        nine.render(Crafty.canvas.context, s.x, s.y, s.w, s.h);
-
-        return this;
-    }
-});
-
 
 Crafty.c('Boundary', {
     init: function() {
