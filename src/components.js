@@ -1,12 +1,10 @@
 Crafty.c('Player', {
-    action: null,
-    emotion: null,
     enabled: true,
 
     init: function() {
         this.requires('2D, Canvas');
         this.bind('KeyDown', function(e) {
-            if (e.key == Crafty.keys.W || e.key == Crafty.keys.UP_ARROW) {
+            if (e.key == Crafty.keys.SPACE) {
                 if (existy(this.action) && _.isFunction(this.action))
                     this.action();
             }
@@ -249,6 +247,7 @@ Crafty.c('Sara', {
 });
 
 Crafty.c('Girl', {
+    name: 'girl',
     init: function() {
         this.requires('Player')
             .player({
@@ -260,6 +259,7 @@ Crafty.c('Girl', {
 });
 
 Crafty.c('Boy', {
+    name: 'boy',
     init: function() {
         this.requires('Player')
             .player({
@@ -275,11 +275,12 @@ Crafty.c('Speech', {
         this.requires('2D, DOM, Text');
     },
 
-    speech: function(text, type, entity) {
+    speech: function(entity, text, response, type) {
         var s = {
             // offsets (in relation to entity)
             x: -150,
             y: -150,
+            z: entity._z + 4,
             // Get constrained X or Y positions
             get: function(xory) {
                 // pass either x or y
@@ -292,18 +293,18 @@ Crafty.c('Speech', {
                 }
                 return val;
             },
-            fontSize: 12,
-            z: entity._z + 4
+            fontSize: '12px',
+            fontFamily: 'arial sans-serif',
+            maxWidth: 350
         };
-        s.font = s.fontSize + 'px arial sans-serif';
-        var minW = 350;
-        var width = text.width(s.font);
-        s.w = width < minW ? width : minW;
-        s.h = text.height(s.font, s.w + 'px');
+        this.font = s.fontSize + ' '+ s.fontFamily;
+        var dim = text.dimensions(this.font, s.maxWidth);
+        s.w = dim[0] + 1;  // +1 for stupid word wrap bug
+        s.h = dim[1];
         this.text(text)
-            .textFont({size: s.font})
+            .textFont({size: s.fontSize, family: s.fontFamily})
             // Bounding box around text - use to make sure text sizes are correct
-            //.css({'border': '2px black solid', 'word-wrap': 'break-word'})
+            //.css({'border': '2px black solid'})
             .attr({x: s.get('x'), y: s.get('y'), w: s.w, h: s.h, z: s.z})
             .unselectable();
         this.bubble = this.createBubble(type);
@@ -315,10 +316,10 @@ Crafty.c('Speech', {
             if (e.key == Crafty.keys.DOWN_ARROW || e.key == Crafty.keys.S)
                 this.die(entity);
         });
-        this.bind('Draw', function(e) { this.trigger('Poop'); });
     },
 
     createBubble: function(type) {
+        type = type || "Speech";
         // offsets
         var s = {
             x: this._x - 12,
@@ -341,6 +342,27 @@ Crafty.c('Speech', {
         entity.trigger('NewDirection', {x: entity._movement.x});
         this.bubble.destroy();
         this.destroy();
+    }
+});
+
+Crafty.c('Response', {
+    response: function(entity, textArray) {
+        if (!_.isArray(textArray))
+            fail('Response.response: textArray is not an array');
+
+        var s = {
+            x: entity.x,
+            y: entity.y,
+            w: entity.w,
+            h: entity.h,
+            z: entity.z
+        };
+
+        var text = textArray.join('<br>');
+        this.requires('2D, DOM, Text')
+            .text(text)
+            .unselectable()
+            .attr({x: s.x, y: s.y, w: s.w, h: s.h, z: s.z});
     }
 });
 
