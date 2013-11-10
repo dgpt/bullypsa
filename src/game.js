@@ -37,21 +37,9 @@ Game = {
         classroom:   [550 , 127]
     },
 
-    // Keep track of game state
-    currentState: 1,
-    state: [{
-        player: 'Boy'
-    }, {
-        player: 'Girl',
-        roomAccess: true
-    }, {
-        player: 'Sara',
-        roomAccess: true
-    }],
-
     // Returns current global state object
-    s: function() {
-        return Game.state[Game.currentState];
+    s: function(player) {
+        return State[player.name.upperFirst()][State.current];
     },
 
     // Scene to load when finished loading
@@ -159,7 +147,7 @@ Game = {
     // returns player
     setupScene: function(scene) {
         Game.setBG(scene);
-        var player = Crafty.e(Game.state[Game.currentState].player);
+        var player = Crafty.e(State.player);
         if (_.isObject(Game.playerPos[scene])) {
             // Y for scene is always 1st position in array when flattened
             var pos = _.flatten(_.values(Game.playerPos[scene]));
@@ -192,7 +180,7 @@ Game = {
             x: x,
             orientation: s.orientation
         };
-
+        State.scene = scene;
         Crafty.scene(scene);
     },
 
