@@ -4,31 +4,23 @@ function fail(error) {
     throw new Error(error);
 }
 
-String.prototype.width = function(font) {
+String.prototype.dimensions = function(font, maxWidth) {
   var f = font,
       o = $('<div>' + this + '</div>')
-            .css({'position': 'absolute', 'float': 'left', 'white-space': 'nowrap', 'visibility': 'hidden', 'font': f})
+            .css({'max-width': maxWidth +'px', 'position': 'absolute', 'visibility': 'hidden', 'font': f, 'border': '2px solid black'})
             .appendTo($('body')),
-      w = o.width();
-
-  o.remove();
-
-  return w;
-};
-
-// Same as above, but returns height based on a fixed width
-String.prototype.height = function(font, width) {
-  var f = font,
-      o = $('<div>' + this + '</div>')
-            .css({'word-wrap': 'break-word', 'width': width, 'visibility': 'hidden', 'font': f, 'border': '2px black solid', 'min-width': width})
-            .appendTo($('body')),
+      w = o.width()
       h = o.height();
 
   o.remove();
 
-  return h;
+  return [w,h];
 };
 
 String.prototype.lowerFirst = function() {
     return this[0].toLowerCase() + this.substr(1);
+};
+
+String.prototype.upperFirst = function() {
+    return this[0].toUpperCase() + this.substr(1);
 };
