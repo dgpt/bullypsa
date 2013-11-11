@@ -313,7 +313,7 @@ Crafty.c('Speech', {
         entity.enabled = false;
 
         this.bind('KeyDown', function(e) {
-            if (e.key == Crafty.keys.DOWN_ARROW || e.key == Crafty.keys.S)
+            if (e.key == Crafty.keys.SPACE)
                 this.die(entity);
         });
     },
@@ -342,6 +342,7 @@ Crafty.c('Speech', {
         entity.trigger('NewDirection', {x: entity._movement.x});
         this.bubble.destroy();
         this.destroy();
+        Crafty.trigger('CloseSpeech');
     }
 });
 

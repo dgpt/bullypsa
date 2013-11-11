@@ -23,7 +23,7 @@ Crafty.scene('Room', function() {
             player.action = null;
         });
 
-    this.bind('KeyDown', function(e) { if (e.key == Crafty.keys.SPACE) Crafty.e('Speech').speech(Dialog.girl.room[0], 'SpeechR', player) });
+    this.bind('KeyDown', function(e) { if (e.key == Crafty.keys.F) Dialog.showDialog(player)});
 /*    Crafty.e('Speech').speech(Dialog.girl.room[0], 'Speech', player);*/
 }, function() {
     this.unbind('KeyDown');

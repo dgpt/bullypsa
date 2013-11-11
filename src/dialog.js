@@ -34,10 +34,11 @@ Dialog = {
 Dialog.girl = _.clone(Dialog.player);
 Dialog.boy = _.clone(Dialog.player);
 
+var bk = '<br />';
 Dialog.girl.room[0] = {
     text: [
         'Move left with the left arrow key or A. '+
-        'Move right with the right arrow key or D.'+
+        '<br>Move right with the right arrow key or D.'+
         '<br>Press space to continue.'
     ],
     response: [
@@ -46,14 +47,15 @@ Dialog.girl.room[0] = {
 };
 Dialog.girl.room[1] = {
     text: [
-        'what is this little baby?',
-        'who is this little baby?',
-        'move the little baby to the left.'
+        'small text',
+        'longer text yes woo',
+        'even longer text awaits you here'
     ],
     response: [,,
         [
-            'make me',
-            'okay'
+            'pineapples',
+            'mangos',
+            'kittens'
         ]
     ]
 };
@@ -65,25 +67,34 @@ Dialog.getDialog = function(entity) {
     if (!existy(entity.name))
         fail('Dialog.getDialog: entity.name does not exist.');
 
-    var dialog = Dialog[entity.name][State.scene.lowerFirst()][State.index[State.scene]];
-
-    if (!existy(dialog))
-        fail('Dialog.getDialog: Could not locate specified dialog. Name: ' + entity.name + ' Scene: ' +State.scene+' Index: ' + State.index);
-    return dialog;
+    var scene = State.scene;
+    var index = State.index;
+    if (State.index[scene] >= Dialog[scene.lowerFirst()])
+        return null;
+    else
+        return Dialog[entity.name][scene.lowerFirst()][index[scene]];
 };
 
 Dialog.showDialog = function(entity) {
     var dialog = Dialog.getDialog(entity);
+    if (!existy(dialog))
+        return;
     var text = dialog.text;
     var response = dialog.response;
-    // may have to replace this with an event system.
-    for (var i = 0; i < text.length; i++) {
-        console.log(i);
-        Crafty.e('Speech').speech(entity, text[i], response[i]);
-    }
-    State.index[State.scene] += 1;
-};
 
+    var i = 0;
+    var sp = function() {
+        console.log(i);
+        if (i < text.length) {
+            Crafty.e('Speech').speech(entity, text[i], response[i]);
+            i += 1;
+        } else {
+            State.index[State.scene] += 1;
+        }
+    }
+    sp();
+    Crafty.bind('CloseSpeech', sp);
+};
 
 
 State = {
@@ -96,5 +107,8 @@ State = {
         'Park': 0,
         'Library': 0,
         'Classroom': 0
+    },
+    next: function() {
+        State.index[State.scene]++;
     }
 };
