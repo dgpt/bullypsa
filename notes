@@ -6,8 +6,9 @@ tutorial text
     need intro text
 
 text system
-    trigger an event with the current state, make something to react to the event and display the proper text
     after using debug menu, instantiating a speech box will cause the scene to reset
+    Make text originate from player position and grow upwards with additional text.
+
 
 going between rooms while holding the movement key makes the character glide without moving their legs
 

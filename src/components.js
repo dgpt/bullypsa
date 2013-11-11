@@ -293,7 +293,7 @@ Crafty.c('Speech', {
                 }
                 return val;
             },
-            fontSize: '12px',
+            fontSize: '14px',
             fontFamily: 'arial sans-serif',
             maxWidth: 350
         };
@@ -322,14 +322,14 @@ Crafty.c('Speech', {
         type = type || "Speech";
         // offsets
         var s = {
-            x: this._x - 12,
-            y: this._y - 12,
-            w: this._w + 10,
-            h: this._h + 10,
+            x: this._x - 14,
+            y: this._y - 14,
+            w: this._w + 12,
+            h: this._h + 12,
             z: this._z - 1
         };
         var image = NineSlice(Crafty.assets[Crafty.asset(type.lowerFirst())]);
-        image.setDimensions({x: 13, y: 14, width: 474, height: 85});
+        image.setDimensions({x: 17, y: 17, width: 474, height: 85});
         return Crafty.e('2D, DOM, Image')
             .attr({x: s.x, y: s.y, w: s.w, h: s.h, z: s.z})
             .image(image.renderCache(s.x, s.y, s.w, s.h));

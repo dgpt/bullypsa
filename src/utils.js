@@ -4,6 +4,8 @@ function fail(error) {
     throw new Error(error);
 }
 
+var br = '<br />';
+
 String.prototype.dimensions = function(font, maxWidth) {
   var f = font,
       o = $('<div>' + this + '</div>')

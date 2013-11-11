@@ -34,12 +34,14 @@ Dialog = {
 Dialog.girl = _.clone(Dialog.player);
 Dialog.boy = _.clone(Dialog.player);
 
-var bk = '<br />';
 Dialog.girl.room[0] = {
     text: [
         'Move left with the left arrow key or A. '+
-        '<br>Move right with the right arrow key or D.'+
-        '<br>Press space to continue.'
+        'Move right with the right arrow key or D.'+
+        '<br>Press space to continue.'+br+
+        'more text yo it\'s getting crazy up in here'+br+
+        'yoyoyo is this crazay text ever going to stop?'+br+
+        'no son, it aint'
     ],
     response: [
 
@@ -59,6 +61,24 @@ Dialog.girl.room[1] = {
         ]
     ]
 };
+
+Dialog.girl.room[2] = {
+    text: [
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla feugiat dolor ligula, sed lobortis eros interdum vel. Vestibulum at lorem eros.',
+        'Ut consectetur, mauris at placerat tincidunt, neque diam ultrices lectus',
+        'pulvinar interdum massa'+br+
+        'pulvinar interdum massa',
+        'pulvinar interdum massa'+br+
+        'pulvinar interdum massa'+br+
+        'pulvinar interdum massa',
+        'pulvinar interdum massa'+br+
+        'pulvinar interdum massa'+br+
+        'pulvinar interdum massa'+br+
+        'pulvinar interdum massa',
+    ],
+    response: [[]],
+};
+
 
 // USES GLOBALS: State.scene, State.index
 // returns dialog array for current player, scene, and state index
@@ -88,12 +108,12 @@ Dialog.showDialog = function(entity) {
         if (i < text.length) {
             Crafty.e('Speech').speech(entity, text[i], response[i]);
             i += 1;
-        } else {
-            State.index[State.scene] += 1;
         }
     }
     sp();
     Crafty.bind('CloseSpeech', sp);
+    State.index[State.scene] += 1;
+    console.log('Index: ' +State.index[State.scene]);
 };
 
 
