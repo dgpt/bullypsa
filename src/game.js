@@ -39,7 +39,8 @@ Game = {
 
     // Returns current global state object
     s: function(player) {
-        return State[player.name.upperFirst()][State.current];
+        fail('Deprecated - Game.s()');
+        return State.config;
     },
 
     // Scene to load when finished loading
@@ -61,7 +62,7 @@ Game = {
             // Debug Quick Links Table
             '<table id="debug_right" style="position:absolute;top:10px;left:520px">' +
             '<caption>Debug Quick Links</caption>' +
-            '<tr style="text-align:center"><td>Scenes</td><td>Players</td><td>Emotes</td>' + 
+            '<tr style="text-align:center"><td>Scenes</td><td>Players</td><td>Emotes</td>' +
             '<tr><td><button onclick="Crafty.scene(\'Room\');Crafty(\'Player\').x=250;">Room</button></td>' +
             '<td><button onclick="Game.changeState(0);">Boy</button></td>' +
             '<td><button onclick="Crafty(\'Player\').emote(\'Think\')">Think</button></td>' +
@@ -93,7 +94,7 @@ Game = {
             '<caption>Debug Info</caption>' +
             '<tr><td>FPS:</td><td id="fps"></td>' +
             '<tr><td id="posx"></td><td id="posy"></td>' +
-            '<tr><td>Emote? <td id="emoting"></td>' + 
+            '<tr><td>Emote? <td id="emoting"></td>' +
             '</div>')
             .add('span').css('font-size', '14px');
 

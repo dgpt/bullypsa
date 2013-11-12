@@ -76,9 +76,14 @@ Dialog.girl.room[2] = {
         'pulvinar interdum massa'+br+
         'pulvinar interdum massa',
     ],
-    response: [[]],
+    response: [[
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla feugiat dolor ligula, sed lobortis eros interdum vel. Vestibulum at lorem eros.',
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla feugiat dolor ligula, sed lobortis eros interdum vel. Vestibulum at lorem eros.',
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla feugiat dolor ligula, sed lobortis eros interdum vel. Vestibulum at lorem eros.',
+    ]],
 };
 
+Crafty.bind('SelectedOption0', () => console.log('yay'));
 
 // USES GLOBALS: State.scene, State.index
 // returns dialog array for current player, scene, and state index
@@ -103,15 +108,15 @@ Dialog.showDialog = function(entity) {
     var response = dialog.response;
 
     var i = 0;
-    var sp = function() {
-        console.log(i);
+    var speech = function(selected) {
         if (i < text.length) {
             Crafty.e('Speech').speech(entity, text[i], response[i]);
             i += 1;
         }
-    }
-    sp();
-    Crafty.bind('CloseSpeech', sp);
+        // handle responses here
+    };
+    speech();
+    Crafty.bind('CloseSpeech', speech);
     State.index[State.scene] += 1;
     console.log('Index: ' +State.index[State.scene]);
 };
@@ -121,7 +126,7 @@ State = {
     scene: 'Room',
     player: 'Girl',
     index: {
-        'Room': 0,
+        'Room': 1,
         'Street': 0,
         'Corridor': 0,
         'Park': 0,
@@ -130,5 +135,20 @@ State = {
     },
     next: function() {
         State.index[State.scene]++;
+    },
+    config: function() {
+        return State['_'+State.player.lowerFirst()]();
+    },
+
+    _girl: function() {
+        return {
+            roomAccess: true
+        };
+    },
+
+    _boy: function() {
+        return {
+            roomAccess: false
+        };
     }
 };

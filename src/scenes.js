@@ -31,13 +31,14 @@ Crafty.scene('Room', function() {
 
 Crafty.scene('Street', function() {
     var player = Game.setupScene('street');
+    console.log('player: ' + player);
 
     // Boundaries
     // Left side - To Room
     Crafty.e('Portal')
         .portal({orientation: 'left'})
         .action(function() {
-            if (Game.s().roomAccess) {
+            if (State.config().roomAccess) {
                 player.emote('Think', true);
                 player.action = function() {
                     Game.setScene('Room', {x: 'right', orientation: 'left'});

@@ -298,6 +298,10 @@ Crafty.c('Speech', {
             maxWidth: 350
         };
         this.font = s.fontSize + ' '+ s.fontFamily;
+
+        if (_.isArray(response))
+            text += br + this.response(response);
+
         var dim = text.dimensions(this.font, s.maxWidth);
         s.w = dim[0] + 1;  // +1 for stupid word wrap bug
         s.h = dim[1];
@@ -316,6 +320,35 @@ Crafty.c('Speech', {
             if (e.key == Crafty.keys.SPACE)
                 this.die(entity);
         });
+    },
+
+    response: function(textArray) {
+        if (!_.isArray(textArray))
+            fail('Response.response: textArray is not an array');
+
+        var text = _.map(textArray, function(val, i) { return '<div id="option'+i+'" '+
+                         'class="'+(i===0 ? 'optionOn' : 'optionOff')+' option">'+
+                            val+'</div>'; }).join(br);
+        var i = 0;
+        var last_i = 0;
+        this.selected = 0;
+        var select = _.bind(function() {
+            if (i >= textArray.length) i = 0;
+            if (i < 0) i = textArray.length - 1;
+            $('#option'+i).removeClass('optionOff').addClass('optionOn');
+            $('#option'+last_i).removeClass('optionOn').addClass('optionOff');
+            this.selected = i;
+            last_i = i;
+        }, this);
+
+        this.bind('KeyDown', function(e) {
+            if (e.key == Crafty.keys.W || e.key == Crafty.keys.UP_ARROW)
+                i -= 1;
+            if (e.key == Crafty.keys.S || e.key == Crafty.keys.DOWN_ARROW)
+                i += 1;
+            if (last_i != i) select();
+        });
+        return br + text;
     },
 
     createBubble: function(type) {
@@ -340,31 +373,13 @@ Crafty.c('Speech', {
         // Make sure player resumes walking correctly
         // if movement button held down during message.
         entity.trigger('NewDirection', {x: entity._movement.x});
+        Crafty.trigger('CloseSpeech', this.selected);
         this.bubble.destroy();
         this.destroy();
-        Crafty.trigger('CloseSpeech');
     }
 });
 
 Crafty.c('Response', {
-    response: function(entity, textArray) {
-        if (!_.isArray(textArray))
-            fail('Response.response: textArray is not an array');
-
-        var s = {
-            x: entity.x,
-            y: entity.y,
-            w: entity.w,
-            h: entity.h,
-            z: entity.z
-        };
-
-        var text = textArray.join('<br>');
-        this.requires('2D, DOM, Text')
-            .text(text)
-            .unselectable()
-            .attr({x: s.x, y: s.y, w: s.w, h: s.h, z: s.z});
-    }
 });
 
 Crafty.c('Boundary', {
