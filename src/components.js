@@ -114,6 +114,7 @@ Crafty.c('Player', {
                 }
             }
         };
+        setDirection(this._movement); // check for direction on init
         this.bind('NewDirection', setDirection);
     },
 
@@ -377,9 +378,6 @@ Crafty.c('Speech', {
         this.bubble.destroy();
         this.destroy();
     }
-});
-
-Crafty.c('Response', {
 });
 
 Crafty.c('Boundary', {
