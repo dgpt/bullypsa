@@ -188,7 +188,29 @@ Crafty.scene('Load', function() {
 
     var assets = {
         sara: 'assets/char/sara_54x95.png',
+        cindy: 'assets/char/cindy_64x96.png',
+        clarence: 'assets/char/clarence_64x96.png',
+        curtis: 'assets/char/curtis_57x96.png',
+        dina: 'assets/char/dina_54x96.png',
+        elise: 'assets/char/elise_56x96.png',
+        femaleb: 'assets/char/femaleb_54x96.png',
+        girl_small: 'assets/char/girl_small_52x96.png',
+        harriet: 'assets/char/harriet_54x96.png',
+        lady: 'assets/char/lady_53x96.png',
         girl: 'assets/char/girl_54x96.png',
+        marion: 'assets/char/marion_53x96.png',
+        may: 'assets/char/may_54x96.png',
+        midage_man: 'assets/char/midage_man_63x96.png',
+        midage_woman: 'assets/char/midage_woman_53x96.png',
+        mikey: 'assets/char/mikey_57x96.png',
+        miley: 'assets/char/miley_53x96.png',
+        octavia: 'assets/char/octavia_54x96.png',
+        rebecca: 'assets/char/rebecca_53x96.png',
+        salary_man: 'assets/char/salary_man_57x96.png',
+        tyler: 'assets/char/tyler_57x96.png',
+        vivian: 'assets/char/vivian_53x96.png',
+        young_man: 'assets/char/young_man_57x96.png',
+        young_woman: 'assets/char/young_woman_53x96.png',
         boy:  'assets/char/boy_52x96.png',
         emotions: 'assets/emotions_48x48.png',
 
@@ -228,6 +250,98 @@ Crafty.scene('Load', function() {
         Crafty.sprite(52, 96, assets.boy, {
             sprBoyR: [0, 1],
             sprBoyL: [0, 0]
+        });
+        Crafty.sprite(64, 96, assets.cindy, {
+            sprCindyR: [0, 1],
+            sprCindyL: [0, 0]
+        });
+        Crafty.sprite(64, 96, assets.clarence, {
+            sprClarenceR: [0, 1],
+            sprClarenceL: [0, 0]
+        });
+        Crafty.sprite(57, 96, assets.curtis, {
+            sprCurtisR: [0, 1],
+            sprCurtisL: [0, 0]
+        });
+        Crafty.sprite(54, 96, assets.dina, {
+            sprDinaR: [0, 1],
+            sprDinaL: [0, 0]
+        });
+        Crafty.sprite(56, 96, assets.elise, {
+            sprEliseR: [0, 1],
+            sprEliseL: [0, 0]
+        });
+        Crafty.sprite(54, 96, assets.femaleb, {
+            sprFemalebR: [0, 1],
+            sprFemalebL: [0, 0]
+        });
+        Crafty.sprite(52, 96, assets.girl_small, {
+            sprGirlSmallR: [0, 1],
+            sprGirlSmallL: [0, 0]
+        });
+        Crafty.sprite(54, 96, assets.harriet, {
+            sprHarrietR: [0, 3],
+            sprHarrietL: [0, 2]
+        });
+        Crafty.sprite(53, 94, assets.lady, {
+            sprLadyR: [0, 1],
+            sprLadyL: [0, 0]
+        });
+        Crafty.sprite(53, 96, assets.marion, {
+            sprMarionR: [0, 1],
+            sprMarionL: [0, 0]
+        });
+        Crafty.sprite(54, 96, assets.may, {
+            sprMayR: [0, 1],
+            sprMayL: [0, 0]
+        });
+        Crafty.sprite(63, 96, assets.midage_man, {
+            sprMidAgeManR: [0, 1],
+            sprMidAgeManL: [0, 0]
+        });
+        Crafty.sprite(53, 96, assets.midage_woman, {
+            sprMidAgeWomanR: [0, 1],
+            sprMidAgeWomanL: [0, 0]
+        });
+        Crafty.sprite(57, 96, assets.mikey, {
+            sprMikeyR: [0, 1],
+            sprMikeyL: [0, 0]
+        });
+        Crafty.sprite(53, 96, assets.miley, {
+            sprMileySchoolR: [0, 1],
+            sprMileySchoolL: [0, 0],
+            sprMileyR: [0, 2],
+            sprMileyL: [0, 3]
+        });
+        Crafty.sprite(54, 96, assets.octavia, {
+            sprOctaviaR: [0, 2],
+            sprOctaviaL: [0, 3]
+        });
+        Crafty.sprite(53, 96, assets.rebecca, {
+            sprRebeccaR: [0, 1],
+            sprRebeccaL: [0, 0]
+        });
+        Crafty.sprite(57, 96, assets.salary_man, {
+            sprSalaryManR: [0, 1],
+            sprSalaryManL: [0, 0]
+        });
+        Crafty.sprite(57, 96, assets.tyler, {
+            sprTylerR: [0, 1],
+            sprTylerL: [0, 0],
+            sprTylerSchoolR: [0, 3],
+            sprTylerSchoolL: [0, 2]
+        });
+        Crafty.sprite(53, 96, assets.vivian, {
+            sprVivianR: [0, 3],
+            sprVivianL: [0, 2]
+        });
+        Crafty.sprite(57, 96, assets.young_man, {
+            sprYoungManR: [0, 1],
+            sprYoungManL: [0, 0]
+        });
+        Crafty.sprite(53, 96, assets.young_woman, {
+            sprYoungWomanR: [0, 1],
+            sprYoungWomanL: [0, 0]
         });
         Crafty.sprite(48, 48, assets.emotions, {
             sprThink:       [0, 0],
