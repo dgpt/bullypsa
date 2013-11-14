@@ -36,12 +36,10 @@ Dialog.boy = _.clone(Dialog.player);
 
 Dialog.girl.room[0] = {
     text: [
-        'Move left with the left arrow key or A. '+
-        'Move right with the right arrow key or D.'+
-        '<br>Press space to continue.'+br+
-        'more text yo it\'s getting crazy up in here'+br+
-        'yoyoyo is this crazay text ever going to stop?'+br+
-        'no son, it aint'
+        "\tIn this game, you'll be entering different scenarios to help you become aware of common bullying situations that you might find yourself in. You will have (2) choices to choose from; one right and one wrong."+br+br+"(Press space to continue)",
+        "\tBeing bullied and then choosing to be able to stand up to the things that are the hardest for you is difficult sometimes. It is also important to know how you can help others who are being bullied. Practicing making the right choices will help you know just what to do next time you find yourself in a similar situation. Stand up and believe in yourself, make the right choices, you can do it! What happens next depends on your answer.",
+        "Press the left arrow key or A to move left."+br+
+        "Press the right arrow key or D to move right."
     ],
     response: [
 
@@ -49,65 +47,36 @@ Dialog.girl.room[0] = {
 };
 Dialog.girl.room[1] = {
     text: [
-        'small text',
-        'longer text yes woo',
-        'even longer text awaits you here'
+        "When you see this emote appear over the player,"+br+
+        "press space to move to the next area."
     ],
-    response: [,,
-        [
-            'pineapples',
-            'mangos',
-            'kittens'
-        ]
-    ]
+    response: [[]]
 };
-
-Dialog.girl.room[2] = {
-    text: [
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla feugiat dolor ligula, sed lobortis eros interdum vel. Vestibulum at lorem eros.',
-        'Ut consectetur, mauris at placerat tincidunt, neque diam ultrices lectus',
-        'pulvinar interdum massa'+br+
-        'pulvinar interdum massa',
-        'pulvinar interdum massa'+br+
-        'pulvinar interdum massa'+br+
-        'pulvinar interdum massa',
-        'pulvinar interdum massa'+br+
-        'pulvinar interdum massa'+br+
-        'pulvinar interdum massa'+br+
-        'pulvinar interdum massa',
-    ],
-    response: [[
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla feugiat dolor ligula, sed lobortis eros interdum vel. Vestibulum at lorem eros.',
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla feugiat dolor ligula, sed lobortis eros interdum vel. Vestibulum at lorem eros.',
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla feugiat dolor ligula, sed lobortis eros interdum vel. Vestibulum at lorem eros.',
-    ]],
-};
-
-Crafty.bind('SelectedOption0', () => console.log('yay'));
 
 // USES GLOBALS: State.scene, State.index
-// returns dialog array for current player, scene, and state index
+// returns dialog array for given entity, scene and index
+// if scene or index is not provided, defaults to current scene and index
+// based on global state variables
 // return value {text: [], response: [[]]}
-Dialog.getDialog = function(entity) {
+Dialog.get = function(entity, scene, index) {
     if (!existy(entity.name))
-        fail('Dialog.getDialog: entity.name does not exist.');
+        fail('Dialog.get: entity.name does not exist.');
 
-    var scene = State.scene;
-    var index = State.index;
-    if (State.index[scene] >= Dialog[scene.lowerFirst()])
-        return null;
-    else
-        return Dialog[entity.name][scene.lowerFirst()][index[scene]];
+    scene = (scene || State.scene).lowerFirst();
+    index = index || State.index[scene.upperFirst()];
+
+    return Dialog[entity.name.toLowerCase()][scene][index];
 };
 
-Dialog.showDialog = function(entity) {
-    var dialog = Dialog.getDialog(entity);
+Dialog.show = function(entity, scene, index) {
+    var dialog = Dialog.get(entity, scene, index);
     if (!existy(dialog))
         return;
     var text = dialog.text;
     var response = dialog.response;
 
     var i = 0;
+    // Cycles through text array, spawning a speech bubble for each entry
     var speech = function(selected) {
         if (i < text.length) {
             Crafty.e('Speech').speech(entity, text[i], response[i]);
@@ -117,8 +86,8 @@ Dialog.showDialog = function(entity) {
     };
     speech();
     Crafty.bind('CloseSpeech', speech);
-    State.index[State.scene] += 1;
-    console.log('Index: ' +State.index[State.scene]);
+    State.next(scene);
+    console.log('Index: ' + State.getIndex(scene));
 };
 
 
@@ -126,29 +95,46 @@ State = {
     scene: 'Room',
     player: 'Girl',
     index: {
-        'Room': 1,
+        'Room': 0,
         'Street': 0,
         'Corridor': 0,
         'Park': 0,
         'Library': 0,
         'Classroom': 0
     },
-    next: function() {
-        State.index[State.scene]++;
+    getIndex: function(scene) {
+        return State.index[(scene || State.scene)];
+    },
+    // scene is optional
+    next: function(scene) {
+        State.index[(scene || State.scene)]++;
     },
     config: function() {
         return State['_'+State.player.lowerFirst()]();
     },
 
+    // These handle game progression.
     _girl: function() {
-        return {
-            roomAccess: true
-        };
+        var s = _.clone(this._default);
+
+        if (State.getIndex('Room') >= 2) {
+            s.room.access = true;
+            s.room.complete = true;
+        }
+
+        return s;
     },
 
     _boy: function() {
-        return {
-            roomAccess: false
-        };
+        var s = _.clone(this._default);
+
+        return s;
+    },
+
+    _default: {
+        room: {
+            complete: false,
+            access: false
+        }
     }
 };

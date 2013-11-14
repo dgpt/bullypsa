@@ -15,16 +15,19 @@ Crafty.scene('Room', function() {
     Crafty.e('Portal')
         .portal({x: 620})
         .action(function() {
-            player.emote('Think', true);
-            player.action = function() {
-               Game.setScene('Street', {x: 'left', orientation: 'right'});
-            };
+            if (State.config().room.access) {
+                player.emote('Think', true);
+                player.action = function() {
+                   Game.setScene('Street', {x: 'left', orientation: 'right'});
+                };
+            } else {
+                Dialog.show(player);
+            }
         }, function() {
             player.action = null;
         });
 
-    this.bind('KeyDown', function(e) { if (e.key == Crafty.keys.F) Dialog.showDialog(player)});
-/*    Crafty.e('Speech').speech(Dialog.girl.room[0], 'Speech', player);*/
+    Dialog.show(player);
 }, function() {
     this.unbind('KeyDown');
 });
@@ -38,7 +41,7 @@ Crafty.scene('Street', function() {
     Crafty.e('Portal')
         .portal({orientation: 'left'})
         .action(function() {
-            if (State.config().roomAccess) {
+            if (State.config().room.access) {
                 player.emote('Think', true);
                 player.action = function() {
                     Game.setScene('Room', {x: 'right', orientation: 'left'});
