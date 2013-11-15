@@ -1,7 +1,7 @@
 Game = {
     // Width based on size of current background image (set with Game.setBG)
     // Height is static
-    width: 800,
+    width: 600,
     height: 330,
 
     // Use to place player in a more logical position between scenes
