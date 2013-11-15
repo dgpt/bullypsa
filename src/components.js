@@ -1,4 +1,3 @@
-
 /* Base Component for Player, NPCs */
 Crafty.c('Actor', {
     enabled: true,
@@ -49,7 +48,6 @@ Crafty.c('Actor', {
 
         return this;
     },
-
 
     stopMovement: function() {
         this._speed = 0;
@@ -134,7 +132,7 @@ Crafty.c('Player', {
     player: function(settings) {
         var s = _.defaults(settings, {
             speed: 3,
-            z: 3,
+            z: 5,
             x: Game.player.x,
             y: Game.player.y
         });
@@ -188,9 +186,6 @@ Crafty.c('NPC', {
         Automated Speech
             keep player enabled, cycle speech at given interval
     */
-    init: function() {
-        this.requires('2D, Canvas');
-    },
 
     npc: function(settings) {
         var s = _.defaults(settings || {}, {
@@ -198,29 +193,22 @@ Crafty.c('NPC', {
             y: Game.player.y,
             path: 'full',
         });
+
+        this.requires('Actor')
+            .actor(s.sprite, s);
     },
 
     patrol: function(path) {
 
     },
 
-});
+    spawnPortal: function() {
 
-Crafty.c('Sara', {
-    init: function() {
-        this.requires('Player')
-            .player({
-                sprite: 'sprSara',
-                //           x1 y  x2
-                left:       [0, 2, 6],
-                leftBlink:  [0, 0, 4],
-                right:      [0, 3, 6],
-                rightBlink: [0, 1, 4],
-                //x: Game.player.x         // Necessary for tracking x between rooms
-            });
     }
+
 });
 
+/***** Players ******/
 Crafty.c('Girl', {
     init: function() {
         this.requires('Player')
@@ -243,6 +231,24 @@ Crafty.c('Boy', {
             });
     }
 });
+
+/***** NPCs ******/
+Crafty.c('Sara', {
+    sara: function(settings) {
+        var s = _.defaults(settings || {}, {
+            sprite: 'sprSara',
+            //           x1 y  x2
+            left:       [0, 2, 6],
+            leftBlink:  [0, 0, 4],
+            right:      [0, 3, 6],
+            rightBlink: [0, 1, 4],
+            x: 150,
+            z: 7
+        });
+        this.requires('NPC').npc(s);
+    }
+});
+
 
 Crafty.c('Emotion', {
     animSpeed: 10,
@@ -335,7 +341,7 @@ Crafty.c('Speech', {
             // offsets (in relation to entity)
             x: -150,
             y: -150,
-            z: entity._z + 4,
+            z: entity._z + 11,
             // Get constrained X or Y positions
             get: function(xory) {
                 // pass either x or y
@@ -513,7 +519,7 @@ Crafty.c('Overlay', {
         pos = _.defaults(pos || {}, {
             x: 0,
             y: 0,
-            z: 4
+            z: 10
         });
         this.attr(pos)
             .image(Crafty.asset(asset));
