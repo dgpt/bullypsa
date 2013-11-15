@@ -3,6 +3,9 @@ function truthy(x) { return (x !== false) && existy(x); }
 function fail(error) {
     throw new Error(error);
 }
+function warn(text) {
+    console.warn('Warning: ' + text);
+}
 
 var br = '<br />';
 
