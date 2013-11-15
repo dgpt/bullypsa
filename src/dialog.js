@@ -36,10 +36,11 @@ Dialog.boy = _.clone(Dialog.player);
 
 Dialog.girl.room[0] = {
     text: [
-        "\tIn this game, you'll be entering different scenarios to help you become aware of common bullying situations that you might find yourself in. You will have (2) choices to choose from; one right and one wrong."+br+br+"(Press space to continue)",
-        "\tBeing bullied and then choosing to be able to stand up to the things that are the hardest for you is difficult sometimes. It is also important to know how you can help others who are being bullied. Practicing making the right choices will help you know just what to do next time you find yourself in a similar situation. Stand up and believe in yourself, make the right choices, you can do it! What happens next depends on your answer.",
-        "Press the left arrow key or A to move left."+br+
-        "Press the right arrow key or D to move right."
+        "In this game, you'll be entering different scenarios to help you become aware of common bullying situations that you might find yourself in. You will have (2) choices to choose from; one right and one wrong."+br+br+"(Press space to continue)",
+        "Being bullied and then choosing to be able to stand up to the things that are the hardest for you is difficult sometimes. It is also important to know how you can help others who are being bullied. Practicing making the right choices will help you know just what to do next time you find yourself in a similar situation.",
+        "Stand up and believe in yourself, make the right choices, you can do it! What happens next depends on your answer."+br+br+
+        "(Press the left arrow key or A to move left.)"+br+
+        "(Press the right arrow key or D to move right.)"
     ],
     response: [
 
@@ -59,13 +60,24 @@ Dialog.girl.room[1] = {
 // based on global state variables
 // return value {text: [], response: [[]]}
 Dialog.get = function(entity, scene, index) {
-    if (!existy(entity.name))
-        fail('Dialog.get: entity.name does not exist.');
-
     scene = (scene || State.scene).lowerFirst();
     index = index || State.index[scene.upperFirst()];
-
-    return Dialog[entity.name.toLowerCase()][scene][index];
+    var dEnt = Dialog[entity.name.toLowerCase()];
+    if (!existy(dEnt)) {
+        warn('Dialog.get: Dialog[entity.name] does not exist. entity.name: ' + entity.name.toLowerCase());
+        return;
+    }
+    var dSce = dEnt[scene];
+    if (!existy(dSce)) {
+        warn('Dialog.get: Dialog[entity.name][scene] does not exist. scene: ' + scene);
+        return;
+    }
+    var d = dSce[index];
+    if (!existy(d)) {
+        warn('Dialog.get: Dialog[entity.name][scene][index] does not exist. index: ' + index);
+        return;
+    }
+    return d;
 };
 
 Dialog.show = function(entity, scene, index) {
@@ -110,12 +122,15 @@ State = {
         State.index[(scene || State.scene)]++;
     },
     config: function() {
-        return State['_'+State.player.lowerFirst()]();
+        var c = State['_'+State.player.lowerFirst()];
+        if (!existy(c))
+            fail('State.config: config method not found for ' + State.player.lowerFirst());
+        return c();
     },
 
     // These handle game progression.
     _girl: function() {
-        var s = _.clone(this._default);
+        var s = _.clone(State._default);
 
         if (State.getIndex('Room') >= 2) {
             s.room.access = true;
@@ -126,7 +141,7 @@ State = {
     },
 
     _boy: function() {
-        var s = _.clone(this._default);
+        var s = _.clone(State._default);
 
         return s;
     },

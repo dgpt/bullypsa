@@ -9,6 +9,8 @@ text system
     after using debug menu, instantiating a speech box will cause the scene to reset
     Make text originate from player position and grow upwards with additional text.
 
+Actor
+
 Load:
     add loading bar
 
