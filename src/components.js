@@ -1,55 +1,30 @@
-Crafty.c('Player', {
+
+/* Base Component for Player, NPCs */
+Crafty.c('Actor', {
     enabled: true,
+    lastX: 0,
 
-    init: function() {
-        this.requires('2D, Canvas');
-        this.bind('KeyDown', function(e) {
-            if (e.key == Crafty.keys.SPACE) {
-                if (existy(this.action) && _.isFunction(this.action))
-                    this.action();
-            }
-        });
-        this.bind('EnterFrame', function() {
-            if (!this.enabled)
-                this.stopMovement();
-        });
-    },
-
-    player: function(settings) {
+    actor: function(sprite, settings) {
         if (!existy(settings) || !_.isObject(settings))
-            fail('Player.player: settings is undefined or invalid');
+            fail('Actor.actor: settings is undefined or invalid');
         var s = _.defaults(settings, {
             speed: 3,
             animSpeed: 35,          // lower = faster
             animBlinkSpeed: 15,     // lower = faster
             blinkSpeed: 3750,       // in milliseconds
-            x: Game.player.x,
             y: Game.player.y,
-            z: 3,
+            z: 2,
             orientation: Game.player.orientation // left or right
         });
 
+        this.name = sprite.substr(3);
         s.orientation = s.orientation[0].toUpperCase();
-        var spr = settings.sprite;
-        this.currentCharacter = spr.substr(3);
+        this.settings = _.clone(s);
+
         // Positions for sprite map (Arrays [fromX, Y, toX])
-        var l = settings.left;
-        var lb = settings.leftBlink;
-        var r = settings.right;
-        var rb = settings.rightBlink;
-        var blinkSupport = true;
-
-        var lastX = 0;
-        var idler;
-
-        if (!_.isString(spr))
-            fail('Player.player: spr is not a string.');
-        if (!(_.isArray(l) && _.isArray(r)))
-            fail('Player.player: Animation reels are not defined.');
-        if (!(_.isArray(lb) && _.isArray(rb)))
-            blinkSupport = false;
-
-        this.addComponent('Multiway', spr + s.orientation, 'SpriteAnimation', 'Collision')
+        var l = s.left;
+        var r = s.right;
+        this.addComponent('2D', 'Canvas', sprite + s.orientation, 'SpriteAnimation')
             // Very specific to sprite sheet. Tried to make it as flexible as possible
             // On right and left, stop sprite is pos 0, movement is 1+
             //                    from x        y   to x
@@ -57,66 +32,24 @@ Crafty.c('Player', {
             .animate('LeftStop',  l[0]      , l[1], l[0])
             .animate('Right',     r[0] + 1  , r[1], r[2])
             .animate('RightStop', r[0]      , r[1], r[0])
-            .multiway(s.speed, {
-                D: 0,
-                RIGHT_ARROW: 0,
-                A: 180,
-                LEFT_ARROW: 180
-            })
-            .attr({ x: s.x, y: s.y, z: s.z })
-            .onHit('Solid', this.stopMovement)
-            .onHit('Portal', this.onHitPortal, this.offHitPortal);
+            .attr({ x: s.x, y: s.y, z: s.z });
 
-        if (blinkSupport) {
-            this.animate('LeftBlink', lb[0], lb[1], lb[2])
-                .animate('RightBlink',rb[0], rb[1], rb[2]);
-        }
 
-        var anim = _.bind(function(reel, lx, speed, count) {
-            if (!existy(lx))
-                fail('Player.init->anim: lastX must be specified');
-            count = existy(count) && _.isNumber(count) ? count : -1;
-            speed = speed || s.animSpeed;
-            lastX = lx;
-            this.stop();
-            return this.animate(reel, speed, count);
-        }, this);
+        // Blink support setup (optional)
+        var lb = s.leftBlink;
+        var rb = s.rightBlink;
+        if (_.isArray(lb) && _.isArray(rb))
+            this._blink = this._blinkSetup({lb: lb, rb: rb});
 
-        var blink = _.bind(function(dir) {
-            if (blinkSupport) {
-                if (!_.isString(dir))
-                    fail('Blink bind: dir must be a string.');
-                return Crafty.e('Idler').start(function() {
-                    anim(dir + 'Blink', 0, s.animBlinkSpeed, 0);
-                }, s.blinkSpeed);
-            }
-        }, this);
+        this.bind('NewDirection', this._setDirection);
+        this.bind('EnterFrame', function() {
+            if (!this.enabled)
+                this.stopMovement();
+        });
 
-        var setDirection = function(data) {
-            if (!existy(data) || !existy(data.x))
-                fail('Player.config->setDirection: data is not defined');
-            var x = data.x;
-            if (x !== 0 && (_.isObject(idler) && _.has(idler, 'stop')))
-                idler.stop();
-            if (x < 0)
-                anim('Left', x);
-            else if (x > 0)
-                anim('Right', x);
-            else {
-                if (lastX < 0) {
-                    anim('LeftStop', 0);
-                    idler = blink('Left');
-                } else if (lastX > 0) {
-                    anim('RightStop', 0);
-                    idler = blink('Right');
-                } else {
-                    lastX = 0;
-                }
-            }
-        };
-        setDirection(this._movement); // check for direction on init
-        this.bind('NewDirection', setDirection);
+        return this;
     },
+
 
     stopMovement: function() {
         this._speed = 0;
@@ -126,22 +59,12 @@ Crafty.c('Player', {
         }
     },
 
-    onHitPortal: function(data) {
-        var portal = data[0].obj;
-        portal.trigger('PortalOn');
-    },
-
-    offHitPortal: function() {
-        this.stopEmote();
-        Crafty.trigger('PortalOff');
-    },
-
     emote: function(type, hold) {
         if (!this.emotion) {
             this.emotion = Crafty.e('Emotion');
             // Adjust emotion y pos if boy
             // (he's really short - looks funny without this)
-            if (this.currentCharacter === 'Boy') {
+            if (this.name === 'Boy') {
                 this.emotion.attr({yOffset: -35});
             }
             this.emotion.emotion(this, type, hold);
@@ -153,6 +76,171 @@ Crafty.c('Player', {
             this.emotion.hide();
             this.emotion = null;
         }
+    },
+
+    _setDirection: function(data) {
+        if (!existy(data) || !existy(data.x))
+            fail('Actor.config->setDirection: data is not defined');
+        var x = data.x;
+        if (x !== 0 && (_.isObject(this._idler) && _.has(this._idler, 'stop')))
+            this._idler.stop();
+        if (x < 0)
+            this._anim('Left', x);
+        else if (x > 0)
+            this._anim('Right', x);
+        else {
+            if (this.lastX < 0) {
+                this._anim('LeftStop', 0);
+                this._idler = this._blink && this._blink('Left');
+            } else if (this.lastX > 0) {
+                this._anim('RightStop', 0);
+                this._idler = this._blink && this._blink('Right');
+            } else {
+                this.lastX = 0;
+            }
+        }
+    },
+
+    _anim: function(reel, lx, speed, count) {
+        if (!existy(lx))
+            fail('Actor._anim: this.lastX must be specified');
+        count = existy(count) && _.isNumber(count) ? count : -1;
+        speed = speed || this.settings.animSpeed;
+        this.lastX = lx;
+        this.stop();
+        return this.animate(reel, speed, count);
+    },
+
+    _blinkSetup: function(s) {
+        if (s.lb && s.rb) {
+            this.animate('LeftBlink', s.lb[0], s.lb[1], s.lb[2])
+                .animate('RightBlink', s.rb[0], s.rb[1], s.rb[2]);
+
+            var actor = this;
+            var blink = _.bind(function(dir) {
+                if (!_.isString(dir))
+                    fail('Blink bind: dir must be a string.');
+                return Crafty.e('Idler').start(function() {
+                    actor._anim(dir + 'Blink', 0, actor.settings.animBlinkSpeed, 0);
+                }, actor.settings.blinkSpeed);
+            }, this);
+
+            return blink;
+        }
+    }
+});
+
+Crafty.c('Player', {
+    player: function(settings) {
+        var s = _.defaults(settings, {
+            speed: 3,
+            z: 3,
+            x: Game.player.x,
+            y: Game.player.y
+        });
+        this.requires('Actor, Multiway, Collision')
+            .actor(s.sprite, s)
+            .multiway(s.speed, {
+                D: 0,
+                RIGHT_ARROW: 0,
+                A: 180,
+                LEFT_ARROW: 180
+            })
+            .onHit('Solid', this.stopMovement)
+            .onHit('Portal', this.onHitPortal, this.offHitPortal);
+
+        this._setDirection(this._movement); // check for direction on init
+        this.bind('KeyDown', function(e) {
+            if (e.key == Crafty.keys.SPACE) {
+                if (existy(this.action) && _.isFunction(this.action))
+                    this.action();
+            }
+        });
+    },
+
+    onHitPortal: function(data) {
+        var portal = data[0].obj;
+        portal.trigger('PortalOn');
+    },
+
+    offHitPortal: function() {
+        this.stopEmote();
+        Crafty.trigger('PortalOff');
+    }
+
+});
+
+Crafty.c('NPC', {
+    /*
+    TODO:
+        Add patrol route
+            make possible to walk through area, then walk back after a given time
+                people always walking in crowded areas
+                (but not just walking back and forth - realism)
+
+        Default positions
+            x defaults to full scene route (back and forth patrol)
+            y defaults to Game.player.y
+
+        Actions
+            spawn portals that trigger player actions
+
+        Automated Speech
+            keep player enabled, cycle speech at given interval
+    */
+    init: function() {
+        this.requires('2D, Canvas');
+    },
+
+    npc: function(settings) {
+        var s = _.defaults(settings || {}, {
+            x: 0,
+            y: Game.player.y,
+            path: 'full',
+        });
+    },
+
+    patrol: function(path) {
+
+    },
+
+});
+
+Crafty.c('Sara', {
+    init: function() {
+        this.requires('Player')
+            .player({
+                sprite: 'sprSara',
+                //           x1 y  x2
+                left:       [0, 2, 6],
+                leftBlink:  [0, 0, 4],
+                right:      [0, 3, 6],
+                rightBlink: [0, 1, 4],
+                //x: Game.player.x         // Necessary for tracking x between rooms
+            });
+    }
+});
+
+Crafty.c('Girl', {
+    init: function() {
+        this.requires('Player')
+            .player({
+                sprite: 'sprGirl',
+                left:  [0, 0, 6],
+                right: [0, 1, 6]
+            });
+    }
+});
+
+Crafty.c('Boy', {
+    name: 'boy',
+    init: function() {
+        this.requires('Player')
+            .player({
+                sprite: 'sprBoy',
+                left:  [0, 0, 6],
+                right: [0, 1, 6]
+            });
     }
 });
 
@@ -232,45 +320,11 @@ Crafty.c('Emotion', {
     }
 });
 
-Crafty.c('Sara', {
-    init: function() {
-        this.requires('Player')
-            .player({
-                sprite: 'sprSara',
-                //           x1 y  x2
-                left:       [0, 2, 6],
-                leftBlink:  [0, 0, 4],
-                right:      [0, 3, 6],
-                rightBlink: [0, 1, 4],
-                //x: Game.player.x         // Necessary for tracking x between rooms
-            });
-    }
-});
-
-Crafty.c('Girl', {
-    name: 'girl',
-    init: function() {
-        this.requires('Player')
-            .player({
-                sprite: 'sprGirl',
-                left:  [0, 0, 6],
-                right: [0, 1, 6]
-            });
-    }
-});
-
-Crafty.c('Boy', {
-    name: 'boy',
-    init: function() {
-        this.requires('Player')
-            .player({
-                sprite: 'sprBoy',
-                left:  [0, 0, 6],
-                right: [0, 1, 6]
-            });
-    }
-});
-
+/*/// Speech System ///
+    Handles text, responses, and bubble.
+    Triggers CloseSpeech event when speech is destroyed.
+    If there was a response in the speech, passes response id to callback.
+*/
 Crafty.c('Speech', {
     init: function() {
         this.requires('2D, DOM, Text');
