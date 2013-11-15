@@ -252,8 +252,10 @@ Crafty.scene('Load', function() {
             sprBoyL: [0, 0]
         });
         Crafty.sprite(64, 96, assets.cindy, {
-            sprCindyR: [0, 1],
-            sprCindyL: [0, 0]
+            sprCindySchoolR: [0, 1],
+            sprCindySchoolL: [0, 0],
+            sprCindyR: [0, 3],
+            sprCindyL: [0, 2]
         });
         Crafty.sprite(64, 96, assets.clarence, {
             sprClarenceR: [0, 1],
