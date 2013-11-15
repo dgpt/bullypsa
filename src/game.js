@@ -1,7 +1,7 @@
 Game = {
     // Width based on size of current background image (set with Game.setBG)
     // Height is static
-    width: 500,
+    width: 800,
     height: 330,
 
     // Use to place player in a more logical position between scenes
@@ -137,7 +137,7 @@ Game = {
     // Create view - change view width here!
     // follow = entity to follow
     setView: function(follow) {
-        var width = 500;
+        var width = 600;
         var height = Game.height;
         Crafty.viewport.init(width, height);
         Crafty.viewport.follow(follow);
@@ -188,7 +188,7 @@ Game = {
     start: function() {
         Crafty.init(Game.width, Game.height);
         Crafty.background('black');
-        Game.debug();
+        //Game.debug();
         Crafty.scene('Load');
     }
 };

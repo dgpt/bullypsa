@@ -233,6 +233,9 @@ Crafty.c('Boy', {
 });
 
 /***** NPCs ******/
+Crafty.c('', {
+
+});
 Crafty.c('Sara', {
     sara: function(settings) {
         var s = _.defaults(settings || {}, {
@@ -247,6 +250,15 @@ Crafty.c('Sara', {
         });
         this.requires('NPC').npc(s);
     }
+});
+
+
+Crafty.c('', {
+
+});
+
+Crafty.c('', {
+
 });
 
 
