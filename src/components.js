@@ -154,6 +154,16 @@ Crafty.c('Player', {
                     this.action();
             }
         });
+        this.bind('CreateSpeech', function() {
+            // stop player because wiggle text
+            this.enabled = false;
+        });
+        this.bind('CloseSpeech', function() {
+            // Make sure player resumes walking correctly
+            // if movement button held down during message.
+            this.trigger('NewDirection', {x: this._movement.x});
+            this.enabled = true;
+        });
     },
 
     onHitPortal: function(data) {
@@ -308,7 +318,7 @@ Crafty.c('Emotion', {
     fadeTime: 60,
     // Offset from player pos
     xOffset: 5,
-    yOffset: -50,
+    yOffset: -45,
 
     emotion: function(player, type, hold) {
         if (!_.isString(type))
@@ -384,15 +394,12 @@ Crafty.c('Emotion', {
     If there was a response in the speech, passes response id to callback.
 */
 Crafty.c('Speech', {
-    init: function() {
-        this.requires('2D, DOM, Text');
-    },
-
     speech: function(entity, text, response, type) {
         var s = {
             // offsets (in relation to entity)
             x: -150,
-            y: -150,
+            // Distance from head to bottom of box
+            y: -50,
             z: entity._z + 11,
             // Get constrained X or Y positions
             get: function(xory) {
@@ -404,6 +411,8 @@ Crafty.c('Speech', {
                     if (val + w >= Game.width) val = Game.width - w;
                     if (val < left) val = left;
                 }
+                if (xory == 'y')
+                    val = val - s.h;
                 return val;
             },
             fontSize: '14px',
@@ -418,7 +427,9 @@ Crafty.c('Speech', {
         var dim = text.dimensions(this.font, s.maxWidth);
         s.w = dim[0] + 1;  // +1 for stupid word wrap bug
         s.h = dim[1];
-        this.text(text)
+
+        this.requires('2D, DOM, Text')
+            .text(text)
             .textFont({size: s.fontSize, family: s.fontFamily})
             // Bounding box around text - use to make sure text sizes are correct
             //.css({'border': '2px black solid'})
@@ -426,8 +437,7 @@ Crafty.c('Speech', {
             .unselectable();
         this.bubble = this.createBubble(type);
 
-        // stop player because wiggle text
-        entity.enabled = false;
+        Crafty.trigger('CreateSpeech');
 
         this.bind('KeyDown', function(e) {
             if (e.key == Crafty.keys.SPACE)
@@ -482,10 +492,6 @@ Crafty.c('Speech', {
     },
 
     die: function(entity) {
-        entity.enabled = true;
-        // Make sure player resumes walking correctly
-        // if movement button held down during message.
-        entity.trigger('NewDirection', {x: entity._movement.x});
         Crafty.trigger('CloseSpeech', this.selected);
         this.bubble.destroy();
         this.destroy();
