@@ -394,10 +394,6 @@ Crafty.c('Emotion', {
     If there was a response in the speech, passes response id to callback.
 */
 Crafty.c('Speech', {
-    init: function() {
-        this.requires('2D, DOM, Text');
-    },
-
     speech: function(entity, text, response, type) {
         var s = {
             // offsets (in relation to entity)
@@ -428,7 +424,9 @@ Crafty.c('Speech', {
         var dim = text.dimensions(this.font, s.maxWidth);
         s.w = dim[0] + 1;  // +1 for stupid word wrap bug
         s.h = dim[1];
-        this.text(text)
+
+        this.requires('2D, DOM, Text')
+            .text(text)
             .textFont({size: s.fontSize, family: s.fontFamily})
             // Bounding box around text - use to make sure text sizes are correct
             //.css({'border': '2px black solid'})
