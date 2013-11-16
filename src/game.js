@@ -152,7 +152,8 @@ Game = {
         if (_.isObject(Game.playerPos[scene])) {
             // Y for scene is always 1st position in array when flattened
             var pos = _.flatten(_.values(Game.playerPos[scene]));
-            player.attr({y: pos[1]});
+            Game.player.y = pos[1];
+            player.attr({y: Game.player.y});
         }
         Game.setView(player);
         return player;
