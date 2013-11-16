@@ -318,7 +318,7 @@ Crafty.c('Emotion', {
     fadeTime: 60,
     // Offset from player pos
     xOffset: 5,
-    yOffset: -50,
+    yOffset: -45,
 
     emotion: function(player, type, hold) {
         if (!_.isString(type))
@@ -398,7 +398,8 @@ Crafty.c('Speech', {
         var s = {
             // offsets (in relation to entity)
             x: -150,
-            y: -150,
+            // Distance from head to bottom of box
+            y: -50,
             z: entity._z + 11,
             // Get constrained X or Y positions
             get: function(xory) {
@@ -410,6 +411,8 @@ Crafty.c('Speech', {
                     if (val + w >= Game.width) val = Game.width - w;
                     if (val < left) val = left;
                 }
+                if (xory == 'y')
+                    val = val - s.h;
                 return val;
             },
             fontSize: '14px',
