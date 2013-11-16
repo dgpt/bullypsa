@@ -31,23 +31,25 @@ Dialog = {
         classroom: []
     },
 
-    _clone: function() {
-        return _.clone(Dialog._template);
+    // Going to use JSON.parse/stringify to save some time
+    // if have time, make custom cloning method for optimization
+    clone: function() {
+        return JSON.parse(JSON.stringify(Dialog._template));
     },
 
 };
 
 /* PCs */
-Dialog.girl = Dialog._clone(),  Dialog.boy = Dialog._clone();
+Dialog.girl = Dialog.clone(),  Dialog.boy = Dialog.clone();
 /* NPCs */
-Dialog.cindy = Dialog._clone(), Dialog.clarence = Dialog._clone(),
-Dialog.may = Dialog._clone(),   Dialog.miley = Dialog._clone(),
-Dialog.lady = Dialog._clone(),  Dialog.diana = Dialog._clone(),
-Dialog.mikey = Dialog._clone(), Dialog.boy = Dialog._clone(),
-Dialog.tyler = Dialog._clone(), Dialog.rebecca = Dialog._clone(),
-Dialog.young_man = Dialog._clone();
+Dialog.cindy = Dialog.clone(), Dialog.clarence = Dialog.clone(),
+Dialog.may = Dialog.clone(),   Dialog.miley = Dialog.clone(),
+Dialog.lady = Dialog.clone(),  Dialog.diana = Dialog.clone(),
+Dialog.mikey = Dialog.clone(), Dialog.boy = Dialog.clone(),
+Dialog.tyler = Dialog.clone(), Dialog.rebecca = Dialog.clone(),
+Dialog.young_man = Dialog.clone();
 /* Other */
-Dialog.lessons = Dialog._clone(), Dialog.scenarios = Dialog._clone();
+Dialog.lessons = Dialog.clone(), Dialog.scenarios = Dialog.clone();
 
 ///* Room *///
 Dialog.girl.room[0] = {
@@ -57,17 +59,13 @@ Dialog.girl.room[0] = {
         "Stand up and believe in yourself, make the right choices, you can do it! What happens next depends on your answer."+br+br+
         "(Press the left arrow key or A to move left.)"+br+
         "(Press the right arrow key or D to move right.)"
-    ],
-    response: [
-
     ]
 };
 Dialog.girl.room[1] = {
     text: [
         "When you see this emote appear over the player,"+br+
         "press space to move to the next area."
-    ],
-    response: [[]]
+    ]
 };
 
 ///* Street *///
@@ -78,7 +76,7 @@ Dialog.scenarios.street[0] = {
 };
 Dialog.cindy.street[0] = {
     text: [
-        "Hey Lindsay, where'd you get that shirt? The DI? Ha Ha, can’t your parents afford to buy you clothes at a real store?"
+        "Hey Lindsay, where'd you get that shirt? The DI? Ha Ha, can't your parents afford to buy you clothes at a real store?"
     ]
 };
 Dialog.girl.street[0] = {
@@ -120,6 +118,7 @@ Dialog.get = function(entity, scene, index) {
         warn('Dialog.get: Dialog[entity.name] does not exist. entity.name: ' + entity.name.toLowerCase());
         return;
     }
+    console.log(dEnt);
     var dSce = dEnt[scene];
     if (!existy(dSce)) {
         warn('Dialog.get: Dialog[entity.name][scene] does not exist. scene: ' + scene);
@@ -133,7 +132,12 @@ Dialog.get = function(entity, scene, index) {
     return d;
 };
 
-Dialog.show = function(entity, scene, index) {
+// Shows dialog. Defaults to current State and Scene.
+// entity: required; actor to spawn dialog above.
+// next: opt; boolean; increment the state index? default: false
+// scene: opt; str; scene to use dialog from. default: current scene
+// index: opt; int; scene index to use dialog from. default: current scene index
+Dialog.show = function(entity, next, scene, index) {
     var dialog = Dialog.get(entity, scene, index);
     if (!existy(dialog))
         return;
@@ -144,15 +148,15 @@ Dialog.show = function(entity, scene, index) {
     // Cycles through text array, spawning a speech bubble for each entry
     var speech = function(selected) {
         if (i < text.length) {
-            Crafty.e('Speech').speech(entity, text[i], response[i]);
+            Crafty.e('Speech').speech(entity, text[i], _.isArray(response) && response[i]);
             i += 1;
         }
         // handle responses here
     };
     speech();
     Crafty.bind('CloseSpeech', speech);
-    State.next(scene);
-    console.log('Index: ' + State.getIndex(scene));
+    if (next) State.next(scene);
+    console.log('Dialog.show--->Index: ' + State.getIndex(scene));
 };
 
 
@@ -160,7 +164,7 @@ State = {
     scene: 'Street',
     player: 'Girl',
     index: {
-        'Room': 2,
+        'Room': 0,
         'Street': 0,
         'Corridor': 0,
         'Park': 0,
