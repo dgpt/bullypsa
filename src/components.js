@@ -190,7 +190,6 @@ Crafty.c('NPC', {
     npc: function(settings) {
         var s = _.defaults(settings || {}, {
             x: 0,
-            y: Game.player.y,
             path: 'full',
         });
 
@@ -233,7 +232,21 @@ Crafty.c('Boy', {
 });
 
 /***** NPCs ******/
-Crafty.c('', {
+Crafty.c('Cindy', {
+    cindy: function(settings) {
+        var s = _.defaults(settings || {}, {
+            sprite: 'sprCindy',
+            left:  [0, 2, 6],
+            right: [0, 3, 6],
+            x: 250,
+            y: Game.player.y,
+            z: 5
+        });
+        console.log('Cindy!');
+        console.log(this);
+
+        this.requires('NPC').npc(s);
+    }
 
 });
 Crafty.c('Sara', {
