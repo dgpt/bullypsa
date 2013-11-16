@@ -79,7 +79,7 @@ Dialog.cindy.street[0] = {
         "Hey Lindsay, where'd you get that shirt? The DI? Ha Ha, can't your parents afford to buy you clothes at a real store?"
     ]
 };
-Dialog.girl.street[0] = {
+Dialog.girl.street[1] = {
     text: [
         "* Choose your response *"
     ],
@@ -118,7 +118,6 @@ Dialog.get = function(entity, scene, index) {
         warn('Dialog.get: Dialog[entity.name] does not exist. entity.name: ' + entity.name.toLowerCase());
         return;
     }
-    console.log(dEnt);
     var dSce = dEnt[scene];
     if (!existy(dSce)) {
         warn('Dialog.get: Dialog[entity.name][scene] does not exist. scene: ' + scene);

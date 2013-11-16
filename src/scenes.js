@@ -37,7 +37,7 @@ Crafty.scene('Street', function() {
 
     /* NPCs */
     var cindy = Crafty.e('Cindy').cindy({x: 845, orientation: 'left', portal: true,
-        onhit: function() { Dialog.show(cindy); } }).action();
+        onhit: function() { Dialog.show(cindy, true); } }).action();
     var sara = Crafty.e('Sara').sara();
 
     // Boundaries
