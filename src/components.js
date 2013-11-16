@@ -154,6 +154,16 @@ Crafty.c('Player', {
                     this.action();
             }
         });
+        this.bind('CreateSpeech', function() {
+            // stop player because wiggle text
+            this.enabled = false;
+        });
+        this.bind('CloseSpeech', function() {
+            // Make sure player resumes walking correctly
+            // if movement button held down during message.
+            this.trigger('NewDirection', {x: this._movement.x});
+            this.enabled = true;
+        });
     },
 
     onHitPortal: function(data) {
@@ -426,8 +436,7 @@ Crafty.c('Speech', {
             .unselectable();
         this.bubble = this.createBubble(type);
 
-        // stop player because wiggle text
-        entity.enabled = false;
+        Crafty.trigger('CreateSpeech');
 
         this.bind('KeyDown', function(e) {
             if (e.key == Crafty.keys.SPACE)
@@ -482,10 +491,6 @@ Crafty.c('Speech', {
     },
 
     die: function(entity) {
-        entity.enabled = true;
-        // Make sure player resumes walking correctly
-        // if movement button held down during message.
-        entity.trigger('NewDirection', {x: entity._movement.x});
         Crafty.trigger('CloseSpeech', this.selected);
         this.bubble.destroy();
         this.destroy();
