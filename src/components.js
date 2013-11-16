@@ -167,13 +167,14 @@ Crafty.c('Player', {
     },
 
     onHitPortal: function(data) {
-        var portal = data[0].obj;
-        portal.trigger('PortalOn');
+        this._portal = data[0].obj;
+        this._portal.trigger('PortalOn');
     },
 
     offHitPortal: function() {
         this.stopEmote();
-        Crafty.trigger('PortalOff');
+        this._portal.trigger('PortalOff');
+        this._portal = null;
     }
 
 });
