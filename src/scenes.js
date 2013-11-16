@@ -36,6 +36,10 @@ Crafty.scene('Street', function() {
     var player = Game.setupScene('street');
     console.log('player: ' + player);
 
+    /* NPCs */
+    var cindy = Crafty.e('Cindy').cindy();
+    var sara = Crafty.e('Sara').sara();
+
     // Boundaries
     // Left side - To Room
     Crafty.e('Portal')
@@ -255,8 +259,8 @@ Crafty.scene('Load', function() {
             sprBoyL: [0, 0]
         });
         Crafty.sprite(64, 96, assets.cindy, {
-            sprCindySchoolR: [0, 1],
-            sprCindySchoolL: [0, 0],
+/*            sprCindySchoolR: [0, 1],
+            sprCindySchoolL: [0, 0],*/
             sprCindyR: [0, 3],
             sprCindyL: [0, 2]
         });

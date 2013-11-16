@@ -21,19 +21,35 @@ t.response[2] = ['yes', 'no', 'maybe so']
 */
 
 Dialog = {
-    player: {
+    // From which all other Dialog objects are cloned
+    _template: {
         room: [],
         street: [],
         corridor: [],
         park: [],
         library: [],
         classroom: []
-    }
+    },
+
+    _clone: function() {
+        return _.clone(Dialog._template);
+    },
+
 };
 
-Dialog.girl = _.clone(Dialog.player);
-Dialog.boy = _.clone(Dialog.player);
+/* PCs */
+Dialog.girl = Dialog._clone(),  Dialog.boy = Dialog._clone();
+/* NPCs */
+Dialog.cindy = Dialog._clone(), Dialog.clarence = Dialog._clone(),
+Dialog.may = Dialog._clone(),   Dialog.miley = Dialog._clone(),
+Dialog.lady = Dialog._clone(),  Dialog.diana = Dialog._clone(),
+Dialog.mikey = Dialog._clone(), Dialog.boy = Dialog._clone(),
+Dialog.tyler = Dialog._clone(), Dialog.rebecca = Dialog._clone(),
+Dialog.young_man = Dialog._clone();
+/* Other */
+Dialog.lessons = Dialog._clone(), Dialog.scenarios = Dialog._clone();
 
+///* Room *///
 Dialog.girl.room[0] = {
     text: [
         "In this game, you'll be entering different scenarios to help you become aware of common bullying situations that you might find yourself in. You will have (2) choices to choose from; one right and one wrong."+br+br+"(Press space to continue)",
@@ -52,6 +68,43 @@ Dialog.girl.room[1] = {
         "press space to move to the next area."
     ],
     response: [[]]
+};
+
+///* Street *///
+Dialog.scenarios.street[0] = {
+    text: [
+        "Lindsay is on the way to school wearing some of last year's fashions."
+    ]
+};
+Dialog.cindy.street[0] = {
+    text: [
+        "Hey Lindsay, where'd you get that shirt? The DI? Ha Ha, can’t your parents afford to buy you clothes at a real store?"
+    ]
+};
+Dialog.girl.street[0] = {
+    text: [
+        "* Choose your response *"
+    ],
+    response: [
+        [
+            "I love this shirt and it doesn’t matter where I got it."+br+
+            "*Walk away to avoid further confrontation*",
+            "Leave me alone! I hate you! I don’t shop at the DI you do!!!"+br+
+            "*Push Cindy*"
+        ]
+    ]
+};
+// Good
+Dialog.lessons.street[0] = {
+    text: [
+        "Lindsay is happy with the shirt she has and it does not make a difference to her where she got it. She believes in her choice and is not afraid to tell the others but also does not want to make a big deal out of it, so she walks away to avoid any confrontation. By not reacting to their insults, Lindsay did not let the bullies have what they were after, a reaction."
+    ]
+};
+// Bad
+Dialog.lessons.street[1] = {
+    text: [
+        "Lindsay reacts to what the bullies are saying about her shirt and where she got it. She gets mad, yells back and starts pushing, starting a confrontation. Uh oh, the bullies got the reaction they were looking for. She should try to ignore what the bullies are saying about her. Lindsay should also learn to manage her temper by not yelling or starting a fight. By reacting this way, Lindsay set herself up for more trouble in the future. Now the bully knows just what to pick on to get a reaction out of Lindsay."
+    ]
 };
 
 // USES GLOBALS: State.scene, State.index
