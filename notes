@@ -9,10 +9,15 @@ text system
     after using debug menu, instantiating a speech box will cause the scene to reset
     Make text originate from player position and grow upwards with additional text.
 
-Actor
+TODO:
+    Center game
+    make lesson text system (appears at left or right of game)
+    
+
 
 Load:
     add loading bar
+    loading screen is bigger than game screen
 
 On scene change, fade to black, then unfade onto the next scene
 
