@@ -43,9 +43,6 @@ Game = {
         return State.config;
     },
 
-    // Scene to load when finished loading
-    startingScene: 'Room',
-
     fps: Crafty.e('FPS'),
 
     /* DEBUG STUFF */

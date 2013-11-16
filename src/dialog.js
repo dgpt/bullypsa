@@ -157,10 +157,10 @@ Dialog.show = function(entity, scene, index) {
 
 
 State = {
-    scene: 'Room',
+    scene: 'Street',
     player: 'Girl',
     index: {
-        'Room': 0,
+        'Room': 2,
         'Street': 0,
         'Corridor': 0,
         'Park': 0,
