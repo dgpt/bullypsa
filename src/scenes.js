@@ -21,23 +21,23 @@ Crafty.scene('Room', function() {
                    Game.setScene('Street', {x: 'left', orientation: 'right'});
                 };
             } else {
-                Dialog.show(player);
+                Dialog.show(player, true);
             }
         }, function() {
             player.action = null;
         });
 
-    Dialog.show(player);
+    Dialog.show(player, true);
 }, function() {
     this.unbind('KeyDown');
 });
 
 Crafty.scene('Street', function() {
     var player = Game.setupScene('street');
-    console.log('player: ' + player);
 
     /* NPCs */
-    var cindy = Crafty.e('Cindy').cindy();
+    var cindy = Crafty.e('Cindy').cindy({x: 845, orientation: 'left', portal: true,
+        onhit: function() { Dialog.show(cindy); } }).action();
     var sara = Crafty.e('Sara').sara();
 
     // Boundaries
