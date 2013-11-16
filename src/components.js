@@ -586,6 +586,8 @@ Crafty.c('Fader', {
 
         this.image = canvas.toDataURL();
 
+        this.requires('Fader');
+
         return this;
     },
 
@@ -593,8 +595,8 @@ Crafty.c('Fader', {
         var fadesIn = inOrOut == "in" ? true : false;
         var imageEnt = Crafty.e('2D, DOM, Image, Tween').image(this.image);
 
-        imageEnt.alpha = fadesIn ? 0.0 : 1.0;
-        imageEnt.tween({alpha: fadesIn ? 1.0 : 0.0}, fadeTime);
+        imageEnt.alpha = fadesIn ? 1.0 : 0.0;
+        imageEnt.tween({alpha: fadesIn ? 0.0 : 1.0}, fadeTime);
         imageEnt.bind("TweenEnd", function() {
             //this.destroy();
             if (callback) {
