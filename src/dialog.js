@@ -108,12 +108,15 @@ Dialog.lessons.street[1] = {
 // USES GLOBALS: State.scene, State.index
 // returns dialog array for given entity, scene and index
 // if scene or index is not provided, defaults to current scene and index
+// entity can either be a string or an instance of Actor
 // based on global state variables
 // return value {text: [], response: [[]]}
 Dialog.get = function(entity, scene, index) {
     scene = (scene || State.scene).lowerFirst();
     index = index || State.index[scene.upperFirst()];
-    entity = entity.name.toLowerCase();
+    // Entity can be a string (warning: does not do extensive checking)
+    // or and instance of the Actor component
+    entity = _.isObject(entity) && entity.__c.Actor ? entity.name.toLowerCase() : entity;
     var dEnt = Dialog[entity];
     if (!existy(dEnt)) {
         warn('Dialog.get: Dialog['+entity+'] does not exist.');
@@ -144,6 +147,11 @@ Dialog.show = function(entity, next, scene, index) {
     var text = dialog.text;
     var response = dialog.response;
 
+    // If entity is a string, default speech entity to player
+    // Mildly hacky. Could be handled better.
+    if (_.isString(entity))
+        entity = Crafty('Player');
+
     var i = 0;
     // Cycles through text array, spawning a speech bubble for each entry
     var speech = function(selected) {
@@ -161,7 +169,7 @@ Dialog.show = function(entity, next, scene, index) {
 
 
 State = {
-    scene: 'Street',
+    scene: 'Room',
     player: 'Girl',
     index: {
         'Room': 0,
