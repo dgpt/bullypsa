@@ -190,20 +190,47 @@ Crafty.c('NPC', {
     npc: function(settings) {
         var s = _.defaults(settings || {}, {
             x: 0,
-            path: 'full',
+            path: 'stop',
+            portal: false,
+            portalWidth: 90
         });
+        s.portalx = s.x - (s.portalWidth/6);
+        this._settings = s;
 
         this.requires('Actor')
             .actor(s.sprite, s);
+
+        return this;
     },
 
-    patrol: function(path) {
+    // Spawn portal with given actions
+    action: function(settings) {
+        var s = _.defaults(settings || {}, {
+            x: this._settings.portalx,
+            w: this._settings.portalWidth,
+            onhit: this._settings.onhit,
+            offhit: this._settings.offhit
+        });
+
+        this._portal = Crafty.e('Portal')
+            .portal({x: s.x, w: s.w, boundary: false})
+            .action(s.onhit, s.offhit);
+
+        return this;
+    },
+
+    // Moves from current x to given x
+    move: function(to) {
 
     },
 
-    spawnPortal: function() {
+    // Given array of x positions or specific keywords, move to each one
+    // 'full': move across entire scene, then go the opposite way after given time
+    // 'stop': Stay still, same as passing an empty array
+    _patrol: function(path) {
 
-    }
+    },
+
 
 });
 
@@ -242,10 +269,9 @@ Crafty.c('Cindy', {
             y: Game.player.y,
             z: 5
         });
-        console.log('Cindy!');
-        console.log(this);
 
         this.requires('NPC').npc(s);
+        return this;
     }
 
 });
@@ -262,6 +288,7 @@ Crafty.c('Sara', {
             z: 7
         });
         this.requires('NPC').npc(s);
+        return this;
     }
 });
 
@@ -496,7 +523,7 @@ Crafty.c('Portal', {
                 bx = s.x + s.w;
 
             Crafty.e('Boundary')
-                .s({x: bx, y: s.y});
+                .attr({x: bx, y: s.y});
         }
 
         return this;
