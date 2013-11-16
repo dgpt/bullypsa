@@ -572,3 +572,23 @@ Crafty.c('Overlay', {
             .image(Crafty.asset(asset));
     }
 });
+
+Crafty.c('Fader', {
+    fader: function(fadeTime) {
+        var canvas = document.createElement('canvas');
+        var gc = canvas.getContext('2d');
+        canvas.width = Game.width;
+        canvas.height = Game.height;
+
+        gc.fillStyle = "#000000";
+        gc.fillRect(0, 0, canvas.width, canvas.height);
+
+        var imageEnt = Crafty.e('2D, DOM, Image, Tween').image(canvas.toDataURL());
+        imageEnt.tween({alpha: 0.0}, fadeTime);
+        imageEnt.bind("TweenEnd", function() {
+            //this.destroy();
+        });
+
+        return imageEnt;
+    },
+});
