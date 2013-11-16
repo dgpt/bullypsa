@@ -36,8 +36,18 @@ Crafty.scene('Street', function() {
     var player = Game.setupScene('street');
 
     /* NPCs */
-    var cindy = Crafty.e('Cindy').cindy({x: 845, orientation: 'left', portal: true,
-        onhit: function() { Dialog.show(cindy, true); } }).action();
+    var cindy = Crafty.e('Cindy').cindy({x: 845, orientation: 'left', portal: true})
+        .action({onhit: function() {
+            // Hacky, yes. No time for beauty!
+            if (!cindy._dflag0) {
+                Dialog.show(cindy, true);
+                cindy._dflag0 = true;
+            }
+        }, offhit: function() {
+            Dialog.show('lessons', false, 'Street', 0);
+        }
+        });
+
     var sara = Crafty.e('Sara').sara();
 
     // Boundaries
