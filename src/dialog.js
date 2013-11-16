@@ -113,19 +113,20 @@ Dialog.lessons.street[1] = {
 Dialog.get = function(entity, scene, index) {
     scene = (scene || State.scene).lowerFirst();
     index = index || State.index[scene.upperFirst()];
-    var dEnt = Dialog[entity.name.toLowerCase()];
+    entity = entity.name.toLowerCase();
+    var dEnt = Dialog[entity];
     if (!existy(dEnt)) {
-        warn('Dialog.get: Dialog[entity.name] does not exist. entity.name: ' + entity.name.toLowerCase());
+        warn('Dialog.get: Dialog['+entity+'] does not exist.');
         return;
     }
     var dSce = dEnt[scene];
     if (!existy(dSce)) {
-        warn('Dialog.get: Dialog[entity.name][scene] does not exist. scene: ' + scene);
+        warn('Dialog.get: Dialog['+entity+']['+scene+'] does not exist.');
         return;
     }
     var d = dSce[index];
     if (!existy(d)) {
-        warn('Dialog.get: Dialog[entity.name][scene][index] does not exist. index: ' + index);
+        warn('Dialog.get: Dialog['+entity+']['+scene+']['+index+'] does not exist.');
         return;
     }
     return d;
