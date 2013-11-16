@@ -475,8 +475,8 @@ Crafty.c('Boundary', {
 // Portal is a boundary that has an action (like doorways, etc)
 // portalWidth indicates the non-solid portion of the portal that still registers collisions
 Crafty.c('Portal', {
-    portal: function(attr) {
-        attr = _.defaults(attr || {}, {
+    portal: function(settings) {
+        var s = _.defaults(settings || {}, {
             x: 0,
             y: 0,
             w: 40,
@@ -484,30 +484,25 @@ Crafty.c('Portal', {
             orientation: 'right',
             boundary: true
         });
-        var bx;
-        if (attr.orientation === 'left')
-            bx = attr.x;
-        else
-            bx = attr.x + attr.w;
 
         this.requires('2D')
-            .attr(attr);
-        if (attr.boundary) {
+            .attr(s);
+
+        if (s.boundary) {
+            var bx;
+            if (s.orientation === 'left')
+                bx = s.x;
+            else
+                bx = s.x + s.w;
+
             Crafty.e('Boundary')
-                .attr({x: bx, y: attr.y});
+                .s({x: bx, y: s.y});
         }
 
         return this;
     },
 
-    hitCheck: function(callback) {
-        if (this.intersect(Crafty('Player').mbr())) {
-            callback();
-        }
-    },
-
     action: function(onHit, offHit) {
-        //var hc = _.bind(this.hitCheck, this);
         this.bind('PortalOn', onHit);
         if (existy(offHit) && _.isFunction(offHit))
             this.bind('PortalOff', offHit);
