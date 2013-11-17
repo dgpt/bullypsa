@@ -79,7 +79,7 @@ Dialog.cindy.street[0] = {
         "Hey Lindsay, where'd you get that shirt? The DI? Ha Ha, can't your parents afford to buy you clothes at a real store?"
     ]
 };
-Dialog.girl.street[1] = {
+Dialog.girl.street[0] = {
     text: [
         "* Choose your response *"
     ],
@@ -166,6 +166,15 @@ Dialog.show = function(entity, next, scene, index) {
     if (next) State.next(scene);
     console.log('Dialog.show--->Index: ' + State.getIndex(scene));
 };
+
+Dialog.progression = function(argsList) {
+    for (var i = 0; i < argsList.length; i++) {
+        var args = argsList[i];
+        if (!_.isArray(args)) break;
+        Dialog.show.apply(null, args);
+    }
+};
+
 
 
 State = {
