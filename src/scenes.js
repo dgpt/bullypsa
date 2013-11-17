@@ -21,13 +21,13 @@ Crafty.scene('Room', function() {
                    Game.setScene('Street', {x: 'left', orientation: 'right'});
                 };
             } else {
-                Dialog.show(player, true);
+                Dialog.show(player, null, true);
             }
         }, function() {
             player.action = null;
         });
 
-    Dialog.show(player, true);
+    Dialog.show(player, null, true);
 }, function() {
     this.unbind('KeyDown');
 });
@@ -41,11 +41,15 @@ Crafty.scene('Street', function() {
             // Hacky, yes. No time for beauty!
             if (!cindy._dflag0) {
                 cindy.speechWidth = 220;
-                Dialog.show(cindy, true);
+                Dialog.progression([
+                    [cindy, 'Question'],
+                    [player, 'Exclamation']
+                ]);
                 cindy._dflag0 = true;
             }
         }});
 
+    Crafty.bind('SpeechResponse', function(e) { console.log(e); });
     var sara = Crafty.e('Sara').sara();
 
     // Boundaries

@@ -137,10 +137,13 @@ Dialog.get = function(entity, scene, index) {
 
 // Shows dialog. Defaults to current State and Scene.
 // entity: required; actor to spawn dialog above.
+// emote: opt; array; Emotes to use when dialog appears. null for no emotes
+// \ emotes displayed in order they are in array. Corresponds to current dialog array
+// \\ (see Dialog.show->speech())
 // next: opt; boolean; increment the state index? default: false
 // scene: opt; str; scene to use dialog from. default: current scene
 // index: opt; int; scene index to use dialog from. default: current scene index
-Dialog.show = function(entity, next, scene, index) {
+Dialog.show = function(entity, emotes, next, scene, index) {
     var dialog = Dialog.get(entity, scene, index);
     if (!existy(dialog))
         return;
@@ -155,24 +158,44 @@ Dialog.show = function(entity, next, scene, index) {
     var i = 0;
     // Cycles through text array, spawning a speech bubble for each entry
     var speech = function(selected) {
+        console.log('Starting Speech. i: ' + i);
         if (i < text.length) {
+            if (_.isArray(emotes) && _.isString(emotes[i]))
+                entity.emote(emotes[i].upperFirst());
             Crafty.e('Speech').speech(entity, text[i], _.isArray(response) && response[i]);
             i += 1;
+        } else {
+            console.log('Triggering SpeechFinish');
+            Crafty.trigger('SpeechFinish');
+            //Crafty.unbind('CloseSpeech');
         }
-        // handle responses here
+        // Trigger response if response id (selected) is passed
+        if (existy(selected)) {
+            console.log('Start SpeechResponse Triggering');
+            console.log('selected: '+selected);
+            console.log('i: '+i);
+            Crafty.trigger('SpeechResponse', selected);
+            console.log('Finish SpeechResponse Triggering');
+        }
     };
-    speech();
+    speech(null);
     Crafty.bind('CloseSpeech', speech);
     if (next) State.next(scene);
     console.log('Dialog.show--->Index: ' + State.getIndex(scene));
 };
 
 Dialog.progression = function(argsList) {
-    for (var i = 0; i < argsList.length; i++) {
+    var i = 0;
+    var speech = function() {
+        console.log('Starting New Speech i: ' + i);
         var args = argsList[i];
-        if (!_.isArray(args)) break;
+        if (!_.isArray(args)) return;
+        console.log(args);
         Dialog.show.apply(null, args);
-    }
+        i++;
+    };
+    speech();
+    Crafty.bind('SpeechFinish', speech);
 };
 
 

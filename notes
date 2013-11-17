@@ -2,17 +2,11 @@ Level Order
              ->Park     ->Class
 Room->Street/->Corridor/->Library
 
-tutorial text
-    need intro text
-
-text system
-    after using debug menu, instantiating a speech box will cause the scene to reset
-    Make text originate from player position and grow upwards with additional text.
-
 TODO:
-    Center game
     make lesson text system (appears at left or right of game)
-    
+    make exandable help text link below game.
+        shows controls, etc.
+        Help (down arrow graphic)
 
 
 Load:
