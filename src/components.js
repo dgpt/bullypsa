@@ -578,6 +578,8 @@ Crafty.c('Overlay', {
 
 Crafty.c('Fader', {
     image: null,
+    active: false,
+
     fader: function() {
         var canvas = document.createElement('canvas');
         var gc = canvas.getContext('2d');
@@ -598,10 +600,14 @@ Crafty.c('Fader', {
         var fadesIn = inOrOut == "in" ? true : false;
         var imageEnt = Crafty.e('2D, DOM, Image, Tween').image(this.image);
 
+        this.active = true;
+
+        imageEnt.attr({x: this.x, y: this.y});
+
         imageEnt.alpha = fadesIn ? 1.0 : 0.0;
         imageEnt.tween({alpha: fadesIn ? 0.0 : 1.0}, fadeTime);
         imageEnt.bind("TweenEnd", function() {
-            //this.destroy();
+            this.active = false;
             if (callback) {
                 callback();
             }

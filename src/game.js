@@ -44,6 +44,7 @@ Game = {
     },
 
     fps: Crafty.e('FPS'),
+    fader: Crafty.e('Fader'),
 
     /* DEBUG STUFF */
     // Changes state to specified, reloads current scene, sets Game.player.x to first listed x pos for scene
@@ -160,33 +161,43 @@ Game = {
     // Uses Game.playerPos to determine position, pass settings.x to match the key entry from Game.playerPos.scene (typically left, right)
     // If Game.playerPos.scene is not an object, do not pass anything for settings.x
     setScene: function(scene, settings) {
-        var s = _.defaults(settings || {}, {
-            orientation: 'right',
-            x: 0
+        Game.fader.x = -Crafty.viewport.x;
+        Game.fader.fade(25, "out", function() {
+            var s = _.defaults(settings || {}, {
+                orientation: 'right',
+                x: 0
+            });
+            if (!_.isString(scene) || !(scene in Crafty._scenes))
+                fail('Game.setScene: scene is invalid');
+            if (s.orientation !== 'left' && s.orientation !== 'right')
+                fail('Game.setScene: orientation is invalid');
+
+            var x = Game.playerPos[scene.toLowerCase()][s.x];
+            if (_.isArray(x))
+                x = x[0];
+            if (!_.isNumber(x))
+                fail('Game.setScene: invalid playerX position');
+
+            Game.player = {
+                x: x,
+                orientation: s.orientation
+            };
+
+            State.scene = scene;
+            Crafty.scene(scene);
+
+            Game.fader.x = -Crafty.viewport.x;
+            Game.fader.fade(25, "in");
         });
-        if (!_.isString(scene) || !(scene in Crafty._scenes))
-            fail('Game.setScene: scene is invalid');
-        if (s.orientation !== 'left' && s.orientation !== 'right')
-            fail('Game.setScene: orientation is invalid');
-
-        var x = Game.playerPos[scene.toLowerCase()][s.x];
-        if (_.isArray(x))
-            x = x[0];
-        if (!_.isNumber(x))
-            fail('Game.setScene: invalid playerX position');
-
-        Game.player = {
-            x: x,
-            orientation: s.orientation
-        };
-        State.scene = scene;
-        Crafty.scene(scene);
     },
 
     start: function() {
         Crafty.init(Game.width, Game.height);
         Crafty.background('black');
+
         Game.debug();
+        Game.fader = Crafty.e('Fader').fader();
+
         Crafty.scene('Load');
     }
 };
