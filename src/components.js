@@ -18,7 +18,7 @@ Crafty.c('Actor', {
 
         this.name = sprite.substr(3);
         s.orientation = s.orientation[0].toUpperCase();
-        this.settings = _.clone(s);
+        this._settings = _.clone(s);
 
         // Positions for sprite map (Arrays [fromX, Y, toX])
         var l = s.left;
@@ -103,7 +103,7 @@ Crafty.c('Actor', {
         if (!existy(lx))
             fail('Actor._anim: this.lastX must be specified');
         count = existy(count) && _.isNumber(count) ? count : -1;
-        speed = speed || this.settings.animSpeed;
+        speed = speed || this._settings.animSpeed;
         this.lastX = lx;
         this.stop();
         return this.animate(reel, speed, count);
@@ -176,7 +176,6 @@ Crafty.c('Player', {
         this._portal.trigger('PortalOff');
         this._portal = null;
     }
-
 });
 
 Crafty.c('NPC', {
@@ -241,8 +240,6 @@ Crafty.c('NPC', {
     _patrol: function(path) {
 
     },
-
-
 });
 
 /***** Players ******/
@@ -284,8 +281,8 @@ Crafty.c('Cindy', {
         this.requires('NPC').npc(s);
         return this;
     }
-
 });
+
 Crafty.c('Sara', {
     sara: function(settings) {
         var s = _.defaults(settings || {}, {
@@ -398,27 +395,25 @@ Crafty.c('Speech', {
     speech: function(entity, text, response, type) {
         var s = {
             // offsets (in relation to entity)
-            x: -150,
+            x: existy(entity.speechXOffset) ? entity.speechXOffset : 0,
             // Distance from head to bottom of box
             y: -50,
             z: entity._z + 11,
             // Get constrained X or Y positions
-            get: function(xory) {
-                // pass either x or y
-                var val = s[xory] + entity[xory];
-                if (xory == 'x') {
-                    var w = s.w + 70;
-                    var left = 75;
-                    if (val + w >= Game.width) val = Game.width - w;
-                    if (val < left) val = left;
-                }
-                if (xory == 'y')
-                    val = val - s.h;
-                return val;
+            getX: function() {
+                var x = (entity.x - (s.w / 3)) + s.x;
+                var right = s.w + 70;
+                var left = 75;
+                if (x + right >= Game.width) x = Game.width - right;
+                if (x < left) x = left;
+                return x;
+            },
+            getY: function() {
+                return (s.y + entity.y) - s.h;
             },
             fontSize: '14px',
             fontFamily: 'arial sans-serif',
-            maxWidth: 350
+            maxWidth: entity.speechWidth || 350
         };
         this.font = s.fontSize + ' '+ s.fontFamily;
 
@@ -434,7 +429,7 @@ Crafty.c('Speech', {
             .textFont({size: s.fontSize, family: s.fontFamily})
             // Bounding box around text - use to make sure text sizes are correct
             //.css({'border': '2px black solid'})
-            .attr({x: s.get('x'), y: s.get('y'), w: s.w, h: s.h, z: s.z})
+            .attr({x: s.getX(), y: s.getY(), w: s.w, h: s.h, z: s.z})
             .unselectable();
         this.bubble = this.createBubble(type);
 

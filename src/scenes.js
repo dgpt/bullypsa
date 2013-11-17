@@ -40,13 +40,11 @@ Crafty.scene('Street', function() {
         .action({onhit: function() {
             // Hacky, yes. No time for beauty!
             if (!cindy._dflag0) {
+                cindy.speechWidth = 220;
                 Dialog.show(cindy, true);
                 cindy._dflag0 = true;
             }
-        }, offhit: function() {
-            Dialog.show('lessons', false, 'Street', 0);
-        }
-        });
+        }});
 
     var sara = Crafty.e('Sara').sara();
 
