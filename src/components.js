@@ -575,3 +575,36 @@ Crafty.c('Overlay', {
             .image(Crafty.asset(asset));
     }
 });
+
+Crafty.c('Fader', {
+    image: null,
+    fader: function() {
+        var canvas = document.createElement('canvas');
+        var gc = canvas.getContext('2d');
+        canvas.width = Game.width;
+        canvas.height = Game.height;
+
+        gc.fillStyle = "#000000";
+        gc.fillRect(0, 0, canvas.width, canvas.height);
+
+        this.image = canvas.toDataURL();
+
+        this.requires('Fader');
+
+        return this;
+    },
+
+    fade: function(fadeTime, inOrOut, callback) {
+        var fadesIn = inOrOut == "in" ? true : false;
+        var imageEnt = Crafty.e('2D, DOM, Image, Tween').image(this.image);
+
+        imageEnt.alpha = fadesIn ? 1.0 : 0.0;
+        imageEnt.tween({alpha: fadesIn ? 0.0 : 1.0}, fadeTime);
+        imageEnt.bind("TweenEnd", function() {
+            //this.destroy();
+            if (callback) {
+                callback();
+            }
+        });
+    }
+});
