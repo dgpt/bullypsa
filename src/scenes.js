@@ -205,7 +205,7 @@ Crafty.scene('Load', function() {
 
     var assets = {
         sara: 'assets/char/sara_54x95.png',
-        cindy: 'assets/char/cindy_64x96.png',
+        cindy: 'assets/char/cindy_54x96.png',
         clarence: 'assets/char/clarence_64x96.png',
         curtis: 'assets/char/curtis_57x96.png',
         dina: 'assets/char/dina_54x96.png',
@@ -268,11 +268,11 @@ Crafty.scene('Load', function() {
             sprBoyR: [0, 1],
             sprBoyL: [0, 0]
         });
-        Crafty.sprite(64, 96, assets.cindy, {
+        Crafty.sprite(54, 96, assets.cindy, {
 /*            sprCindySchoolR: [0, 1],
             sprCindySchoolL: [0, 0],*/
-            sprCindyR: [0, 3],
-            sprCindyL: [0, 2]
+            sprCindyR: [0, 1],
+            sprCindyL: [0, 0]
         });
         Crafty.sprite(64, 96, assets.clarence, {
             sprClarenceR: [0, 1],
