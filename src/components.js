@@ -488,8 +488,7 @@ Crafty.c('Speech', {
     },
 
     die: function(entity) {
-        console.log('Triggering CloseSpeech');
-        Crafty.trigger('CloseSpeech', this.selected);
+        entity.trigger('CloseSpeech', this.selected);
         this.bubble.destroy();
         this.destroy();
     }

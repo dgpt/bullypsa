@@ -158,28 +158,24 @@ Dialog.show = function(entity, emotes, next, scene, index) {
     var i = 0;
     // Cycles through text array, spawning a speech bubble for each entry
     var speech = function(selected) {
-        console.log('Starting Speech. i: ' + i);
         if (i < text.length) {
             if (_.isArray(emotes) && _.isString(emotes[i]))
                 entity.emote(emotes[i].upperFirst());
             Crafty.e('Speech').speech(entity, text[i], _.isArray(response) && response[i]);
             i += 1;
         } else {
-            console.log('Triggering SpeechFinish');
-            Crafty.trigger('SpeechFinish');
-            //Crafty.unbind('CloseSpeech');
+            // May not be necessary. Leaving commented just in case.
+            // Dialog.progression->unbindAll should take care of it.
+            //entity.unbind('CloseSpeech');
+            entity.trigger('SpeechFinish');
         }
         // Trigger response if response id (selected) is passed
         if (existy(selected)) {
-            console.log('Start SpeechResponse Triggering');
-            console.log('selected: '+selected);
-            console.log('i: '+i);
             Crafty.trigger('SpeechResponse', selected);
-            console.log('Finish SpeechResponse Triggering');
         }
     };
-    speech(null);
-    Crafty.bind('CloseSpeech', speech);
+    speech();
+    entity.bind('CloseSpeech', speech);
     if (next) State.next(scene);
     console.log('Dialog.show--->Index: ' + State.getIndex(scene));
 };
@@ -187,15 +183,24 @@ Dialog.show = function(entity, emotes, next, scene, index) {
 Dialog.progression = function(argsList) {
     var i = 0;
     var speech = function() {
-        console.log('Starting New Speech i: ' + i);
         var args = argsList[i];
-        if (!_.isArray(args)) return;
-        console.log(args);
+        if (!existy(args)) {
+            unbindAll();
+            return;
+        }
+        args[0].bind('SpeechFinish', speech);
         Dialog.show.apply(null, args);
         i++;
     };
+    // Make sure all events are unbind-ed when finished to avoid weirdness
+    var unbindAll = function() {
+        for (var j = 0; j < argsList.length; j++) {
+            var entity = argsList[j][0];
+            entity.unbind('SpeechFinish');
+            entity.unbind('CloseSpeech');
+        }
+    };
     speech();
-    Crafty.bind('SpeechFinish', speech);
 };
 
 
