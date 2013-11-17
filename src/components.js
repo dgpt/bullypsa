@@ -210,6 +210,8 @@ Crafty.c('NPC', {
         this.requires('Actor')
             .actor(s.sprite, s);
 
+        this.requires('Tween');
+
         return this;
     },
 
@@ -230,8 +232,16 @@ Crafty.c('NPC', {
     },
 
     // Moves from current x to given x
-    move: function(to) {
+    testmove: function(to) {
+        //this.animate(this.type, frames[0], frames[1], frames[2])
 
+        _.bind(this.bind("EnterFrame", function(e) {
+        this.animate(this.type, this.animSpeed, 0);
+            this.x += 3;
+            if (this.x >= to.x) {
+                this.unbind("EnterFrame");
+            }
+        }), this);
     },
 
     // Given array of x positions or specific keywords, move to each one
@@ -298,6 +308,7 @@ Crafty.c('Sara', {
             z: 7
         });
         this.requires('NPC').npc(s);
+        this.testmove({x: 500, y: 32});
         return this;
     }
 });
