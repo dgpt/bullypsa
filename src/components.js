@@ -251,18 +251,18 @@ Crafty.c('NPC', {
     // 'stop': Stay still, same as passing an empty array
     _patrol: function(path, interval) {
         if (typeof path === "string") {
+
+            console.log(path);
+            _.bindAll(this, '_patrol', 'moveTo');
+            var pleft = _.partial(this._patrol, 'full-left', interval);
+            var pright = _.partial(this._patrol, 'full', interval);
+            var mleft = _.partial(this.moveTo, 0, pright);
+            var mright = _.partial(this.moveTo, Game.width - this.w - 5, pleft);
+
             if (path === "full-left") {
-                this.delay(_.bind(function() {
-                    this.moveTo(0, _.bind(function() {
-                        this._patrol("full", interval);
-                    }, this));
-                }, this), interval, 0);
+                this.delay(mleft, interval, 0);
             } else if (path === "full") {
-                this.delay(_.bind(function() {
-                    this.moveTo(Game.width - this.w - 5, _.bind(function() {
-                        this._patrol("full-left", interval);
-                    }, this));
-                }, this), interval, 0);
+                this.delay(mright, interval, 0);
             }
         } else {
             //Do the array stuff.
