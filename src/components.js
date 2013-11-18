@@ -233,7 +233,6 @@ Crafty.c('NPC', {
     moveTo: function(x, callback) {
         var dir = x < this.x ? -1 : 1;
         var dirName = dir === 1 ? 'Right' : 'Left';
-        var instance = this;
 
         this.animate(dirName, this._settings.animSpeed, -1);
         this.bind("EnterFrame", function(e) {
@@ -251,7 +250,15 @@ Crafty.c('NPC', {
     // 'full': move across entire scene, then go the opposite way after given time
     // 'stop': Stay still, same as passing an empty array
     _patrol: function(path) {
-
+        if (path === "full-left") {
+            this.moveTo(0, _.bind(function() {
+                this._patrol("full");
+            }, this));
+        } else if (path === "full") {
+            this.moveTo(Game.width - this.w - 5, _.bind(function() {
+                this._patrol("full-left");
+            }, this));
+        }
     },
 });
 
@@ -310,12 +317,7 @@ Crafty.c('Sara', {
         });
         this.requires('NPC').npc(s);
 
-        var instance = this;
-        this.moveTo(500, function() {
-            instance.moveTo(0, function() {
-                instance.moveTo(300);
-            });
-        });
+        this._patrol('full');
         return this;
     }
 });
