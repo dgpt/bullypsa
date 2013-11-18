@@ -54,16 +54,19 @@ Crafty.scene('Street', function() {
             }});
 
         Crafty.bind('SpeechResponse', function(e) {
-            Game.fader.fade(50, 'out', function() {
-                player.enable = false;
+            player.enabled = false;
+            Game.fader.fade(70, 'out', function() {
                 if (e === 0)
                     Dialog.showInfo('good');
                 else
                     Dialog.showInfo('bad');
 
                 _.delay(function() {
-                    Game.fader.fade(50, 'in');
-                    Crafty.trigger('FadeEnd');
+                    Game.fader.fade(20, 'in', function() {
+                        player.enabled = true;
+                        Crafty.trigger('FadeEnd');
+                        Game.fader.fade(50, 'in');
+                    });
                 }, 2500)
             }, true);
         });
