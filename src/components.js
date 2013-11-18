@@ -232,23 +232,22 @@ Crafty.c('NPC', {
     },
 
     // Moves from current x to given x
-    testmove: function(x, callback) {
+    moveTo: function(x, callback) {
         var dir = x < this.x ? -1 : 1;
         var dirName = dir === 1 ? 'Right' : 'Left';
-        this.animate(dirName, 40, -1);
+        var instance = this;
 
-        _.bind(this.bind("EnterFrame", function(e) {
-            if (this.x * dir >= x * dir) {
-                this.unbind("EnterFrame");
-                this.stop();
-                this.animate(dirName + "Stop", 0, 0);
-                if (callback) {
-                    callback();
-                }
+        this.animate(dirName, 40, -1);
+        this.bind("EnterFrame", function(e) {
+            if (instance.x * dir >= x * dir) {
+                instance.unbind("EnterFrame");
+                instance.stop();
+                instance.animate(dirName + "Stop", 0, 0);
+                if (callback) callback();
             } else {
-                this.x += 3 * dir;
+                instance.x += 3 * dir;
             }
-        }), this);
+        });
     },
 
     // Given array of x positions or specific keywords, move to each one
@@ -315,7 +314,13 @@ Crafty.c('Sara', {
             z: 7
         });
         this.requires('NPC').npc(s);
-        this.testmove(500);
+
+        var instance = this;
+        this.moveTo(500, function() {
+            instance.moveTo(0, function() {
+                instance.moveTo(300);
+            });
+        });
         return this;
     }
 });
