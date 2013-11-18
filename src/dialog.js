@@ -54,19 +54,15 @@ Lessons ! Important!
 
 Dialog = {
     // From which all other Dialog objects are cloned
-    _template: {
-        room: [],
-        street: [],
-        corridor: [],
-        park: [],
-        library: [],
-        classroom: []
-    },
-
-    // Going to use JSON.parse/stringify to save some time
-    // if have time, make custom cloning method for optimization
-    clone: function() {
-        return JSON.parse(JSON.stringify(Dialog._template));
+    template: function() {
+        return {
+            room: [],
+            street: [],
+            corridor: [],
+            park: [],
+            library: [],
+            classroom: []
+        }
     },
 
     text: {
@@ -75,16 +71,21 @@ Dialog = {
 };
 
 /* PCs */
-Dialog.girl = Dialog.clone(),  Dialog.boy = Dialog.clone();
+Dialog.girl = Dialog.template(),  Dialog.boy = Dialog.template();
 /* NPCs */
-Dialog.cindy = Dialog.clone(), Dialog.clarence = Dialog.clone(),
-Dialog.may = Dialog.clone(),   Dialog.miley = Dialog.clone(),
-Dialog.lady = Dialog.clone(),  Dialog.diana = Dialog.clone(),
-Dialog.mikey = Dialog.clone(), Dialog.boy = Dialog.clone(),
-Dialog.tyler = Dialog.clone(), Dialog.rebecca = Dialog.clone(),
-Dialog.young_man = Dialog.clone();
+Dialog.cindy = Dialog.template(), Dialog.clarence = Dialog.template(),
+Dialog.may = Dialog.template(),   Dialog.miley = Dialog.template(),
+Dialog.lady = Dialog.template(),  Dialog.diana = Dialog.template(),
+Dialog.mikey = Dialog.template(), Dialog.boy = Dialog.template(),
+Dialog.tyler = Dialog.template(), Dialog.rebecca = Dialog.template(),
+Dialog.young_man = Dialog.template(), Dialog.dina = Dialog.template();
 /* Other */
-Dialog.lessons = Dialog.clone(), Dialog.scenarios = Dialog.clone();
+Dialog.lessons = Dialog.template(), Dialog.scenarios = Dialog.template();
+
+
+////////////////////////////////////
+///////  Girl Scenes  /////////////
+//////////////////////////////////
 
 ///* Room *///
     Dialog.scenarios.room[0] = {
@@ -146,7 +147,6 @@ Dialog.lessons = Dialog.clone(), Dialog.scenarios = Dialog.clone();
         ]
     };
 
-
 ///* Corridor *///
     Dialog.scenarios.corridor[0] = {
         text: [
@@ -179,8 +179,8 @@ Dialog.lessons = Dialog.clone(), Dialog.scenarios = Dialog.clone();
         resonse: [[
             "Of course I can, but you are making fun of me. How would you feel if a picture like that was posted on Facebook?"+br+
             "*Tell your teacher about May's behavior*",
-            "I’m not a Baby! You’re A Baby!!!"+br+
-            "*Push the bully*"//and a fight breaks out.
+            "I’m not a baby! You’re a baby!!!"+br+
+            "*Push the bully and start a fight*"
         ]]
     };
 
@@ -189,6 +189,154 @@ Dialog.lessons = Dialog.clone(), Dialog.scenarios = Dialog.clone();
             "Head to the classroom to tell your teacher, Mrs. Barton."
         ]
     };
+    // Lessons
+    // Good
+    Dialog.lessons.corridor[0] = {
+        text: [
+            "Lindsay knows she is not a baby. She ignores the name-calling but also tries to get the bullies to think about how they would feel. She also knows that she should go and tell her teacher because cyber bullying can get very serious! You should never be afraid to tell an adult when you are being bullied."
+        ]
+    };
+    // Bad
+    Dialog.lessons.corridor[1] = {
+        text: [
+            "Lindsay does not like the bullies calling her a baby. She reacts by losing her temper, yelling at them and then begins to push. Instead, she should walk away and inform her teacher of what just happened. Sometimes, when things are serious, it is necessary to get an adult involved who can help. Bullies count on your silence to get away with their bad behavior. So speaking up can stop them in their tracks!"
+        ]
+    };
+
+///* Classroom *///
+    Dialog.scenarios.classroom[0] = {
+        text: [
+            "Lindsay has told Ms. Barton about the pictures on Facebook. Ms. Barton goes out to the corridor and sends the bullies to the principal’s office. Lindsay goes back out in the hallway and the girls keep teasing her."
+        ]
+    };
+
+    Dialog.dina.classroom[0] = {
+        text: [
+            "You're such a teacher's pet."
+        ]
+    };
+
+    Dialog.cindy.classroom[0] = {
+        text: [
+            "It was just a joke. What a baby!"
+        ]
+    };
+
+    Dialog.girl.classroom[0] = {
+        text: [
+            Dialog.text.response
+        ],
+        response:[[
+            "*Go back to the classroom and wait until next class*",
+            "*Push Cindy and start a fight*"
+        ]]
+    };
+    // Lessons
+    // Good
+    Dialog.lessons.classroom[0] = {
+        text: [
+            "Lindsay decided that it would be a better choice to go into the classroom and wait it out so the bullies would not have anyone to attack or call names. This was a great choice! She prevented them from continuing their bullying by removing herself from the situation. If it continues, she will want to make sure to get an adult involved."
+        ]
+    };
+    // Bad
+    Dialog.lessons.classroom[1] = {
+        text: [
+            "Lindsay should not get physical and start to push. It would be better to walk away into another room with an adult or with other kids and wait for them to leave. Fighting is never a good idea. If you fight back, the bullying could become worse and adults might see you as part of the problem."
+        ]
+    };
+
+///* Library *///
+    Dialog.scenarios.library[0] = {
+        text: [
+            "Lindsay walks into the library and a group of girls are standing together whispering. As she gets closer, she hears what they are talking about."
+        ]
+    };
+
+    Dialog.cindy.library[0] = {
+        text: [
+            "I heard she liked Joe."
+        ]
+    };
+
+    Dialog.diana.library[0] = {
+        text: [
+            "As if she has a chance with any guy!"
+        ]
+    };
+
+    Dialog.cindy.library[1] = {
+        text: [
+            "Seriously! She is so ugly!"
+        ]
+    };
+
+    Dialog.may.library[1] = {
+        text: [
+            "Right?! I mean look at her, she doesn’t even try to look like she’s cool. She could at least color her hair like everyone else. I mean, who even looks like that anymore."
+        ]
+    };
+
+    // When Lindsay approaches group
+
+    // Spoken together
+        Dialog.may.library[2] = {
+            text: [
+                "Cow."
+            ]
+        };
+
+        Dialog.cindy.library[2] = {
+            text: [
+                "Ha ha ha"
+            ]
+        };
+
+        Dialog.diana.library[2] = {
+            text: [
+                "Tee hee hee"
+            ]
+        };
+
+    Dialog.diana.library[3] = {
+        text: [
+            "Guys will never like you!"
+        ]
+    };
+
+    Dialog.cindy.library[3] = {
+        text: [
+            "Yeah, you're so ugly. What a beast!"
+        ]
+    };
+
+    Dialog.girl.library[3] = {
+        text: [
+            Dialog.text.response
+        ],
+        response: [[
+            "Whatever! You are all a bunch of ugly peacocks!",
+            "I like who I am and what I look like."+br+
+            "*Walk away*"
+        ]]
+    };
+    // Lessons
+    // Good
+    Dialog.lessons.library[0] = {
+        text: [
+            "It is hard to ignore people when they are calling you names. Just keep moving to where you were going. Showing them that you are not concerned about what they have to say takes away their power while name-calling will only make things worse!"
+        ]
+    };
+    // Bad
+    Dialog.lessons.library[1] = {
+        text: [
+            "Lindsay believes in herself and tells Cyndi, Diana, and May that she likes who she is and what she looks like. Then she walks away leaving them to ponder what she just said. By stating her position without any emotion, the bullies did not get the response they were looking for. This is the best way to gain control of a situation and not let a bully cut you down!"
+        ]
+    };
+
+
+////////////////////////////////////
+///////  Boy Scenes   /////////////
+//////////////////////////////////
 
 
 // USES GLOBALS: State.scene, State.index
@@ -247,7 +395,9 @@ Dialog.show = function(entity, emotes, next, scene, index) {
         if (i < text.length) {
             if (_.isArray(emotes) && _.isString(emotes[i]))
                 entity.emote(emotes[i].upperFirst());
-            Crafty.e('Speech').speech(entity, text[i], _.isArray(response) && response[i]);
+            //console.log('Triggering speech on ' + entity.name);
+            var speech = Crafty.e('Speech').speech(entity, text[i], _.isArray(response) && response[i]);
+            console.log(speech);
             i += 1;
         } else {
             // May not be necessary. Leaving commented just in case.
