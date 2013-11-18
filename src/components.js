@@ -252,19 +252,17 @@ Crafty.c('NPC', {
     _patrol: function(path, interval) {
         if (typeof path === "string") {
             if (path === "full-left") {
-                function exec2() {
+                this.delay(_.bind(function() {
                     this.moveTo(0, _.bind(function() {
                         this._patrol("full", interval);
                     }, this));
-                }
-                this.delay(_.bind(exec2, this), interval, 0);
+                }, this), interval, 0);
             } else if (path === "full") {
-                function exec() {
+                this.delay(_.bind(function() {
                     this.moveTo(Game.width - this.w - 5, _.bind(function() {
                         this._patrol("full-left", interval);
                     }, this));
-                }
-                this.delay(_.bind(exec, this), interval, 0);
+                }, this), interval, 0);
             }
         } else {
             //Do the array stuff.
