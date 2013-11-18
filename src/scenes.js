@@ -37,22 +37,44 @@ Crafty.scene('Room', function() {
 Crafty.scene('Street', function() {
     var player = Game.setupScene('street');
 
-    /* NPCs */
-    var cindy = Crafty.e('Cindy').cindy({x: 845, orientation: 'left', portal: true})
-        .action({onhit: function() {
-            // Hacky, yes. No time for beauty!
-            if (!cindy._dflag0) {
-                cindy.speechWidth = 220;
-                Dialog.progression([
-                    [cindy, ['Question']],
-                    [player, ['Exclamation']]
-                ]);
-                cindy._dflag0 = true;
-            }
-        }});
+    // Girl Story
+    if (State.player === 'Girl') {
+        /* NPCs */
+        var cindy = Crafty.e('Cindy').cindy({x: 845, orientation: 'left', portal: true})
+            .action({onhit: function() {
+                // Hacky, yes. No time for beauty!
+                if (!cindy._dflag0) {
+                    cindy.speechWidth = 220;
+                    Dialog.progression([
+                        [cindy, ['Question']],
+                        [player, ['Exclamation']]
+                    ]);
+                    cindy._dflag0 = true;
+                }
+            }});
 
-    Crafty.bind('SpeechResponse', function(e) { console.log(e); });
-    var sara = Crafty.e('Sara').sara();
+        Crafty.bind('SpeechResponse', function(e) {
+            Game.fader.fade(90, 'out', function() {
+                console.log(Game.fader.active);
+                player.enabled = false;
+                if (e === 0)
+                    Dialog.showInfo('good');
+                else
+                    Dialog.showInfo('bad')
+                Crafty.e('Delay').delay(function() {
+                    console.log(Game.fader.active);
+                    Game.fader.fade(50, 'in', function() {
+                        console.log('callback');
+                        Dialog.hideInfo();
+                        player.enabled = true;
+                    });
+                }, 500, 0);
+            });
+        });
+        var sara = Crafty.e('Sara').sara();
+    } else {
+
+    }
 
     // Boundaries
     // Left side - To Room
@@ -90,6 +112,8 @@ Crafty.scene('Street', function() {
                 Game.setScene('Corridor', {x: 'left', orientation: 'right'});
             };
         }, function() { player.action = null; });
+}, function() {
+    Crafty.unbind('SpeechResponse');
 });
 
 Crafty.scene('Corridor', function() {

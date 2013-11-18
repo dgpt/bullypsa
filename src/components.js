@@ -309,33 +309,12 @@ Crafty.c('GenericNPC', {
         }
     });
 
-<<<<<<< HEAD
     Crafty.c('May', {
         may: function(settings) {
             return this.requires('GenericNPC')
                 .gnpc('may', settings);
         }
     });
-=======
-Crafty.c('Sara', {
-    sara: function(settings) {
-        var s = _.defaults(settings || {}, {
-            sprite: 'sprSara',
-            //           x1 y  x2
-            left:       [0, 2, 6],
-            leftBlink:  [0, 0, 4],
-            right:      [0, 3, 6],
-            rightBlink: [0, 1, 4],
-            x: 150,
-            z: 7
-        });
-        this.requires('NPC').npc(s);
-
-        this._patrol('full');
-        return this;
-    }
-});
->>>>>>> donkeyMoveTest
 
     Crafty.c('Dina', {
         dina: function(settings) {
@@ -745,7 +724,7 @@ Crafty.c('Fader', {
     },
 
     fade: function(fadeTime, inOrOut, callback) {
-        var fadesIn = inOrOut == "in" ? true : false;
+        var fadesIn = inOrOut == 'in' ? true : false;
         var imageEnt = Crafty.e('2D, DOM, Image, Tween').image(this.image);
 
         this.active = true;
@@ -753,11 +732,13 @@ Crafty.c('Fader', {
         imageEnt.alpha = fadesIn ? 1.0 : 0.0;
         imageEnt.attr({x: -Crafty.viewport.x - imageEnt.w / 2, y: this.y, z: 100})
             .tween({alpha: fadesIn ? 0.0 : 1.0}, fadeTime)
-            .bind("TweenEnd", function() {
+            .bind('TweenEnd', function() {
                 this.active = false;
                 if (callback) {
                     callback();
                 }
+                imageEnt.destroy();
+                this.unbind('TweenEnd');
             });
     }
 });
