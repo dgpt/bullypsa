@@ -42,8 +42,8 @@ Crafty.scene('Street', function() {
             if (!cindy._dflag0) {
                 cindy.speechWidth = 220;
                 Dialog.progression([
-                    [cindy, 'Question'],
-                    [player, 'Exclamation']
+                    [cindy, ['Question']],
+                    [player, ['Exclamation']]
                 ]);
                 cindy._dflag0 = true;
             }
@@ -271,8 +271,6 @@ Crafty.scene('Load', function() {
             sprBoyL: [0, 0]
         });
         Crafty.sprite(54, 96, assets.cindy, {
-/*            sprCindySchoolR: [0, 1],
-            sprCindySchoolL: [0, 0],*/
             sprCindyR: [0, 1],
             sprCindyL: [0, 0]
         });
