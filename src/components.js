@@ -266,48 +266,143 @@ Crafty.c('Boy', {
     }
 });
 
-/***** NPCs ******/
-Crafty.c('Cindy', {
-    cindy: function(settings) {
+///***** NPCs ******///
+Crafty.c('GenericNPC', {
+    gnpc: function(sprite, settings) {
         var s = _.defaults(settings || {}, {
-            sprite: 'sprCindy',
-            left:  [0, 2, 6],
-            right: [0, 3, 6],
-            x: 250,
+            sprite: sprite,
+            left:  [0, 0, 6],
+            right: [0, 1, 6],
+            x: 0,
             y: Game.player.y,
             z: 5
         });
-
         this.requires('NPC').npc(s);
         return this;
     }
 });
+///* Main NPCs *///
+    Crafty.c('Cindy', {
+        cindy: function(settings) {
+            var s = _.defaults(settings || {}, {
+                sprite: 'sprCindy',
+                left:  [0, 2, 6],
+                right: [0, 3, 6],
+                x: 250,
+                y: Game.player.y,
+                z: 5
+            });
 
-Crafty.c('Sara', {
-    sara: function(settings) {
-        var s = _.defaults(settings || {}, {
-            sprite: 'sprSara',
-            //           x1 y  x2
-            left:       [0, 2, 6],
-            leftBlink:  [0, 0, 4],
-            right:      [0, 3, 6],
-            rightBlink: [0, 1, 4],
-            x: 150,
-            z: 7
-        });
-        this.requires('NPC').npc(s);
-        return this;
-    }
-});
+            this.requires('NPC').npc(s);
+            return this;
+        }
+    });
 
+    Crafty.c('May', {
 
-Crafty.c('', {
+    });
 
-});
+    Crafty.c('Dina', {
 
-Crafty.c('', {
+    });
 
-});
+    Crafty.c('Diana', {
+
+    });
+
+    Crafty.c('Lady', {
+
+    });
+
+    Crafty.c('Young_man', {
+
+    });
+
+    Crafty.c('Mikey', {
+
+    });
+
+    Crafty.c('Tyler', {
+
+    });
+
+///* Background NPCs *///
+    Crafty.c('Clarence', {
+
+    });
+
+    Crafty.c('Curtis', {
+
+    });
+
+    Crafty.c('Elise', {
+
+    });
+
+    Crafty.c('Femaleb', {
+
+    });
+
+    Crafty.c('Girl_small', {
+
+    });
+
+    Crafty.c('Harriet', {
+
+    });
+
+    Crafty.c('Marion', {
+
+    });
+
+    Crafty.c('Midage_man', {
+
+    });
+
+    Crafty.c('Midage_woman', {
+
+    });
+
+    Crafty.c('Miley', {
+
+    });
+
+    Crafty.c('Octavia', {
+
+    });
+
+    Crafty.c('Rebecca', {
+
+    });
+
+    Crafty.c('Salary_man', {
+
+    });
+
+    Crafty.c('Sara', {
+        sara: function(settings) {
+            var s = _.defaults(settings || {}, {
+                sprite: 'sprSara',
+                //           x1 y  x2
+                left:       [0, 2, 6],
+                leftBlink:  [0, 0, 4],
+                right:      [0, 3, 6],
+                rightBlink: [0, 1, 4],
+                x: 150,
+                z: 7
+            });
+            this.requires('NPC').npc(s);
+            return this;
+        }
+    });
+
+    Crafty.c('Vivian', {
+
+    });
+
+    Crafty.c('Young_woman', {
+
+    });
 
 
 Crafty.c('Emotion', {
