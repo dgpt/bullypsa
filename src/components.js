@@ -207,10 +207,8 @@ Crafty.c('NPC', {
         s.portalx = s.x - (s.portalWidth/6);
         this._settings = s;
 
-        this.requires('Actor')
+        this.requires('Actor, Tween')
             .actor(s.sprite, s);
-
-        this.requires('Tween');
 
         return this;
     },
@@ -239,13 +237,12 @@ Crafty.c('NPC', {
 
         this.animate(dirName, this._settings.animSpeed, -1);
         this.bind("EnterFrame", function(e) {
-            if (instance.x * dir >= x * dir) {
-                instance.unbind("EnterFrame");
-                instance.stop();
-                instance.animate(dirName + "Stop", 0, 0);
+            if (this.x * dir >= x * dir) {
+                this.animate(dirName + "Stop", 0);
+                this.unbind("EnterFrame");
                 if (callback) callback();
             } else {
-                instance.x += this._settings.speed * dir;
+                this.x += this._settings.speed * dir;
             }
         });
     },
