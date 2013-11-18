@@ -723,10 +723,11 @@ Crafty.c('Fader', {
         return this;
     },
 
-    fade: function(fadeTime, inOrOut, callback, delay) {
+    // Fades in or out
+    // if inOrOut is 'in' or 'out' it will fade in or out respectively
+    fade: function(fadeTime, inOrOut, callback) {
         var fadesIn = inOrOut == 'in' ? true : false;
         var imageEnt = Crafty.e('2D, DOM, Image, Tween').image(this.image);
-        delay = _.isNumber(delay) ? delay : 0;
 
         imageEnt.active = true;
 
@@ -738,10 +739,8 @@ Crafty.c('Fader', {
                 if (callback) {
                     callback();
                 }
-                _.delay(_.bind(function() {
-                    this.destroy();
-                    this.unbind('TweenEnd');
-                }, imageEnt), delay);
+                this.destroy();
+                this.unbind('TweenEnd');
             });
     }
 });

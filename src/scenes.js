@@ -54,25 +54,11 @@ Crafty.scene('Street', function() {
             }});
 
         Crafty.bind('SpeechResponse', function(e) {
-            Game.fader.fade(90, 'out', function() {
-                console.log(Game.fader.active);
-                player.enabled = false;
-                if (e === 0)
-                    Dialog.showInfo('good');
-                else
-                    Dialog.showInfo('bad')
-                //Crafty.e('Delay').delay(function() {
-                console.log(Game.fader.active);
-                Game.fader.fade(50, 'in', function() {
-                    console.log('callback');
-                    Dialog.hideInfo();
-                    player.enabled = true;
-                });
-                //}, 500, 0);
-            }, 5500);
         });
         var sara = Crafty.e('Sara').sara();
-    } else {
+    }
+
+    if (State.player === 'Boy') {
 
     }
 
