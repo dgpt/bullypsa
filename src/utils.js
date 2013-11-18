@@ -10,16 +10,17 @@ function warn(text) {
 var br = '<br />';
 
 String.prototype.dimensions = function(font, maxWidth) {
-  var f = font,
-      o = $('<div>' + this + '</div>')
+    //$('#text-measurer').remove();
+    var f = font,
+      o = $('<div id="text-measurer">' + this + '</div>')
             .css({'max-width': maxWidth +'px', 'position': 'absolute', 'visibility': 'hidden', 'font': f, 'border': '2px solid black'})
             .appendTo($('body')),
       w = o.width()
       h = o.height();
 
-  o.remove();
+    o.remove();
 
-  return [w,h];
+    return [w,h];
 };
 
 String.prototype.lowerFirst = function() {

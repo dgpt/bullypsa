@@ -87,7 +87,7 @@ Game = {
             '<tr><td><button onclick="var xxx=+$(\'#xchange\')[0].value; var ddd = 250; Game.player.x = _.isNaN(xxx) ? ddd : (xxx < '+Game.width+' && xxx > 0 ? xxx : ddd)">Change Initial X:</button></td><td><input id="xchange" style="width:70" type="text" /></td>' +
             '</table>' +*/
             // Debug Info Table
-            '<table id="debug" style="font-size:14px;table-layout:fixed;width:120px;margin-left:auto;margin-right:auto;position:absolute;top:0px;left:0px">' +
+            '<table id="debug" style="font-size:14px;table-layout:fixed;width:120px;margin-left:auto;margin-right:auto;position:absolute;top:350px;">' +
             '<caption>Debug Info</caption>' +
             '<tr><td>FPS:</td><td id="fps"></td>' +
             '<tr><td id="posx"></td><td id="posy"></td>' +
@@ -186,7 +186,7 @@ Game = {
     start: function() {
         Crafty.init(Game.width, Game.height);
         Crafty.background('black');
-        Game.debug();
+        //Game.debug();
         Crafty.scene('Load');
     }
 };

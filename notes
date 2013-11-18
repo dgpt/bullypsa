@@ -2,6 +2,8 @@ Level Order
              ->Park     ->Class
 Room->Street/->Corridor/->Library
 
+BUGS:
+    On scene change, if the info box is up, it jumps into the game div
 TODO:
     make lesson text system (appears at left or right of game)
     make exandable help text link below game.
