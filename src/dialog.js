@@ -86,7 +86,8 @@ Dialog.lessons = Dialog.template(), Dialog.scenarios = Dialog.template();
 ////////////////////////////////////
 ///////  Girl Scenes  /////////////
 //////////////////////////////////
-
+/* Lessons are 0 = good 1 = bad
+ * Scenarios are from 0 to 5    */
 ///* Room *///
     Dialog.scenarios.room[0] = {
         text: [
@@ -337,6 +338,94 @@ Dialog.lessons = Dialog.template(), Dialog.scenarios = Dialog.template();
 ////////////////////////////////////
 ///////  Boy Scenes   /////////////
 //////////////////////////////////
+/* Lessons are 2 = good 3 = bad
+ * Scenarios are from 5 to 10   */
+///* Park *///
+    Dialog.scenarios.park[5] = {
+        text: [
+            "The kids are playing football in the park. Joe missed the ball when it passed to him."
+        ]
+    };
+
+    Dialog.young_man.park[0] = {
+        text: [
+            "How could you miss that ball? It was coming straight for you. Even a two year old could have caught it!"
+        ]
+    };
+
+    Dialog.boy.park[0] = {
+        text: [
+            "The sun was in my eyes. I couldn't see it..."
+        ]
+    };
+
+    Dialog.young_man.park[1] = {
+        text: [
+            "Whatever! You are just a baby who can’t catch a ball. I’m not going to let you play on my team again!"
+        ]
+    };
+
+    Dialog.boy.park[1] = {
+        text: [
+            Dialog.text.response
+        ],
+        response: [[
+            "Fine, I'm going to take your ball!"+br+
+            "*Start a fight with the bullies*",
+            "I don't like being talked to like that. I am not going to play with you if you treat me that way. Everyone makes mistakes sometimes."
+        ]]
+    };
+    // Lessons
+    // Good
+    Dialog.lessons.park[2] = {
+        text: [
+            "Joe decides to stand up for himself, he tells them he does not like what they are saying and everybody makes a mistake sometime. He does the right thing by walking away to avoid a confrontation. Speaking up without starting a fight takes away the power a bully has."
+        ]
+    };
+    // Bad
+    Dialog.lessons.park[3] = {
+        text: [
+            "Joe decides to give them a taste of their own medicine, saying he would take their ball. Then in anger, he starts a fight with them. A better choice would be to walk away. Fighting lets them know that what they said was a good way to get a reaction out of you and things will probably get worse in the future!"
+        ]
+    };
+
+///* Street *//
+    Dialog.scenarios.street[5] = {
+        text: [
+            "Joe is walking to school after his trouble at the park."
+            // Mikey walks up to him
+        ]
+    };
+
+    Dialog.mikey.street[0] = {
+        text: [
+
+        ]
+    };
+
+    Dialog.boy.street[0] = {
+        text: [
+
+        ],
+        response: [[
+
+        ]]
+    };
+    // Lessons
+    // Good
+    Dialog.lessons.street[2] = {
+        text: [
+
+        ]
+    };
+
+    Dialog.lessons.street[3] = {
+        text: [
+
+        ]
+    };
+
+
 
 
 // USES GLOBALS: State.scene, State.index
@@ -395,9 +484,7 @@ Dialog.show = function(entity, emotes, next, scene, index) {
         if (i < text.length) {
             if (_.isArray(emotes) && _.isString(emotes[i]))
                 entity.emote(emotes[i].upperFirst());
-            //console.log('Triggering speech on ' + entity.name);
-            var speech = Crafty.e('Speech').speech(entity, text[i], _.isArray(response) && response[i]);
-            console.log(speech);
+            Crafty.e('Speech').speech(entity, text[i], _.isArray(response) && response[i]);
             i += 1;
         } else {
             // May not be necessary. Leaving commented just in case.
