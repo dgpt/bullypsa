@@ -207,7 +207,7 @@ Crafty.c('NPC', {
         s.portalx = s.x - (s.portalWidth/6);
         this._settings = s;
 
-        this.requires('Actor')
+        this.requires('Actor, Tween')
             .actor(s.sprite, s);
 
         return this;
@@ -230,15 +230,35 @@ Crafty.c('NPC', {
     },
 
     // Moves from current x to given x
-    move: function(to) {
+    moveTo: function(x, callback) {
+        var dir = x < this.x ? -1 : 1;
+        var dirName = dir === 1 ? 'Right' : 'Left';
 
+        this.animate(dirName, this._settings.animSpeed, -1);
+        this.bind("EnterFrame", function(e) {
+            if (this.x * dir >= x * dir) {
+                this.animate(dirName + "Stop", 0);
+                this.unbind("EnterFrame");
+                if (callback) callback();
+            } else {
+                this.x += this._settings.speed * dir;
+            }
+        });
     },
 
     // Given array of x positions or specific keywords, move to each one
     // 'full': move across entire scene, then go the opposite way after given time
     // 'stop': Stay still, same as passing an empty array
     _patrol: function(path) {
-
+        if (path === "full-left") {
+            this.moveTo(0, _.bind(function() {
+                this._patrol("full");
+            }, this));
+        } else if (path === "full") {
+            this.moveTo(Game.width - this.w - 5, _.bind(function() {
+                this._patrol("full-left");
+            }, this));
+        }
     },
 });
 
@@ -289,12 +309,33 @@ Crafty.c('GenericNPC', {
         }
     });
 
+<<<<<<< HEAD
     Crafty.c('May', {
         may: function(settings) {
             return this.requires('GenericNPC')
                 .gnpc('may', settings);
         }
     });
+=======
+Crafty.c('Sara', {
+    sara: function(settings) {
+        var s = _.defaults(settings || {}, {
+            sprite: 'sprSara',
+            //           x1 y  x2
+            left:       [0, 2, 6],
+            leftBlink:  [0, 0, 4],
+            right:      [0, 3, 6],
+            rightBlink: [0, 1, 4],
+            x: 150,
+            z: 7
+        });
+        this.requires('NPC').npc(s);
+
+        this._patrol('full');
+        return this;
+    }
+});
+>>>>>>> donkeyMoveTest
 
     Crafty.c('Dina', {
         dina: function(settings) {
