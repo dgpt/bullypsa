@@ -37,22 +37,30 @@ Crafty.scene('Room', function() {
 Crafty.scene('Street', function() {
     var player = Game.setupScene('street');
 
-    /* NPCs */
-    var cindy = Crafty.e('Cindy').cindy({x: 845, orientation: 'left', portal: true})
-        .action({onhit: function() {
-            // Hacky, yes. No time for beauty!
-            if (!cindy._dflag0) {
-                cindy.speechWidth = 220;
-                Dialog.progression([
-                    [cindy, ['Question']],
-                    [player, ['Exclamation']]
-                ]);
-                cindy._dflag0 = true;
-            }
-        }});
+    // Girl Story
+    if (State.player === 'Girl') {
+        /* NPCs */
+        var cindy = Crafty.e('Cindy').cindy({x: 845, orientation: 'left', portal: true})
+            .action({onhit: function() {
+                // Hacky, yes. No time for beauty!
+                if (!cindy._dflag0) {
+                    cindy.speechWidth = 220;
+                    Dialog.progression([
+                        [cindy, ['Question']],
+                        [player, ['Exclamation']]
+                    ]);
+                    cindy._dflag0 = true;
+                }
+            }});
 
-    Crafty.bind('SpeechResponse', function(e) { console.log(e); });
-    var sara = Crafty.e('Sara').sara();
+        Crafty.bind('SpeechResponse', function(e) {
+        });
+        var sara = Crafty.e('Sara').sara();
+    }
+
+    if (State.player === 'Boy') {
+
+    }
 
     // Boundaries
     // Left side - To Room

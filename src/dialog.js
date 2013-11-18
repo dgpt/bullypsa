@@ -684,10 +684,11 @@ Dialog.showInfo = function(type, persist, index, scene) {
 
 Dialog.hideInfo = function() {
     $('#lesson-container').detach();
+    $('#cr-stage').css('width', Crafty.viewport.width);
 };
 
 State = {
-    scene: 'Room',
+    scene: 'Street',
     player: 'Girl',
     index: {
         'Room': 0,
