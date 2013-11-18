@@ -399,31 +399,126 @@ Dialog.lessons = Dialog.template(), Dialog.scenarios = Dialog.template();
 
     Dialog.mikey.street[0] = {
         text: [
-
+            "Hey wimp, give me your lunch money."
         ]
     };
 
     Dialog.boy.street[0] = {
         text: [
-
+            Dialog.text.response
         ],
         response: [[
-
+            "*Run away and tell an adult*",
+            "*Give Mikey your lunch money*"
         ]]
     };
     // Lessons
     // Good
     Dialog.lessons.street[2] = {
         text: [
-
+            "Joe is tired of giving in to the bully and giving him his lunch money. He decides to go tell an adult. If you are being bullied you should tell an adult. It is not tattling. You need someone you can trust to be on your side. Being silent and giving in to bullies only makes them more powerful."
         ]
     };
-
+    // bad
     Dialog.lessons.street[3] = {
         text: [
-
+            "Joe gives them his lunch money. He does not want to take the chance of getting beat-up. He really should just run to an adult and get them to help him because in this situation the bullying will continue if someone does not stop him. The best way to handle this is to get a trusted adult involved."
         ]
     };
+
+///* Corridor *///
+    Dialog.scenarios.street[5] = {
+        text: [
+            "On the way to class..."
+        ]
+    };
+
+    Dialog.tyler.corridor[0] = {
+        text: [
+            "Hey shorty, aren't you a little young to be in junior high?"
+        ]
+    };
+
+    Dialog.boy.corridor[0] = {
+        text: [
+            "I'm plenty old enough!"
+        ]
+    };
+
+    Dialog.tyler.corridor[1] = {
+        text: [
+            "You're way too short. There's no way you're old enough, short stack!"
+        ]
+    };
+
+    Dialog.boy.corridor[1] = {
+        text: [
+            Dialog.text.response
+        ],
+        response: [[
+            "I'll show you who's short!"+br+
+            "*Kick Tyler in the shin*",
+            "*Ignore Tyler and walk away*"
+        ]]
+    };
+    // Lessons
+    // Good
+    Dialog.lessons.corridor[2] = {
+        text: [
+            "Joe made the right choice by leaving the situation and not reacting to the name-calling. Showing emotion to their insults would have been the wrong choice. By walking away, Joe sent a message to the bullies that he wasn't going to let their name-calling bother him."
+        ]
+    };
+    // Bad
+    Dialog.lessons.corridor[3] = {
+        text: [
+            "Joe should leave it alone and go to another area to avoid any confrontation. Fighting is never the right choice and usually will let bullies know what your weak spots are so that they know how to pick on you again in the future."
+        ]
+    };
+
+///* Library *///
+    Dialog.mikey.library[0] = {
+        text: [
+            "What a wimp! Did you see him this morning trying to act like he was tough at the park for that girl?"
+        ]
+    };
+
+    Dialog.tyler.library[0] = {
+        text: [
+            "They're perfect for each other. She's so ugly nobody else wants her and he's such a weakling. Girls are never going to like such a sissy."
+        ]
+    };
+    // As Joe approaches the group...
+    Dialog.mikey.library[1] = {
+        text: [
+            "Wuss."
+        ]
+    };
+
+    Dialog.boy.library[1] = {
+        text: [
+            Dialog.text.response
+        ],
+        response: [[
+            "I heard what you said about Lindsay and me. You're gonna pay for that!"+br+
+            "*Punch Mikey*",
+            "Why do you have to act like such a bully? So not cool."+br+
+            "*Walk Away*"
+        ]]
+    };
+    // Lessons
+    // Good
+    Dialog.lessons.library[2] = {
+        text: [
+            "Joe decides to at least let them know how he feels, being proud of himself because he did not resort to a physical or verbal means of retaliating back. By speaking up, without starting a fight, Joe took away their power."
+        ]
+    };
+    // Bad
+    Dialog.lessons.library[3] = {
+        text: [
+            "Joe lets their comments get the best of him and he tries to defend Lindsay. He threatens the bullies and then starts to fight. Joe should have just not said anything and walked away. Do not forget that engaging in a fight can make things worse."
+        ]
+    };
+
 
 
 // USES GLOBALS: State.scene, State.index
