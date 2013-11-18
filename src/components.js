@@ -201,6 +201,7 @@ Crafty.c('NPC', {
         var s = _.defaults(settings || {}, {
             x: 0,
             path: 'stop',
+            pathInterval: 1500,
             portal: false,
             portalWidth: 90
         });
@@ -209,6 +210,8 @@ Crafty.c('NPC', {
 
         this.requires('Actor, Tween, Delay')
             .actor(s.sprite, s);
+
+        this._patrol(s.path, s.pathInterval);
 
         return this;
     },
@@ -260,9 +263,9 @@ Crafty.c('NPC', {
             var mright = _.partial(this.moveTo, Game.width - this.w - 5, pleft);
 
             if (path === "full-left") {
-                this.delay(mleft, interval, 0);
+                _.delay(mleft, interval);
             } else if (path === "full") {
-                this.delay(mright, interval, 0);
+                _.delay(mright, interval, 0);
             }
         } else {
             //Do the array stuff.
@@ -321,11 +324,11 @@ Crafty.c('Sara', {
             right:      [0, 3, 6],
             rightBlink: [0, 1, 4],
             x: 150,
-            z: 7
+            z: 7,
+            path: 'full'
         });
         this.requires('NPC').npc(s);
 
-        this._patrol("full", 1000);
         return this;
     }
 });
