@@ -426,8 +426,6 @@ Dialog.lessons = Dialog.template(), Dialog.scenarios = Dialog.template();
     };
 
 
-
-
 // USES GLOBALS: State.scene, State.index
 // returns dialog array for given entity, scene and index
 // if scene or index is not provided, defaults to current scene and index
