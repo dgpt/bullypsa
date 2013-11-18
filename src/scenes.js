@@ -54,6 +54,10 @@ Crafty.scene('Street', function() {
             }});
 
         Crafty.bind('SpeechResponse', function(e) {
+            if (e === 0)
+                Dialog.showInfo('good');
+            else
+                Dialog.showInfo('bad')
         });
         var sara = Crafty.e('Sara').sara();
     }
