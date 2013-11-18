@@ -577,6 +577,7 @@ Crafty.c('Overlay', {
 
 Crafty.c('Fader', {
     active: false,
+    width: 0,
 
     init: function() {
         var canvas = document.createElement('canvas');
@@ -584,6 +585,8 @@ Crafty.c('Fader', {
         canvas.width = Game.width * 3;
         console.log('canvas width: ' + canvas.width);
         canvas.height = Game.height;
+
+        this.width = canvas.width;
 
         gc.fillStyle = "#000000";
         gc.fillRect(0, 0, canvas.width, canvas.height);
