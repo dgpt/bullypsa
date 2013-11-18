@@ -232,14 +232,21 @@ Crafty.c('NPC', {
     },
 
     // Moves from current x to given x
-    testmove: function(to) {
-        //this.animate(this.type, frames[0], frames[1], frames[2])
+    testmove: function(x, callback) {
+        var dir = x < this.x ? -1 : 1;
+        var dirName = dir === 1 ? 'Right' : 'Left';
+        this.animate(dirName, 40, -1);
 
         _.bind(this.bind("EnterFrame", function(e) {
-        this.animate(this.type, this.animSpeed, 0);
-            this.x += 3;
-            if (this.x >= to.x) {
+            if (this.x * dir >= x * dir) {
                 this.unbind("EnterFrame");
+                this.stop();
+                this.animate(dirName + "Stop", 0, 0);
+                if (callback) {
+                    callback();
+                }
+            } else {
+                this.x += 3 * dir;
             }
         }), this);
     },
@@ -308,7 +315,7 @@ Crafty.c('Sara', {
             z: 7
         });
         this.requires('NPC').npc(s);
-        this.testmove({x: 500, y: 32});
+        this.testmove(500);
         return this;
     }
 });
