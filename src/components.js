@@ -725,7 +725,7 @@ Crafty.c('Fader', {
 
     // Fades in or out
     // if inOrOut is 'in' or 'out' it will fade in or out respectively
-    fade: function(fadeTime, inOrOut, callback) {
+    fade: function(fadeTime, inOrOut, callback, hold) {
         var fadesIn = inOrOut == 'in' ? true : false;
         var imageEnt = Crafty.e('2D, DOM, Image, Tween').image(this.image);
 
@@ -739,8 +739,14 @@ Crafty.c('Fader', {
                 if (callback) {
                     callback();
                 }
-                this.destroy();
-                this.unbind('TweenEnd');
+                if (!hold)
+                    this.destroy();
+                else {
+                    Crafty.bind('FadeEnd', _.bind(function() {
+                        Crafty.unbind('FadeEnd');
+                        this.destroy();
+                    }, this));
+                }
             });
     }
 });
