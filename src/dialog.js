@@ -304,6 +304,7 @@ Dialog.progression = function(argsList) {
 // \\ default: type == 'good': 0; type == 'bad': 1; type == 'scenario': 0;
 // scene: opt; str; scene name to pull lesson text from. default: current
 Dialog.showInfo = function(type, index, scene) {
+    Crafty.unbind('SceneChange', setupInfoBox);
     var bgcolor;
     var dialogType = 'lessons';
     if (type === 'good') {
@@ -318,12 +319,17 @@ Dialog.showInfo = function(type, index, scene) {
 
     var width = 180;
     var padding = 20;
-    var totalWidth = Crafty.viewport.width + width + padding * 2;
 
-    var html = '<div id="lesson-container" style="padding: '+padding+'px; background-color: '+bgcolor+'; width: '+width+';">'+text+'</div>';
-    $('#cr-stage')
-        .css('width', totalWidth)
-        .append(html);
+    var setupInfoBox = function() {
+        var totalWidth = Crafty.viewport.width + width + padding * 2;
+        var html = '<div id="lesson-container" style="padding: '+padding+'px; background-color: '+bgcolor+'; width: '+width+';">'+text+'</div>';
+        $('#cr-stage')
+            .css('width', totalWidth)
+            .append(html);
+    };
+    setupInfoBox();
+    Crafty.bind('SceneChange', setupInfoBox);
+
 };
 
 State = {
