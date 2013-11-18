@@ -237,7 +237,7 @@ Crafty.c('NPC', {
         var dirName = dir === 1 ? 'Right' : 'Left';
         var instance = this;
 
-        this.animate(dirName, 40, -1);
+        this.animate(dirName, this._settings.animSpeed, -1);
         this.bind("EnterFrame", function(e) {
             if (instance.x * dir >= x * dir) {
                 instance.unbind("EnterFrame");
@@ -245,7 +245,7 @@ Crafty.c('NPC', {
                 instance.animate(dirName + "Stop", 0, 0);
                 if (callback) callback();
             } else {
-                instance.x += 3 * dir;
+                instance.x += this._settings.speed * dir;
             }
         });
     },
