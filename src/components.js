@@ -576,21 +576,18 @@ Crafty.c('Overlay', {
 });
 
 Crafty.c('Fader', {
-    image: null,
     active: false,
 
-    fader: function() {
+    init: function() {
         var canvas = document.createElement('canvas');
         var gc = canvas.getContext('2d');
-        canvas.width = Game.width;
+        canvas.width = Game.width * 2;
         canvas.height = Game.height;
 
         gc.fillStyle = "#000000";
         gc.fillRect(0, 0, canvas.width, canvas.height);
 
         this.image = canvas.toDataURL();
-
-        this.requires('Fader');
 
         return this;
     },
@@ -601,15 +598,14 @@ Crafty.c('Fader', {
 
         this.active = true;
 
-        imageEnt.attr({x: this.x, y: this.y});
-
         imageEnt.alpha = fadesIn ? 1.0 : 0.0;
-        imageEnt.tween({alpha: fadesIn ? 0.0 : 1.0}, fadeTime);
-        imageEnt.bind("TweenEnd", function() {
-            this.active = false;
-            if (callback) {
-                callback();
-            }
-        });
+        imageEnt.attr({x: -Crafty.viewport.x, y: this.y})
+            .tween({alpha: fadesIn ? 0.0 : 1.0}, fadeTime)
+            .bind("TweenEnd", function() {
+                this.active = false;
+                if (callback) {
+                    callback();
+                }
+            });
     }
 });

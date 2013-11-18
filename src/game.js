@@ -44,7 +44,6 @@ Game = {
     },
 
     fps: Crafty.e('FPS'),
-    fader: Crafty.e('Fader'),
 
     /* DEBUG STUFF */
     // Changes state to specified, reloads current scene, sets Game.player.x to first listed x pos for scene
@@ -196,7 +195,9 @@ Game = {
         Crafty.background('black');
         //Game.debug();
 
-        Game.fader = Crafty.e('Fader').fader();
+        // Gotta do this here because components.js loads after game.js
+        Game.fader = Crafty.e('Fader');
+
         Crafty.scene('Load');
     }
 };
