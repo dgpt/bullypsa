@@ -531,7 +531,7 @@ boy, young_man, mikey, tyler
 // return value {text: [], response: [[]]}
 Dialog.get = function(entity, scene, index) {
     scene = (scene || State.scene).lowerFirst();
-    index = index || State.index[scene.upperFirst()];
+    index = existy(index) ? index : State.index[scene.upperFirst()];
     // Entity can be a string (warning: does not do extensive checking)
     // or and instance of the Actor component
     entity = _.isObject(entity) && entity.__c.Actor ? entity.name.toLowerCase() : entity;
@@ -555,14 +555,24 @@ Dialog.get = function(entity, scene, index) {
 
 // Shows dialog. Defaults to current State and Scene.
 // entity: required; actor to spawn dialog above.
-// emote: opt; array; Emotes to use when dialog appears. null for no emotes
+// settings: contains the following optional settings
+// emotes: array; Emotes to use when dialog appears. null for no emotes
 // \ emotes displayed in order they are in array. Corresponds to current dialog array
 // \\ (see Dialog.show->speech())
-// next: opt; boolean; increment the state index? default: false
-// scene: opt; str; scene to use dialog from. default: current scene
-// index: opt; int; scene index to use dialog from. default: current scene index
-Dialog.show = function(entity, emotes, next, scene, index) {
-    var dialog = Dialog.get(entity, scene, index);
+// next: boolean; increment the state index? default: false
+// scene: str; scene to use dialog from. default: current scene
+// index: int; scene index to use dialog from. default: current scene index
+// callback: func; callback to call after text has been shown.
+// \ Passed the selected response
+Dialog.show = function(entity, settings) {
+    var s = _.defaults(settings || {}, {
+        scene: State.scene,
+        index: State.getIndex(),
+        next: false,
+        emotes: null,
+        callback: null
+    });
+    var dialog = Dialog.get(entity, s.scene, s.index);
     if (!existy(dialog))
         return;
     var text = dialog.text;
@@ -577,14 +587,16 @@ Dialog.show = function(entity, emotes, next, scene, index) {
     // Cycles through text array, spawning a speech bubble for each entry
     var speech = function(selected) {
         if (i < text.length) {
-            if (_.isArray(emotes) && _.isString(emotes[i]))
-                entity.emote(emotes[i].upperFirst());
+            if (_.isArray(s.emotes) && _.isString(s.emotes[i]))
+                entity.emote(s.emotes[i].upperFirst());
             Crafty.e('Speech').speech(entity, text[i], _.isArray(response) && response[i]);
             i += 1;
         } else {
             // May not be necessary. Leaving commented just in case.
             // Dialog.progression->unbindAll should take care of it.
             //entity.unbind('CloseSpeech');
+            if (_.isFunction(s.callback))
+                s.callback(selected);
             entity.trigger('SpeechFinish');
         }
         // Trigger response if response id (selected) is passed
@@ -594,8 +606,8 @@ Dialog.show = function(entity, emotes, next, scene, index) {
     };
     speech();
     entity.bind('CloseSpeech', speech);
-    if (next) State.next(scene);
-    console.log('Dialog.show--->Index: ' + State.getIndex(scene));
+    if (s.next) State.next(s.scene);
+    console.log('Dialog.show--->Index: ' + State.getIndex(s.scene));
 };
 
 // Handles back-and-forth conversations
@@ -631,11 +643,12 @@ Dialog.progression = function(argsList) {
 // \ 'good' has a green background - used for good decisions
 // \\ 'bad' has a red background - used for bad decisions
 // \\\ 'scenario' has a grey background - used for intro text to scenarios
+// persist: opt; bool; whether info box should persit between scenes
 // index: opt; int; typically 0 or 1 - 0 = good, 1 = bad.
 // \ corresponds to index of text.
 // \\ default: type == 'good': 0; type == 'bad': 1; type == 'scenario': 0;
 // scene: opt; str; scene name to pull lesson text from. default: current
-Dialog.showInfo = function(type, index, scene) {
+Dialog.showInfo = function(type, persist, index, scene) {
     Crafty.unbind('SceneChange', setupInfoBox);
     var bgcolor;
     var dialogType = 'lessons';
@@ -660,12 +673,21 @@ Dialog.showInfo = function(type, index, scene) {
             .append(html);
     };
     setupInfoBox();
-    Crafty.bind('SceneChange', setupInfoBox);
+    if (persist)
+        Crafty.bind('SceneChange', setupInfoBox);
+    else
+        Crafty.bind('SceneChange', function() {
+            Dialog.hideInfo();
+            Crafty.unbind('SceneChange', setupInfoBox);
+        });
+};
 
+Dialog.hideInfo = function() {
+    $('#lesson-container').detach();
 };
 
 State = {
-    scene: 'Street',
+    scene: 'Room',
     player: 'Girl',
     index: {
         'Room': 0,
