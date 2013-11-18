@@ -21,13 +21,15 @@ Crafty.scene('Room', function() {
                    Game.setScene('Street', {x: 'left', orientation: 'right'});
                 };
             } else {
-                Dialog.show(player, null, true);
+                Dialog.show(player, {next: true});
             }
         }, function() {
             player.action = null;
         });
 
-    Dialog.show(player, null, true);
+    Dialog.show(player, {next: true, callback: function() {
+        Dialog.showInfo('scenario', false, 0);
+    }});
 }, function() {
     this.unbind('KeyDown');
 });

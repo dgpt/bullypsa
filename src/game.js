@@ -46,14 +46,6 @@ Game = {
     fps: Crafty.e('FPS'),
 
     /* DEBUG STUFF */
-    // Changes state to specified, reloads current scene, sets Game.player.x to first listed x pos for scene
-    changeState: function(state) {
-        Game.currentState = state;
-        var scene = Crafty._current;
-        // Choose first listed x position
-        Game.player.x = _.flatten(Game.playerPos[scene.toLowerCase()])[0];
-        Crafty.scene(scene);
-    },
     debug: function() {
         $('#cr-stage').after(
 /*            // Debug Quick Links Table
@@ -160,7 +152,6 @@ Game = {
     // Uses Game.playerPos to determine position, pass settings.x to match the key entry from Game.playerPos.scene (typically left, right)
     // If Game.playerPos.scene is not an object, do not pass anything for settings.x
     setScene: function(scene, settings) {
-        Game.fader.x = -Crafty.viewport.x;
         Game.fader.fade(25, "out", function() {
             var s = _.defaults(settings || {}, {
                 orientation: 'right',
@@ -185,7 +176,6 @@ Game = {
             State.scene = scene;
             Crafty.scene(scene);
 
-            Game.fader.x = -Crafty.viewport.x;
             Game.fader.fade(25, "in");
         });
     },

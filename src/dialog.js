@@ -73,8 +73,7 @@ Dialog = {
 /* PCs */
 Dialog.girl = Dialog.template(),  Dialog.boy = Dialog.template();
 /* NPCs */
-Dialog.cindy = Dialog.template(), Dialog.clarence = Dialog.template(),
-Dialog.may = Dialog.template(),   Dialog.miley = Dialog.template(),
+Dialog.cindy = Dialog.template(), Dialog.may = Dialog.template(),
 Dialog.lady = Dialog.template(),  Dialog.diana = Dialog.template(),
 Dialog.mikey = Dialog.template(), Dialog.boy = Dialog.template(),
 Dialog.tyler = Dialog.template(), Dialog.rebecca = Dialog.template(),
@@ -82,11 +81,15 @@ Dialog.young_man = Dialog.template(), Dialog.dina = Dialog.template();
 /* Other */
 Dialog.lessons = Dialog.template(), Dialog.scenarios = Dialog.template();
 
-
+/* Characters with a dialog part:
+girl, cindy, may, dina, diana, lady (teacher)
+boy, young_man, mikey, tyler
+*/
 ////////////////////////////////////
 ///////  Girl Scenes  /////////////
 //////////////////////////////////
-
+/* Lessons are 0 = good 1 = bad
+ * Scenarios are from 0 to 4 */
 ///* Room *///
     Dialog.scenarios.room[0] = {
         text: [
@@ -337,6 +340,187 @@ Dialog.lessons = Dialog.template(), Dialog.scenarios = Dialog.template();
 ////////////////////////////////////
 ///////  Boy Scenes   /////////////
 //////////////////////////////////
+/* Lessons are 2 = good 3 = bad
+ * Scenarios are from 5 to 9   */
+///* Park *///
+    Dialog.scenarios.park[5] = {
+        text: [
+            "The kids are playing football in the park. Joe missed the ball when it passed to him."
+        ]
+    };
+
+    Dialog.young_man.park[0] = {
+        text: [
+            "How could you miss that ball? It was coming straight for you. Even a two year old could have caught it!"
+        ]
+    };
+
+    Dialog.boy.park[0] = {
+        text: [
+            "The sun was in my eyes. I couldn't see it..."
+        ]
+    };
+
+    Dialog.young_man.park[1] = {
+        text: [
+            "Whatever! You are just a baby who can’t catch a ball. I’m not going to let you play on my team again!"
+        ]
+    };
+
+    Dialog.boy.park[1] = {
+        text: [
+            Dialog.text.response
+        ],
+        response: [[
+            "Fine, I'm going to take your ball!"+br+
+            "*Start a fight with the bullies*",
+            "I don't like being talked to like that. I am not going to play with you if you treat me that way. Everyone makes mistakes sometimes."
+        ]]
+    };
+    // Lessons
+    // Good
+    Dialog.lessons.park[2] = {
+        text: [
+            "Joe decides to stand up for himself, he tells them he does not like what they are saying and everybody makes a mistake sometime. He does the right thing by walking away to avoid a confrontation. Speaking up without starting a fight takes away the power a bully has."
+        ]
+    };
+    // Bad
+    Dialog.lessons.park[3] = {
+        text: [
+            "Joe decides to give them a taste of their own medicine, saying he would take their ball. Then in anger, he starts a fight with them. A better choice would be to walk away. Fighting lets them know that what they said was a good way to get a reaction out of you and things will probably get worse in the future!"
+        ]
+    };
+
+///* Street *//
+    Dialog.scenarios.street[5] = {
+        text: [
+            "Joe is walking to school after his trouble at the park."
+            // Mikey walks up to him
+        ]
+    };
+
+    Dialog.mikey.street[0] = {
+        text: [
+            "Hey wimp, give me your lunch money."
+        ]
+    };
+
+    Dialog.boy.street[0] = {
+        text: [
+            Dialog.text.response
+        ],
+        response: [[
+            "*Run away and tell an adult*",
+            "*Give Mikey your lunch money*"
+        ]]
+    };
+    // Lessons
+    // Good
+    Dialog.lessons.street[2] = {
+        text: [
+            "Joe is tired of giving in to the bully and giving him his lunch money. He decides to go tell an adult. If you are being bullied you should tell an adult. It is not tattling. You need someone you can trust to be on your side. Being silent and giving in to bullies only makes them more powerful."
+        ]
+    };
+    // bad
+    Dialog.lessons.street[3] = {
+        text: [
+            "Joe gives them his lunch money. He does not want to take the chance of getting beat-up. He really should just run to an adult and get them to help him because in this situation the bullying will continue if someone does not stop him. The best way to handle this is to get a trusted adult involved."
+        ]
+    };
+
+///* Corridor *///
+    Dialog.scenarios.street[5] = {
+        text: [
+            "On the way to class..."
+        ]
+    };
+
+    Dialog.tyler.corridor[0] = {
+        text: [
+            "Hey shorty, aren't you a little young to be in junior high?"
+        ]
+    };
+
+    Dialog.boy.corridor[0] = {
+        text: [
+            "I'm plenty old enough!"
+        ]
+    };
+
+    Dialog.tyler.corridor[1] = {
+        text: [
+            "You're way too short. There's no way you're old enough, short stack!"
+        ]
+    };
+
+    Dialog.boy.corridor[1] = {
+        text: [
+            Dialog.text.response
+        ],
+        response: [[
+            "I'll show you who's short!"+br+
+            "*Kick Tyler in the shin*",
+            "*Ignore Tyler and walk away*"
+        ]]
+    };
+    // Lessons
+    // Good
+    Dialog.lessons.corridor[2] = {
+        text: [
+            "Joe made the right choice by leaving the situation and not reacting to the name-calling. Showing emotion to their insults would have been the wrong choice. By walking away, Joe sent a message to the bullies that he wasn't going to let their name-calling bother him."
+        ]
+    };
+    // Bad
+    Dialog.lessons.corridor[3] = {
+        text: [
+            "Joe should leave it alone and go to another area to avoid any confrontation. Fighting is never the right choice and usually will let bullies know what your weak spots are so that they know how to pick on you again in the future."
+        ]
+    };
+
+///* Library *///
+    Dialog.mikey.library[0] = {
+        text: [
+            "What a wimp! Did you see him this morning trying to act like he was tough at the park for that girl?"
+        ]
+    };
+
+    Dialog.tyler.library[0] = {
+        text: [
+            "They're perfect for each other. She's so ugly nobody else wants her and he's such a weakling. Girls are never going to like such a sissy."
+        ]
+    };
+    // As Joe approaches the group...
+    Dialog.mikey.library[1] = {
+        text: [
+            "Wuss."
+        ]
+    };
+
+    Dialog.boy.library[1] = {
+        text: [
+            Dialog.text.response
+        ],
+        response: [[
+            "I heard what you said about Lindsay and me. You're gonna pay for that!"+br+
+            "*Punch Mikey*",
+            "Why do you have to act like such a bully? So not cool."+br+
+            "*Walk Away*"
+        ]]
+    };
+    // Lessons
+    // Good
+    Dialog.lessons.library[2] = {
+        text: [
+            "Joe decides to at least let them know how he feels, being proud of himself because he did not resort to a physical or verbal means of retaliating back. By speaking up, without starting a fight, Joe took away their power."
+        ]
+    };
+    // Bad
+    Dialog.lessons.library[3] = {
+        text: [
+            "Joe lets their comments get the best of him and he tries to defend Lindsay. He threatens the bullies and then starts to fight. Joe should have just not said anything and walked away. Do not forget that engaging in a fight can make things worse."
+        ]
+    };
+
 
 
 // USES GLOBALS: State.scene, State.index
@@ -347,7 +531,7 @@ Dialog.lessons = Dialog.template(), Dialog.scenarios = Dialog.template();
 // return value {text: [], response: [[]]}
 Dialog.get = function(entity, scene, index) {
     scene = (scene || State.scene).lowerFirst();
-    index = index || State.index[scene.upperFirst()];
+    index = existy(index) ? index : State.index[scene.upperFirst()];
     // Entity can be a string (warning: does not do extensive checking)
     // or and instance of the Actor component
     entity = _.isObject(entity) && entity.__c.Actor ? entity.name.toLowerCase() : entity;
@@ -371,14 +555,24 @@ Dialog.get = function(entity, scene, index) {
 
 // Shows dialog. Defaults to current State and Scene.
 // entity: required; actor to spawn dialog above.
-// emote: opt; array; Emotes to use when dialog appears. null for no emotes
+// settings: contains the following optional settings
+// emotes: array; Emotes to use when dialog appears. null for no emotes
 // \ emotes displayed in order they are in array. Corresponds to current dialog array
 // \\ (see Dialog.show->speech())
-// next: opt; boolean; increment the state index? default: false
-// scene: opt; str; scene to use dialog from. default: current scene
-// index: opt; int; scene index to use dialog from. default: current scene index
-Dialog.show = function(entity, emotes, next, scene, index) {
-    var dialog = Dialog.get(entity, scene, index);
+// next: boolean; increment the state index? default: false
+// scene: str; scene to use dialog from. default: current scene
+// index: int; scene index to use dialog from. default: current scene index
+// callback: func; callback to call after text has been shown.
+// \ Passed the selected response
+Dialog.show = function(entity, settings) {
+    var s = _.defaults(settings || {}, {
+        scene: State.scene,
+        index: State.getIndex(),
+        next: false,
+        emotes: null,
+        callback: null
+    });
+    var dialog = Dialog.get(entity, s.scene, s.index);
     if (!existy(dialog))
         return;
     var text = dialog.text;
@@ -393,16 +587,16 @@ Dialog.show = function(entity, emotes, next, scene, index) {
     // Cycles through text array, spawning a speech bubble for each entry
     var speech = function(selected) {
         if (i < text.length) {
-            if (_.isArray(emotes) && _.isString(emotes[i]))
-                entity.emote(emotes[i].upperFirst());
-            //console.log('Triggering speech on ' + entity.name);
-            var speech = Crafty.e('Speech').speech(entity, text[i], _.isArray(response) && response[i]);
-            console.log(speech);
+            if (_.isArray(s.emotes) && _.isString(s.emotes[i]))
+                entity.emote(s.emotes[i].upperFirst());
+            Crafty.e('Speech').speech(entity, text[i], _.isArray(response) && response[i]);
             i += 1;
         } else {
             // May not be necessary. Leaving commented just in case.
             // Dialog.progression->unbindAll should take care of it.
             //entity.unbind('CloseSpeech');
+            if (_.isFunction(s.callback))
+                s.callback(selected);
             entity.trigger('SpeechFinish');
         }
         // Trigger response if response id (selected) is passed
@@ -412,8 +606,8 @@ Dialog.show = function(entity, emotes, next, scene, index) {
     };
     speech();
     entity.bind('CloseSpeech', speech);
-    if (next) State.next(scene);
-    console.log('Dialog.show--->Index: ' + State.getIndex(scene));
+    if (s.next) State.next(s.scene);
+    console.log('Dialog.show--->Index: ' + State.getIndex(s.scene));
 };
 
 // Handles back-and-forth conversations
@@ -449,11 +643,12 @@ Dialog.progression = function(argsList) {
 // \ 'good' has a green background - used for good decisions
 // \\ 'bad' has a red background - used for bad decisions
 // \\\ 'scenario' has a grey background - used for intro text to scenarios
+// persist: opt; bool; whether info box should persit between scenes
 // index: opt; int; typically 0 or 1 - 0 = good, 1 = bad.
 // \ corresponds to index of text.
 // \\ default: type == 'good': 0; type == 'bad': 1; type == 'scenario': 0;
 // scene: opt; str; scene name to pull lesson text from. default: current
-Dialog.showInfo = function(type, index, scene) {
+Dialog.showInfo = function(type, persist, index, scene) {
     Crafty.unbind('SceneChange', setupInfoBox);
     var bgcolor;
     var dialogType = 'lessons';
@@ -478,12 +673,21 @@ Dialog.showInfo = function(type, index, scene) {
             .append(html);
     };
     setupInfoBox();
-    Crafty.bind('SceneChange', setupInfoBox);
+    if (persist)
+        Crafty.bind('SceneChange', setupInfoBox);
+    else
+        Crafty.bind('SceneChange', function() {
+            Dialog.hideInfo();
+            Crafty.unbind('SceneChange', setupInfoBox);
+        });
+};
 
+Dialog.hideInfo = function() {
+    $('#lesson-container').detach();
 };
 
 State = {
-    scene: 'Street',
+    scene: 'Room',
     player: 'Girl',
     index: {
         'Room': 0,

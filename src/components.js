@@ -297,23 +297,37 @@ Crafty.c('Boy', {
     }
 });
 
-/***** NPCs ******/
-Crafty.c('Cindy', {
-    cindy: function(settings) {
+///***** NPCs ******///
+Crafty.c('GenericNPC', {
+    gnpc: function(name, settings) {
         var s = _.defaults(settings || {}, {
-            sprite: 'sprCindy',
-            left:  [0, 2, 6],
-            right: [0, 3, 6],
-            x: 250,
+            sprite: 'spr' + name.upperFirst(),
+            left:  [0, 0, 6],
+            right: [0, 1, 6],
+            x: 0,
             y: Game.player.y,
             z: 5
         });
-
         this.requires('NPC').npc(s);
         return this;
     }
 });
+///* Main NPCs *///
+    Crafty.c('Cindy', {
+        cindy: function(settings) {
+            return this.requires('GenericNPC')
+                .gnpc('cindy', settings);
+        }
+    });
 
+<<<<<<< HEAD
+    Crafty.c('May', {
+        may: function(settings) {
+            return this.requires('GenericNPC')
+                .gnpc('may', settings);
+        }
+    });
+=======
 Crafty.c('Sara', {
     sara: function(settings) {
         var s = _.defaults(settings || {}, {
@@ -332,15 +346,127 @@ Crafty.c('Sara', {
         return this;
     }
 });
+>>>>>>> donkeyMoveTest
 
+    Crafty.c('Dina', {
+        dina: function(settings) {
+            return this.requires('GenericNPC')
+                .gnpc('dina', settings);
+        }
+    });
 
-Crafty.c('', {
+    Crafty.c('Diana', {
+        diana: function(settings) {
+            return this.requires('GenericNPC')
+                .gnpc('diana', settings);
+        }
+    });
 
-});
+    Crafty.c('Lady', {
+        lady: function(settings) {
+            return this.requires('GenericNPC')
+                .gnpc('lady', settings);
+        }
+    });
 
-Crafty.c('', {
+    Crafty.c('Young_man', {
+        young_man: function(settings) {
+            return this.requires('GenericNPC')
+                .gnpc('young_man', settings);
+        }
+    });
 
-});
+    Crafty.c('Mikey', {
+        mikey: function(settings) {
+            return this.requires('GenericNPC')
+                .gnpc('mikey', settings);
+        }
+    });
+
+    Crafty.c('Tyler', {
+        tyler: function(settings) {
+            return this.requires('GenericNPC')
+                .gnpc('tyler', settings);
+        }
+    });
+
+///* Background NPCs *///
+    Crafty.c('Clarence', {
+
+    });
+
+    Crafty.c('Curtis', {
+
+    });
+
+    Crafty.c('Elise', {
+
+    });
+
+    Crafty.c('Femaleb', {
+
+    });
+
+    Crafty.c('Girl_small', {
+
+    });
+
+    Crafty.c('Harriet', {
+
+    });
+
+    Crafty.c('Marion', {
+
+    });
+
+    Crafty.c('Midage_man', {
+
+    });
+
+    Crafty.c('Midage_woman', {
+
+    });
+
+    Crafty.c('Miley', {
+
+    });
+
+    Crafty.c('Octavia', {
+
+    });
+
+    Crafty.c('Rebecca', {
+
+    });
+
+    Crafty.c('Salary_man', {
+
+    });
+
+    Crafty.c('Sara', {
+        sara: function(settings) {
+            var s = _.defaults(settings || {}, {
+                sprite: 'sprSara',
+                //           x1 y  x2
+                left:       [0, 2, 6],
+                leftBlink:  [0, 0, 4],
+                right:      [0, 3, 6],
+                rightBlink: [0, 1, 4],
+                x: 150,
+                z: 7
+            });
+            this.requires('NPC').npc(s);
+            return this;
+        }
+    });
+
+    Crafty.c('Vivian', {
+
+    });
+
+    Crafty.c('Young_woman', {
+
+    });
 
 
 Crafty.c('Emotion', {

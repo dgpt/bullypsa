@@ -17,8 +17,6 @@ Load:
     add loading bar
     loading screen is bigger than game screen
 
-On scene change, fade to black, then unfade onto the next scene
-
 Sounds Needed:
     Corridor
         Walking downstairs
