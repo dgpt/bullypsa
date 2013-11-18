@@ -73,8 +73,7 @@ Dialog = {
 /* PCs */
 Dialog.girl = Dialog.template(),  Dialog.boy = Dialog.template();
 /* NPCs */
-Dialog.cindy = Dialog.template(), Dialog.clarence = Dialog.template(),
-Dialog.may = Dialog.template(),   Dialog.miley = Dialog.template(),
+Dialog.cindy = Dialog.template(), Dialog.may = Dialog.template(),
 Dialog.lady = Dialog.template(),  Dialog.diana = Dialog.template(),
 Dialog.mikey = Dialog.template(), Dialog.boy = Dialog.template(),
 Dialog.tyler = Dialog.template(), Dialog.rebecca = Dialog.template(),
@@ -82,12 +81,15 @@ Dialog.young_man = Dialog.template(), Dialog.dina = Dialog.template();
 /* Other */
 Dialog.lessons = Dialog.template(), Dialog.scenarios = Dialog.template();
 
-
+/* Characters with a dialog part:
+girl, cindy, may, dina, diana, lady (teacher)
+boy, young_man, mikey, tyler
+*/
 ////////////////////////////////////
 ///////  Girl Scenes  /////////////
 //////////////////////////////////
 /* Lessons are 0 = good 1 = bad
- * Scenarios are from 0 to 5    */
+ * Scenarios are from 0 to 4 */
 ///* Room *///
     Dialog.scenarios.room[0] = {
         text: [
@@ -339,7 +341,7 @@ Dialog.lessons = Dialog.template(), Dialog.scenarios = Dialog.template();
 ///////  Boy Scenes   /////////////
 //////////////////////////////////
 /* Lessons are 2 = good 3 = bad
- * Scenarios are from 5 to 10   */
+ * Scenarios are from 5 to 9   */
 ///* Park *///
     Dialog.scenarios.park[5] = {
         text: [
