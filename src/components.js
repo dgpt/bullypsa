@@ -577,12 +577,15 @@ Crafty.c('Overlay', {
 
 Crafty.c('Fader', {
     active: false,
+    width: 0,
 
     init: function() {
         var canvas = document.createElement('canvas');
         var gc = canvas.getContext('2d');
         canvas.width = Game.width * 2;
         canvas.height = Game.height;
+
+        this.width = canvas.width;
 
         gc.fillStyle = "#000000";
         gc.fillRect(0, 0, canvas.width, canvas.height);
@@ -599,7 +602,7 @@ Crafty.c('Fader', {
         this.active = true;
 
         imageEnt.alpha = fadesIn ? 1.0 : 0.0;
-        imageEnt.attr({x: -Crafty.viewport.x, y: this.y})
+        imageEnt.attr({x: -Crafty.viewport.x - this.width/4, y: this.y})
             .tween({alpha: fadesIn ? 0.0 : 1.0}, fadeTime)
             .bind("TweenEnd", function() {
                 this.active = false;
