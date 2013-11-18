@@ -250,14 +250,18 @@ Crafty.c('NPC', {
     // 'full': move across entire scene, then go the opposite way after given time
     // 'stop': Stay still, same as passing an empty array
     _patrol: function(path) {
-        if (path === "full-left") {
-            this.moveTo(0, _.bind(function() {
-                this._patrol("full");
-            }, this));
-        } else if (path === "full") {
-            this.moveTo(Game.width - this.w - 5, _.bind(function() {
-                this._patrol("full-left");
-            }, this));
+        if (typeof path === "string") {
+            if (path === "full-left") {
+                this.moveTo(0, _.bind(function() {
+                    this._patrol("full");
+                }, this));
+            } else if (path === "full") {
+                this.moveTo(Game.width - this.w - 5, _.bind(function() {
+                    this._patrol("full-left");
+                }, this));
+            }
+        } else {
+            //Do the array stuff.
         }
     },
 });
@@ -317,7 +321,7 @@ Crafty.c('Sara', {
         });
         this.requires('NPC').npc(s);
 
-        this._patrol('full');
+        this._patrol("full");
         return this;
     }
 });
