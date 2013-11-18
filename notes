@@ -5,7 +5,9 @@ Room->Street/->Corridor/->Library
 BUGS:
     On scene change, if the info box is up, it jumps into the game div
 TODO:
-    make lesson text system (appears at left or right of game)
+    Randomize responses
+        think they made them predictable
+        use a function to randomly sort the response array in Speech component
     make exandable help text link below game.
         shows controls, etc.
         Help (down arrow graphic)
