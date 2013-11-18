@@ -46,22 +46,24 @@ Crafty.scene('Street', function() {
                 if (!cindy._dflag0) {
                     cindy.speechWidth = 220;
                     Dialog.progression([
-                        [cindy, ['Question']],
-                        [player, ['Exclamation']]
+                        [cindy, {emotes: ['Question']}],
+                        [player, {emotes: ['Exclamation']}]
                     ]);
                     cindy._dflag0 = true;
                 }
             }});
 
         Crafty.bind('SpeechResponse', function(e) {
+            console.log(e);
             if (e === 0)
                 Dialog.showInfo('good');
             else
-                Dialog.showInfo('bad')
+                Dialog.showInfo('bad');
         });
         var sara = Crafty.e('Sara').sara();
     }
 
+    // Boy Story
     if (State.player === 'Boy') {
 
     }
