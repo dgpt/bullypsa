@@ -11,7 +11,30 @@ TODO:
     make exandable help text link below game.
         shows controls, etc.
         Help (down arrow graphic)
+    Finish Girl Story
+        Corridor
+        Classroom
+        Library
+    Finish Boy Story
+        Park
+        Street
+        Corridor
+        Library
+    Make Ending
+        Good Ending
+        Bad Ending
+    Populate areas with appropriate NPCs
+        Park
+        Street
+        Corridor
+        Classroom
+    Add point system
+        Get points for right answers
+        End point amount determines ending
+    Figure out a good transition from girl to boy (not relating to sex-changes)
 
+    eat some pie
+    sleep
 
 Load:
     add loading bar
