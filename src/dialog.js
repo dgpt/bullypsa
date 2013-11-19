@@ -163,11 +163,11 @@ boy, young_man, mikey, tyler
         ]
     };
 
-    Dialog.girl.corridor[0] = {
+/*    Dialog.girl.corridor[0] = {
         text: [
             "Leave me alone! I'm going to tell!!"
         ]
-    };
+    };*/
 
     Dialog.may.corridor[1] = {
         text: [
@@ -550,6 +550,7 @@ Dialog.get = function(entity, scene, index) {
         warn('Dialog.get: Dialog['+entity+']['+scene+']['+index+'] does not exist.');
         return;
     }
+    console.log('Dialog.get: Dialog['+entity+']['+scene+']['+index+']');
     return d;
 };
 
@@ -573,7 +574,6 @@ Dialog.show = function(entity, settings) {
         callback: null
     });
     var dialog = Dialog.get(entity, s.scene, s.index);
-    console.log(dialog);
     if (!existy(dialog))
         return;
     var text = dialog.text;
@@ -587,6 +587,7 @@ Dialog.show = function(entity, settings) {
     var i = 0;
     // Cycles through text array, spawning a speech bubble for each entry
     var speech = function(selected) {
+        console.log(selected);
         if (i < text.length) {
             if (_.isArray(s.emotes) && _.isString(s.emotes[i]))
                 entity.emote(s.emotes[i].upperFirst());
@@ -623,7 +624,6 @@ Dialog.progression = function(argsList) {
             return;
         }
         args[0].bind('SpeechFinish', speech);
-        console.log(args);
         Dialog.show.apply(null, args);
         i++;
     };
@@ -650,7 +650,7 @@ Dialog.progression = function(argsList) {
 // \ corresponds to index of text.
 // \\ default: type == 'good': 0; type == 'bad': 1; type == 'scenario': 0;
 // scene: opt; str; scene name to pull lesson text from. default: current
-Dialog.showInfo = function(type, persist, index, scene) {
+Dialog.showInfo = function(type, index, scene) {
     Crafty.unbind('SceneChange', setupInfoBox);
     var bgcolor;
     var dialogType = 'lessons';
@@ -675,13 +675,12 @@ Dialog.showInfo = function(type, persist, index, scene) {
             .append(html);
     };
     setupInfoBox();
-    if (persist)
-        Crafty.bind('SceneChange', setupInfoBox);
-    else
-        Crafty.bind('SceneChange', function() {
-            Dialog.hideInfo();
-            Crafty.unbind('SceneChange', setupInfoBox);
-        });
+    // Only hideInfo on the second call
+    // Otherwise info would hide instantly
+    Crafty.bind('SceneChange', _.after(2, function() {
+        Dialog.hideInfo();
+        Crafty.unbind('SceneChange', setupInfoBox);
+    }));
 };
 
 Dialog.hideInfo = function() {

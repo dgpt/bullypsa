@@ -42,7 +42,7 @@ Crafty.scene('Room', function() {
         });
 
     Dialog.show(player, {next: true, callback: function() {
-        Dialog.showInfo('scenario', false, 0);
+        Dialog.showInfo('scenario', 0);
     }});
 }, function() {
     this.unbind('KeyDown');
@@ -145,22 +145,23 @@ Crafty.scene('Corridor', function() {
     //Crafty.e('Miley').miley(Crafty.scene.genNPCSettings());
 
     if (State.player === 'Girl') {
-        Dialog.showInfo('scenario', false);
-        // Add more girls to the group
-        var may = Crafty.e('May').may({x: 385, orientation: 'left', portal: true})
-            .action({onhit: function() {
-                if (!may._dflag) {
-                    Dialog.progression([
-                        [may, {emotes: ['Exclamation']}],
-                        [player, {emotes: ['Anger'], next: true}],
-                        [may, {emotes: ['Question']}],
-                        [player, {emotes: ['Question']}]
-                    ]);
-                    may._dflag = true;
-                }
-            }});
-
-        girlModeTransition(player, _.partial(Game.setScene, 'Classroom', {x: 'right', orientation: 'left'}));
+        if (State.getIndex() < 2) {
+            Dialog.showInfo('scenarios');
+            // Add more girls to the group
+            var may = Crafty.e('May').may({x: 385, orientation: 'left', portal: true})
+                .action({onhit: function() {
+                    if (!may._dflag) {
+                        Dialog.progression([
+                            [may, {emotes: ['Exclamation'], index: 0}],
+/*                            [player, {emotes: ['Anger'], next: true}],*/
+                            [may, {emotes: ['Question'], index: 1}],
+                            [player, {emotes: ['Question'], index: 1}]
+                        ]);
+                        may._dflag = true;
+                    }
+                }});
+            girlModeTransition(player, _.partial(Game.setScene, 'Classroom', {x: 'right', orientation: 'left'}));
+        }
     }
 
     if (State.player === 'Boy') {
