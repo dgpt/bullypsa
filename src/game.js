@@ -190,25 +190,40 @@ Game = {
 
         Crafty.scene('Load');
 
-        //Add a hyperlink for help.
-        var helpLink = $('<a>');
-        helpLink.html("<a id='helpLink' href='#' onClick='Game.onHelpClick()'>Need help?</a>");
-        $(document.body).append(helpLink);
-    }
+        Game.addHelpLink();
+     }
+};
+
+Game.addHelpLink = function() {
+   //Add a hyperlink for help.
+    var helpLink = $('<a>');
+    helpLink.html("<a id='helpLink' href='#' onClick='Game.onHelpClick()'>Need help?</a>");
+    $(document.body).append(helpLink);
 };
 
 //When you click on the help hyperlink.
 Game.onHelpClick = function() {
     $("#helpLink").html("");
 
-    var helpText = $("<div style='width: "+ Game.width +"px;'>");
+    var helpText = $("<div id='helpText' style='width: "+ Game.width +"px;'>");
     $(helpText).html("Help:<br>Sometimes the game will be a little too small. Hold the CTRL button and use your mouse's scroll wheel to increase or decrease the zoom.\
-    <br><br>Is the game not working? We highly recommend using either Chrome or Firefox as your browser to play this game.\
+    <br><br>Is the game not working? We highly recommend using either <a href='https://www.google.com/intl/en/chrome/browser/'>Chrome</a> or <a href='http://www.mozilla.org/en-US/firefox/new/'>Firefox</a> as your browser to play this game.\
     <br><br>Controls:<br>\
     Remember you will only use the arrow keys and the space bar in this game.<ul>\
     <li>Use the arrow keys to move left and right.<br>\
     <li>When a choice is available use the up and down arrows keys to select your choice and press space to confirm.\
     <li>Use the space bar to travel to new areas when an emote pops up.<li>Use the space bar to continue through dialog.</ul>");
 
+    var closeHelpLink = $('<a>');
+    closeHelpLink.html("<a id='closeHelpLink' href='#' onClick='Game.onCloseHelpClick()'>close</a>");
+
     $(document.body).append(helpText);
-}
+    $(document.body).append(closeHelpLink);
+};
+
+Game.onCloseHelpClick = function() {
+    $('#helpText').remove();
+    $('#helpLink').remove();
+    $('#closeHelpLink').remove();
+    Game.addHelpLink();
+};
