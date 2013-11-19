@@ -40,7 +40,7 @@ Crafty.scene('Street', function() {
     //Background NPCs
     function genBackSettings() {
         return {
-            path: Math.random() <= 0.5 ? 'full' : 'full-left',
+            path: Math.random() <= 0.5 ? 'full-right' : 'full-left',
             pathInterval: Crafty.math.randomNumber(600, 4000),
             x: Crafty.math.randomNumber(0, Game.width-10),
             y: Game.player.y - 15,
@@ -50,7 +50,7 @@ Crafty.scene('Street', function() {
 
     function genFrontSettings() {
         return {
-            path: Math.random() <= 0.5 ? 'full' : 'full-left',
+            path: Math.random() <= 0.5 ? 'full-right' : 'full-left',
             pathInterval: Crafty.math.randomNumber(600, 4000),
             x: Crafty.math.randomNumber(0, Game.width-10),
             y: Game.player.y,
