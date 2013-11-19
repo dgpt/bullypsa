@@ -46,7 +46,9 @@ Crafty.scene('Street', function() {
             pathInterval: Crafty.math.randomNumber(600, 4000),
             x: Crafty.math.randomNumber(0, Game.width-10),
             y: front ? Game.player.y : Game.player.y - 15,
-            z: front ? 6 : 4
+            z: front ? 6 : 4,
+            speed: 1,
+            animSpeed: 60
         }
     }
 

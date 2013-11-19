@@ -12,6 +12,8 @@ TODO:
         shows controls, etc.
         Help (down arrow graphic)
 
+    In components.js with the npc component moveTo will sometimes say _settings is not defined when in the EnterFrame event. Currently we are ignoring this and it appears to work fine, but we may want to check this out if we getan unexplainable error.
+
 
 Load:
     add loading bar

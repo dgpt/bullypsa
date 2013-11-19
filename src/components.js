@@ -235,19 +235,27 @@ Crafty.c('NPC', {
 
     // Moves from current x to given x
     moveTo: function(x, callback) {
-        var dir = x < this.x ? -1 : 1;
-        var dirName = dir === 1 ? 'Right' : 'Left';
+        if (this._settings) {
+            var dir = x < this.x ? -1 : 1;
+            var dirName = dir === 1 ? 'Right' : 'Left';
 
-        this.animate(dirName, this._settings.animSpeed, -1);
-        this.bind("EnterFrame", function(e) {
-            if (this.x * dir >= x * dir) {
-                this.animate(dirName + "Stop", 0);
-                this.unbind("EnterFrame");
-                if (callback) callback();
-            } else {
-                this.x += this._settings.speed * dir;
-            }
-        });
+            this.animate(dirName, this._settings.animSpeed, -1);
+            this.bind("EnterFrame", function(e) {
+                if (this.x * dir >= x * dir) {
+                    this.animate(dirName + "Stop", 0);
+                    this.unbind("EnterFrame");
+                    if (callback) callback();
+                } else {
+                    if (this._settings) {
+                        this.x += this._settings.speed * dir;
+                    } else {
+                        console.error("_settings is undefined. this is in the enterframe event.");
+                    }
+                }
+            });
+        } else {
+            console.error("_settings is undefined for some reason.");
+        }
     },
 
     // Given array of x positions or specific keywords, move to each one
