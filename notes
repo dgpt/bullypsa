@@ -4,6 +4,10 @@ Room->Street/->Corridor/->Library
 
 BUGS:
     On scene change, if the info box is up, it jumps into the game div
+
+    In components.js with the npc component moveTo will sometimes say _settings is not defined when in the EnterFrame event. Currently we are ignoring this and it appears to work fine, but we may want to check this out if we getan unexplainable error.
+
+
 TODO:
     Finish Girl Story
         Corridor
@@ -18,9 +22,6 @@ TODO:
     Make Ending
         Good Ending
         Bad Ending
-    make exandable help text link below game.
-        shows controls, etc.
-        Help (down arrow graphic)
     Populate areas with appropriate NPCs
         Park
         Street
@@ -32,6 +33,11 @@ TODO:
 
     eat some pie
     sleep
+
+TODO-DONE:
+    make exandable help text link below game.
+        shows controls, etc.
+        Help (down arrow graphic)
 
 Load:
     add loading bar
