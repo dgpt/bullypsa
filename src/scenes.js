@@ -54,13 +54,7 @@ Crafty.scene('Street', function() {
                     }
                 }});
 
-            speechResponse(function(e) {
-                player.enabled = false;
-                storyFadeOut(_.partial(showGirlLesson, e));
-                onSpaceKey(function() {
-                    Game.setScene('Corridor', {x: 'left', orientation: 'right'});
-                });
-            });
+            girlModeTransition(player, _.partial(Game.setScene, 'Corridor', {x: 'left', orientation: 'right'}));
         }
         var sara = Crafty.e('Sara').sara();
     }
@@ -130,16 +124,7 @@ Crafty.scene('Corridor', function() {
                 }
             }});
 
-        Crafty.bind('SpeechResponse', function(e) {
-            console.log('yo');
-            player.enabled = false;
-            storyFadeOut(function() {
-                showGirlLesson(e);
-                onSpaceKey(function() {
-                    Game.setScene('Classroom', {x: 'right', orientation: 'left'});
-                });
-            });
-        });
+        girlModeTransition(player, _.partial(Game.setScene, 'Classroom', {x: 'right', orientation: 'left'}));
     }
 
     if (State.player === 'Boy') {

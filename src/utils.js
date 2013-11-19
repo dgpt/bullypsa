@@ -68,3 +68,13 @@ function onSpaceKey(callback) {
     };
     Crafty.bind('KeyDown', check);
 }
+
+function storyModeTransition(showLesson, player, setScene) {
+    speechResponse(function(e) {
+        player.enabled = false;
+        storyFadeOut(_.partial(showLesson, e));
+        onSpaceKey(setScene);
+    });
+};
+
+var girlModeTransition = _.partial(storyModeTransition, showGirlLesson);
