@@ -211,7 +211,8 @@ Crafty.c('NPC', {
         this.requires('Actor, Tween, Delay')
             .actor(s.sprite, s);
 
-        this._patrol(s.path, s.pathInterval);
+        this._patrol = _.bind(this._patrol, this);
+        this._patrol(s.path, s.pathInterval, s.pathLeftEdge, s.pathRightEdge);
 
         return this;
     },
@@ -234,39 +235,56 @@ Crafty.c('NPC', {
 
     // Moves from current x to given x
     moveTo: function(x, callback) {
-        var dir = x < this.x ? -1 : 1;
-        var dirName = dir === 1 ? 'Right' : 'Left';
+        if (this._settings) {
+            var dir = x < this.x ? -1 : 1;
+            var dirName = dir === 1 ? 'Right' : 'Left';
 
-        this.animate(dirName, this._settings.animSpeed, -1);
-        this.bind("EnterFrame", function(e) {
-            if (this.x * dir >= x * dir) {
-                this.animate(dirName + "Stop", 0);
-                this.unbind("EnterFrame");
-                if (callback) callback();
-            } else {
-                this.x += this._settings.speed * dir;
-            }
-        });
+            this.animate(dirName, this._settings.animSpeed, -1);
+            this.bind("EnterFrame", function(e) {
+                if (this.x * dir >= x * dir) {
+                    this.animate(dirName + "Stop", 0);
+                    this.unbind("EnterFrame");
+                    if (callback) callback();
+                } else {
+                    if (this._settings) {
+                        this.x += this._settings.speed * dir;
+                    } else {
+                        console.error("_settings is undefined. this is in the enterframe event.");
+                    }
+                }
+            });
+        } else {
+            console.error("_settings is undefined for some reason.");
+        }
     },
 
     // Given array of x positions or specific keywords, move to each one
     // 'full': move across entire scene, then go the opposite way after given time
     // 'stop': Stay still, same as passing an empty array
-    _patrol: function(path, interval) {
+    _patrol: function(path, interval, leftEdge, rightEdge) {
         if (typeof path === "string") {
 
-            var pleft = _.partial(this._patrol, 'full-left', interval);
-            var pright = _.partial(this._patrol, 'full', interval);
-            var mleft = _.partial(this.moveTo, 0, pright);
-            var mright = _.partial(this.moveTo, Game.width - this.w - 5, pleft);
+            var pleft = _.partial(this._patrol, 'left-edge', interval, leftEdge, rightEdge);
+            var pright = _.partial(this._patrol, 'right-edge', interval, leftEdge, rightEdge);
+            var mleft = _.partial(this.moveTo, leftEdge || 0, pright);
+            var mright = _.partial(this.moveTo, rightEdge || Game.width - this.w - 5, pleft);
 
-            if (path === "full-left") {
-                _.delay(_.bind(mleft, this), interval);
-            } else if (path === "full") {
-                _.delay(_.bind(mright, this), interval, 0);
+            pleft = _.bind(pleft, this);
+            pright = _.bind(pright, this);
+            mleft = _.bind(mleft, this);
+            mright = _.bind(mright, this);
+
+            if (path === "full-right") {
+                mright();
+            } else if (path === "full-left") {
+                mleft();
+            } else if (path === "left-edge") {
+                _.delay(mleft, interval, 0);
+            } else if (path === "right-edge") {
+                _.delay(mright, interval, 0);
             }
         } else {
-            //Do the array stuff.
+            console.error("path must be string");
         }
     },
 });
