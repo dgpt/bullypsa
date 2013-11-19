@@ -112,7 +112,7 @@ boy, young_man, mikey, tyler
         ]
     };
 
-    ///* Street *///
+///* Street *///
     Dialog.scenarios.street[0] = {
         text: [
             "Lindsay is on the way to school wearing some of last year's fashions."
@@ -165,7 +165,7 @@ boy, young_man, mikey, tyler
 
     Dialog.girl.corridor[0] = {
         text: [
-            "Leave me alone! I’m going to tell!!"
+            "Leave me alone! I'm going to tell!!"
         ]
     };
 
@@ -179,10 +179,10 @@ boy, young_man, mikey, tyler
         text: [
             Dialog.text.response,
         ],
-        resonse: [[
+        response: [[
             "Of course I can, but you are making fun of me. How would you feel if a picture like that was posted on Facebook?"+br+
             "*Tell your teacher about May's behavior*",
-            "I’m not a baby! You’re a baby!!!"+br+
+            "I'm not a baby! You're a baby!!!"+br+
             "*Push the bully and start a fight*"
         ]]
     };
@@ -573,6 +573,7 @@ Dialog.show = function(entity, settings) {
         callback: null
     });
     var dialog = Dialog.get(entity, s.scene, s.index);
+    console.log(dialog);
     if (!existy(dialog))
         return;
     var text = dialog.text;
@@ -622,6 +623,7 @@ Dialog.progression = function(argsList) {
             return;
         }
         args[0].bind('SpeechFinish', speech);
+        console.log(args);
         Dialog.show.apply(null, args);
         i++;
     };

@@ -792,6 +792,7 @@ Crafty.c('Overlay', {
 Crafty.c('Fader', {
     active: false,
     width: 0,
+    fadeTime: 70,
 
     init: function() {
         var canvas = document.createElement('canvas');

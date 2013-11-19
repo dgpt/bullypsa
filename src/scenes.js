@@ -70,36 +70,28 @@ Crafty.scene('Street', function() {
     // Girl Story
     if (State.player === 'Girl') {
         /* NPCs */
-        var cindy = Crafty.e('Cindy').cindy({x: 845, orientation: 'left', portal: true})
-            .action({onhit: function() {
-                // Hacky, yes. No time for beauty!
-                if (!cindy._dflag0) {
-                    cindy.speechWidth = 220;
-                    Dialog.progression([
-                        [cindy, {emotes: ['Question']}],
-                        [player, {emotes: ['Exclamation'], next: true}]
-                    ]);
-                    cindy._dflag0 = true;
-                }
-            }});
+        if (State.getIndex() < 1) {
+            var cindy = Crafty.e('Cindy').cindy({x: 845, orientation: 'left', portal: true})
+                .action({onhit: function() {
+                    // Hacky, yes. No time for beauty!
+                    if (!cindy._dflag0) {
+                        cindy.speechWidth = 220;
+                        Dialog.progression([
+                            [cindy, {emotes: ['Question']}],
+                            [player, {emotes: ['Exclamation'], next: true}]
+                        ]);
+                        cindy._dflag0 = true;
+                    }
+                }});
 
-        Crafty.bind('SpeechResponse', function(e) {
-            player.enabled = false;
-            Game.fader.fade(70, 'out', function() {
-                if (e === 0)
-                    Dialog.showInfo('good');
-                else
-                    Dialog.showInfo('bad');
-
-                _.delay(function() {
-                    Game.fader.fade(20, 'in', function() {
-                        player.enabled = true;
-                        Crafty.trigger('FadeEnd');
-                        Game.fader.fade(50, 'in');
-                    });
-                }, 2500)
-            }, true);
-        });
+            speechResponse(function(e) {
+                player.enabled = false;
+                storyFadeOut(_.partial(showGirlLesson, e));
+                onSpaceKey(function() {
+                    Game.setScene('Corridor', {x: 'left', orientation: 'right'});
+                });
+            });
+        }
     }
 
     // Boy Story
@@ -143,10 +135,45 @@ Crafty.scene('Street', function() {
                 Game.setScene('Corridor', {x: 'left', orientation: 'right'});
             };
         }, function() { player.action = null; });
+}, function() {
+    Crafty.unbind('KeyDown');
+    Crafty.unbind('SpeechResponse');
 });
 
 Crafty.scene('Corridor', function() {
     var player = Game.setupScene('corridor');
+
+    if (State.player === 'Girl') {
+        Dialog.showInfo('scenario', false);
+        // Add more girls to the group
+        var may = Crafty.e('May').may({x: 385, orientation: 'left', portal: true})
+            .action({onhit: function() {
+                if (!may._dflag) {
+                    Dialog.progression([
+                        [may, {emotes: ['Exclamation']}],
+                        [player, {emotes: ['Anger'], next: true}],
+                        [may, {emotes: ['Question']}],
+                        [player, {emotes: ['Question']}]
+                    ]);
+                    may._dflag = true;
+                }
+            }});
+
+        Crafty.bind('SpeechResponse', function(e) {
+            console.log('yo');
+            player.enabled = false;
+            storyFadeOut(function() {
+                showGirlLesson(e);
+                onSpaceKey(function() {
+                    Game.setScene('Classroom', {x: 'right', orientation: 'left'});
+                });
+            });
+        });
+    }
+
+    if (State.player === 'Boy') {
+
+    }
 
     // Left - To Street
     Crafty.e('Portal')
@@ -366,8 +393,8 @@ Crafty.scene('Load', function() {
             sprMarionL: [0, 0]
         });
         Crafty.sprite(54, 96, assets.may, {
-            sprMayR: [0, 1],
-            sprMayL: [0, 0]
+            sprMayR: [0, 3],
+            sprMayL: [0, 2]
         });
         Crafty.sprite(63, 96, assets.midage_man, {
             sprMidAgeManR: [0, 1],
