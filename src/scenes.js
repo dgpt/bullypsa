@@ -40,34 +40,36 @@ Crafty.scene('Street', function() {
     // Girl Story
     if (State.player === 'Girl') {
         /* NPCs */
-        var cindy = Crafty.e('Cindy').cindy({x: 845, orientation: 'left', portal: true})
-            .action({onhit: function() {
-                // Hacky, yes. No time for beauty!
-                if (!cindy._dflag0) {
-                    cindy.speechWidth = 220;
-                    Dialog.progression([
-                        [cindy, {emotes: ['Question']}],
-                        [player, {emotes: ['Exclamation'], next: true}]
-                    ]);
-                    cindy._dflag0 = true;
-                }
-            }});
-
-        Crafty.bind('SpeechResponse', function(e) {
-            player.enabled = false;
-            Game.fader.fade(70, 'out', function() {
-                if (e === 0)
-                    Dialog.showInfo('good');
-                else
-                    Dialog.showInfo('bad');
-
-                Crafty.bind('KeyDown', function(e) {
-                    if (e.key === Crafty.keys.SPACE) {
-                        Game.setScene('Corridor', {x: 'left', orientation: 'right'});
+        if (State.getIndex() < 1) {
+            var cindy = Crafty.e('Cindy').cindy({x: 845, orientation: 'left', portal: true})
+                .action({onhit: function() {
+                    // Hacky, yes. No time for beauty!
+                    if (!cindy._dflag0) {
+                        cindy.speechWidth = 220;
+                        Dialog.progression([
+                            [cindy, {emotes: ['Question']}],
+                            [player, {emotes: ['Exclamation'], next: true}]
+                        ]);
+                        cindy._dflag0 = true;
                     }
-                });
-            }, true);
-        });
+                }});
+
+            Crafty.bind('SpeechResponse', function(e) {
+                player.enabled = false;
+                Game.fader.fade(70, 'out', function() {
+                    if (e === 0)
+                        Dialog.showInfo('good');
+                    else
+                        Dialog.showInfo('bad');
+
+                    Crafty.bind('KeyDown', function(e) {
+                        if (e.key === Crafty.keys.SPACE) {
+                            Game.setScene('Corridor', {x: 'left', orientation: 'right'});
+                        }
+                    });
+                }, true);
+            });
+        }
         var sara = Crafty.e('Sara').sara();
     }
 
@@ -112,6 +114,8 @@ Crafty.scene('Street', function() {
                 Game.setScene('Corridor', {x: 'left', orientation: 'right'});
             };
         }, function() { player.action = null; });
+}, function() {
+    Crafty.unbind('KeyDown')
 });
 
 Crafty.scene('Corridor', function() {
