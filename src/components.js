@@ -201,14 +201,17 @@ Crafty.c('NPC', {
         var s = _.defaults(settings || {}, {
             x: 0,
             path: 'stop',
+            pathInterval: 1500,
             portal: false,
             portalWidth: 90
         });
         s.portalx = s.x - (s.portalWidth/6);
         this._settings = s;
 
-        this.requires('Actor, Tween')
+        this.requires('Actor, Tween, Delay')
             .actor(s.sprite, s);
+
+        this._patrol(s.path, s.pathInterval);
 
         return this;
     },
@@ -249,15 +252,23 @@ Crafty.c('NPC', {
     // Given array of x positions or specific keywords, move to each one
     // 'full': move across entire scene, then go the opposite way after given time
     // 'stop': Stay still, same as passing an empty array
-    _patrol: function(path) {
-        if (path === "full-left") {
-            this.moveTo(0, _.bind(function() {
-                this._patrol("full");
-            }, this));
-        } else if (path === "full") {
-            this.moveTo(Game.width - this.w - 5, _.bind(function() {
-                this._patrol("full-left");
-            }, this));
+    _patrol: function(path, interval) {
+        if (typeof path === "string") {
+
+            console.log(path);
+            _.bindAll(this, '_patrol', 'moveTo');
+            var pleft = _.partial(this._patrol, 'full-left', interval);
+            var pright = _.partial(this._patrol, 'full', interval);
+            var mleft = _.partial(this.moveTo, 0, pright);
+            var mright = _.partial(this.moveTo, Game.width - this.w - 5, pleft);
+
+            if (path === "full-left") {
+                _.delay(mleft, interval);
+            } else if (path === "full") {
+                _.delay(mright, interval, 0);
+            }
+        } else {
+            //Do the array stuff.
         }
     },
 });
