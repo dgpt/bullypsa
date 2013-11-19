@@ -667,7 +667,7 @@ Dialog.showInfo = function(type, persist, index, scene) {
 
     var setupInfoBox = function() {
         var totalWidth = Crafty.viewport.width + width + padding * 2;
-        var html = '<div id="lesson-container" style="padding: '+padding+'px; box-shadow: inset 0 0 10px '+bgcolor+'; background-color: '+'#FFFFFF'+'; width: '+width+'; z-index: 1000">'+text+'</div>';
+        var html = '<div id="lesson-container" style="padding: '+padding+'px; box-shadow: inset 0 0 20px '+bgcolor+'; background-color: '+'#FFFFFF'+'; width: '+width+'; height: '+(Game.height-42)+'; z-index: 1000">'+text+'</div>';
         $('#cr-stage')
             .css('width', totalWidth)
             .append(html);
