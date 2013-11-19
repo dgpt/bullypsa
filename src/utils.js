@@ -50,7 +50,7 @@ function storyFadeOut(callback) {
     if (!_.isFunction(callback))
         fail('storyFadeOut: callback is not a function');
 
-    Game.fader.fade(Game.fader.fadeTime, 'out', callback, true);
+    Crafty.e('Fader').fade('out', callback, true);
 }
 
 function showGirlLesson(e) {
