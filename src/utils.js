@@ -40,6 +40,7 @@ function speechResponse(callback) {
         fail('speechResponse: callback is not a function');
 
     Crafty.bind('SpeechResponse', function(e) {
+        console.log('triggered ' + e);
         callback(e);
         Crafty.unbind('SpeechResponse');
     });
@@ -55,7 +56,7 @@ function storyFadeOut(callback) {
 function showGirlLesson(e) {
     if (e === 0)
         Dialog.showInfo('good');
-    else
+    else if (e === 1)
         Dialog.showInfo('bad');
 }
 

@@ -28,7 +28,7 @@ Crafty.scene('Room', function() {
         });
 
     Dialog.show(player, {next: true, callback: function() {
-        Dialog.showInfo('scenario', false, 0);
+        Dialog.showInfo('scenario', 0);
     }});
 }, function() {
     this.unbind('KeyDown');
@@ -40,7 +40,7 @@ Crafty.scene('Street', function() {
     //Background NPCs
     function genBackSettings() {
         return {
-            path: Math.random() <= 0.5 ? 'full' : 'full-left',
+            path: Math.random() <= 0.5 ? 'full-right' : 'full-left',
             pathInterval: Crafty.math.randomNumber(600, 4000),
             x: Crafty.math.randomNumber(0, Game.width-10),
             y: Game.player.y - 15,
@@ -50,7 +50,7 @@ Crafty.scene('Street', function() {
 
     function genFrontSettings() {
         return {
-            path: Math.random() <= 0.5 ? 'full' : 'full-left',
+            path: Math.random() <= 0.5 ? 'full-right' : 'full-left',
             pathInterval: Crafty.math.randomNumber(600, 4000),
             x: Crafty.math.randomNumber(0, Game.width-10),
             y: Game.player.y,
@@ -139,22 +139,23 @@ Crafty.scene('Corridor', function() {
     var player = Game.setupScene('corridor');
 
     if (State.player === 'Girl') {
-        Dialog.showInfo('scenario', false);
-        // Add more girls to the group
-        var may = Crafty.e('May').may({x: 385, orientation: 'left', portal: true})
-            .action({onhit: function() {
-                if (!may._dflag) {
-                    Dialog.progression([
-                        [may, {emotes: ['Exclamation']}],
-                        [player, {emotes: ['Anger'], next: true}],
-                        [may, {emotes: ['Question']}],
-                        [player, {emotes: ['Question']}]
-                    ]);
-                    may._dflag = true;
-                }
-            }});
-
-        girlModeTransition(player, _.partial(Game.setScene, 'Classroom', {x: 'right', orientation: 'left'}));
+        if (State.getIndex() < 2) {
+            Dialog.showInfo('scenarios');
+            // Add more girls to the group
+            var may = Crafty.e('May').may({x: 385, orientation: 'left', portal: true})
+                .action({onhit: function() {
+                    if (!may._dflag) {
+                        Dialog.progression([
+                            [may, {emotes: ['Exclamation'], index: 0}],
+/*                            [player, {emotes: ['Anger'], next: true}],*/
+                            [may, {emotes: ['Question'], index: 1}],
+                            [player, {emotes: ['Question'], index: 1}]
+                        ]);
+                        may._dflag = true;
+                    }
+                }});
+            girlModeTransition(player, _.partial(Game.setScene, 'Classroom', {x: 'right', orientation: 'left'}));
+        }
     }
 
     if (State.player === 'Boy') {
