@@ -61,13 +61,11 @@ Crafty.scene('Street', function() {
                 else
                     Dialog.showInfo('bad');
 
-                _.delay(function() {
-                    Game.fader.fade(20, 'in', function() {
-                        player.enabled = true;
-                        Crafty.trigger('FadeEnd');
-                        Game.fader.fade(50, 'in');
-                    });
-                }, 2500)
+                Crafty.bind('KeyDown', function(e) {
+                    if (e.key === Crafty.keys.SPACE) {
+                        Game.setScene('Corridor', {x: 'left', orientation: 'right'});
+                    }
+                });
             }, true);
         });
         var sara = Crafty.e('Sara').sara();
