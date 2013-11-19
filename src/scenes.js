@@ -475,6 +475,8 @@ Crafty.scene('Load', function() {
         Crafty.asset('classDeskMiddle', assets.classDeskMiddle);
         Crafty.asset('classDeskRight', assets.classDeskRight);
 
+        State.scene = "Street";
+
         Crafty.scene(State.scene);
     });
 });

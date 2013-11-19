@@ -256,13 +256,15 @@ Crafty.c('NPC', {
         if (typeof path === "string") {
 
             var pleft = _.partial(this._patrol, 'full-left', interval);
-            var pright = _.partial(this._patrol, 'full', interval);
+            var pright = _.partial(this._patrol, 'full-right', interval);
             var mleft = _.partial(this.moveTo, 0, pright);
             var mright = _.partial(this.moveTo, Game.width - this.w - 5, pleft);
 
-            if (path === "full-left") {
+            if (path === "full") {
+                _.bind(mright, this)();
+            } else if (path === "full-left") {
                 _.delay(_.bind(mleft, this), interval);
-            } else if (path === "full") {
+            } else if (path === "full-right") {
                 _.delay(_.bind(mright, this), interval, 0);
             }
         } else {
