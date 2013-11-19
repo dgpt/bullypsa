@@ -138,6 +138,11 @@ Crafty.scene('Corridor', function() {
 
     //Background NPCs
     Crafty.e('Curtis').curtis(Crafty.scene.genNPCSettings());
+    Crafty.e('Femaleb').femaleb(Crafty.scene.genNPCSettings());
+    Crafty.e('MidAgeMan').midAgeMan(Crafty.scene.genNPCSettings());
+    Crafty.e('Octavia').octavia(Crafty.scene.genNPCSettings());
+    Crafty.e('Vivian').vivian(Crafty.scene.genNPCSettings());
+    //Crafty.e('Miley').miley(Crafty.scene.genNPCSettings());
 
     if (State.player === 'Girl') {
         Dialog.showInfo('scenario', false);
@@ -200,6 +205,13 @@ Crafty.scene('Corridor', function() {
 Crafty.scene('Park', function() {
     var player = Game.setupScene('park');
 
+    Crafty.e('Roland').roland(Crafty.scene.genNPCSettings());
+    Crafty.e('Elise').elise(Crafty.scene.genNPCSettings());
+    Crafty.e('Sara').sara(Crafty.scene.genNPCSettings());
+    Crafty.e('Marion').marion(Crafty.scene.genNPCSettings());
+    Crafty.e('GirlSmall').girlSmall(Crafty.scene.genNPCSettings());
+    Crafty.e('MidAgeWoman').midAgeWoman(Crafty.scene.genNPCSettings());
+
     // Left - to street
     Crafty.e('Portal')
         .portal({orientation: 'left'})
@@ -225,6 +237,10 @@ Crafty.scene('Library', function() {
         .overlay({x: 96, y: 265}, 'libDeskLeft');
     Crafty.e('Overlay')
         .overlay({x: 361, y: 267}, 'libDeskRight');
+
+    Crafty.e('GirlSmall').girlSmall(Crafty.scene.genNPCSettings());
+    Crafty.e('Harriet').harriet(Crafty.scene.genNPCSettings());
+    Crafty.e('MidAgeMan').midAgeMan(Crafty.scene.genNPCSettings());
 
     // Right - To corridor
     Crafty.e('Portal')

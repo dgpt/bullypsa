@@ -22,11 +22,6 @@ TODO:
     Make Ending
         Good Ending
         Bad Ending
-    Populate areas with appropriate NPCs
-        Park
-        Street
-        Corridor
-        Classroom
     Add point system
         Get points for right answers
         End point amount determines ending
@@ -38,7 +33,11 @@ TODO-DONE:
     make exandable help text link below game.
         shows controls, etc.
         Help (down arrow graphic)
-
+    Populate areas with appropriate NPCs
+        Park
+        Street
+        Corridor
+        Classroom
 Load:
     add loading bar
     loading screen is bigger than game screen
