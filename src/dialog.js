@@ -690,7 +690,7 @@ Dialog.hideInfo = function() {
 };
 
 State = {
-    scene: 'Street',
+    scene: 'Corridor',
     player: 'Girl',
     index: {
         'Room': 0,

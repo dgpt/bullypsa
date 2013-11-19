@@ -37,6 +37,37 @@ Crafty.scene('Room', function() {
 Crafty.scene('Street', function() {
     var player = Game.setupScene('street');
 
+    //Background NPCs
+    function genBackSettings() {
+        return {
+            path: Math.random() <= 0.5 ? 'full' : 'full-left',
+            pathInterval: Crafty.math.randomNumber(600, 4000),
+            x: Crafty.math.randomNumber(0, Game.width-10),
+            y: Game.player.y - 15,
+            z: 4
+        }
+    }
+
+    function genFrontSettings() {
+        return {
+            path: Math.random() <= 0.5 ? 'full' : 'full-left',
+            pathInterval: Crafty.math.randomNumber(600, 4000),
+            x: Crafty.math.randomNumber(0, Game.width-10),
+            y: Game.player.y,
+            z: 6
+        }
+    }
+
+    Crafty.e('Clarence').clarence(genBackSettings());
+    Crafty.e('Curtis').curtis(genBackSettings());
+    Crafty.e('Elise').elise(genBackSettings());
+    Crafty.e('Femaleb').femaleb(genBackSettings());
+    Crafty.e('Sara').sara(genBackSettings());
+
+    Crafty.e('SalaryMan').salaryMan(genFrontSettings());
+    Crafty.e('Harriet').harriet(genFrontSettings());
+    Crafty.e('Roland').roland(genFrontSettings());
+
     // Girl Story
     if (State.player === 'Girl') {
         /* NPCs */
@@ -53,10 +84,9 @@ Crafty.scene('Street', function() {
                         cindy._dflag0 = true;
                     }
                 }});
-
-            girlModeTransition(player, _.partial(Game.setScene, 'Corridor', {x: 'left', orientation: 'right'}));
+            girlModeTransition(player, _.partial(Game.setScene, 'Corridor',
+                                                 {x: 'left', orientation: 'right'}));
         }
-        var sara = Crafty.e('Sara').sara();
     }
 
     // Boy Story
@@ -263,6 +293,7 @@ Crafty.scene('Load', function() {
         miley: 'assets/char/miley_53x96.png',
         octavia: 'assets/char/octavia_54x96.png',
         rebecca: 'assets/char/rebecca_53x96.png',
+        roland: 'assets/char/roland_85x96.png',
         salary_man: 'assets/char/salary_man_57x96.png',
         tyler: 'assets/char/tyler_57x96.png',
         vivian: 'assets/char/vivian_53x96.png',
@@ -377,6 +408,10 @@ Crafty.scene('Load', function() {
         Crafty.sprite(53, 96, assets.rebecca, {
             sprRebeccaR: [0, 1],
             sprRebeccaL: [0, 0]
+        });
+        Crafty.sprite(85, 96, assets.roland, {
+            sprRolandR: [0, 1],
+            sprRolandL: [0, 0]
         });
         Crafty.sprite(57, 96, assets.salary_man, {
             sprSalaryManR: [0, 1],

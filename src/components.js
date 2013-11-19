@@ -18,7 +18,7 @@ Crafty.c('Actor', {
 
         this.name = sprite.substr(3);
         s.orientation = s.orientation[0].toUpperCase();
-        this._settings = _.clone(s);
+        this._settings = s;
 
         // Positions for sprite map (Arrays [fromX, Y, toX])
         var l = s.left;
@@ -255,17 +255,15 @@ Crafty.c('NPC', {
     _patrol: function(path, interval) {
         if (typeof path === "string") {
 
-            console.log(path);
-            _.bindAll(this, '_patrol', 'moveTo');
             var pleft = _.partial(this._patrol, 'full-left', interval);
             var pright = _.partial(this._patrol, 'full', interval);
             var mleft = _.partial(this.moveTo, 0, pright);
             var mright = _.partial(this.moveTo, Game.width - this.w - 5, pleft);
 
             if (path === "full-left") {
-                _.delay(mleft, interval);
+                _.delay(_.bind(mleft, this), interval);
             } else if (path === "full") {
-                _.delay(mright, interval, 0);
+                _.delay(_.bind(mright, this), interval, 0);
             }
         } else {
             //Do the array stuff.
@@ -474,6 +472,13 @@ Crafty.c('GenericNPC', {
         rebecca: function(settings) {
             return this.requires('GenericNPC')
                 .gnpc('rebecca', settings);
+        }
+    });
+
+    Crafty.c('Roland', {
+        roland: function(settings) {
+            return this.requires('GenericNPC')
+                .gnpc('roland', settings);
         }
     });
 
