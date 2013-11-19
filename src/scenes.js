@@ -82,8 +82,8 @@ Crafty.scene('Street', function() {
                         ]);
                         cindy._dflag0 = true;
                     }
-                }});
 
+                }});
             speechResponse(function(e) {
                 player.enabled = false;
                 storyFadeOut(_.partial(showGirlLesson, e));
