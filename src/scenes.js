@@ -54,20 +54,12 @@ Crafty.scene('Street', function() {
                     }
                 }});
 
-            Crafty.bind('SpeechResponse', function(e) {
+            speechResponse(function(e) {
                 player.enabled = false;
-                Game.fader.fade(70, 'out', function() {
-                    if (e === 0)
-                        Dialog.showInfo('good');
-                    else
-                        Dialog.showInfo('bad');
-
-                    Crafty.bind('KeyDown', function(e) {
-                        if (e.key === Crafty.keys.SPACE) {
-                            Game.setScene('Corridor', {x: 'left', orientation: 'right'});
-                        }
-                    });
-                }, true);
+                storyFadeOut(_.partial(showGirlLesson, e));
+                onSpaceKey(function() {
+                    Game.setScene('Corridor', {x: 'left', orientation: 'right'});
+                });
             });
         }
         var sara = Crafty.e('Sara').sara();
@@ -115,11 +107,44 @@ Crafty.scene('Street', function() {
             };
         }, function() { player.action = null; });
 }, function() {
-    Crafty.unbind('KeyDown')
+    Crafty.unbind('KeyDown');
+    Crafty.unbind('SpeechResponse');
 });
 
 Crafty.scene('Corridor', function() {
     var player = Game.setupScene('corridor');
+
+    if (State.player === 'Girl') {
+        Dialog.showInfo('scenario', false);
+        // Add more girls to the group
+        var may = Crafty.e('May').may({x: 385, orientation: 'left', portal: true})
+            .action({onhit: function() {
+                if (!may._dflag) {
+                    Dialog.progression([
+                        [may, {emotes: ['Exclamation']}],
+                        [player, {emotes: ['Anger'], next: true}],
+                        [may, {emotes: ['Question']}],
+                        [player, {emotes: ['Question']}]
+                    ]);
+                    may._dflag = true;
+                }
+            }});
+
+        Crafty.bind('SpeechResponse', function(e) {
+            console.log('yo');
+            player.enabled = false;
+            storyFadeOut(function() {
+                showGirlLesson(e);
+                onSpaceKey(function() {
+                    Game.setScene('Classroom', {x: 'right', orientation: 'left'});
+                });
+            });
+        });
+    }
+
+    if (State.player === 'Boy') {
+
+    }
 
     // Left - To Street
     Crafty.e('Portal')
@@ -339,8 +364,8 @@ Crafty.scene('Load', function() {
             sprMarionL: [0, 0]
         });
         Crafty.sprite(54, 96, assets.may, {
-            sprMayR: [0, 1],
-            sprMayL: [0, 0]
+            sprMayR: [0, 3],
+            sprMayL: [0, 2]
         });
         Crafty.sprite(63, 96, assets.midage_man, {
             sprMidAgeManR: [0, 1],

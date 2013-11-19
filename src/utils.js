@@ -30,3 +30,41 @@ String.prototype.lowerFirst = function() {
 String.prototype.upperFirst = function() {
     return this[0].toUpperCase() + this.substr(1);
 };
+
+
+/* Convenience Functional-Style Functions 
+ *    for use in Story Mode
+ */
+function speechResponse(callback) {
+    if (!_.isFunction(callback))
+        fail('speechResponse: callback is not a function');
+
+    Crafty.bind('SpeechResponse', function(e) {
+        callback(e);
+        Crafty.unbind('SpeechResponse');
+    });
+}
+
+function storyFadeOut(callback) {
+    if (!_.isFunction(callback))
+        fail('storyFadeOut: callback is not a function');
+
+    Game.fader.fade(Game.fader.fadeTime, 'out', callback, true);
+}
+
+function showGirlLesson(e) {
+    if (e === 0)
+        Dialog.showInfo('good');
+    else
+        Dialog.showInfo('bad');
+}
+
+function onSpaceKey(callback) {
+    var check = function(k) {
+        if (k.key === Crafty.keys.SPACE) {
+            _.isFunction(callback) ? callback() : 0;
+            Crafty.unbind('KeyDown', check);
+        }
+    };
+    Crafty.bind('KeyDown', check);
+}
