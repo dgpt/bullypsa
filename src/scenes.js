@@ -262,6 +262,28 @@ Crafty.scene('Library', function() {
 Crafty.scene('Classroom', function() {
     var player = Game.setupScene('classroom');
 
+    // Girl Story
+    if (State.player === 'Girl') {
+        if (State.getIndex() < 1) {
+            var cindy = Crafty.e('Cindy').cindy({x: 200, orientation: 'right'});
+            var dina = Crafty.e('Dina').dina({x: 300, orientation: 'right', portal: true})
+                .action({onhit: function() {
+                    if (!dina._dflag) {
+                        dina.speechWidth = 250;
+                        Dialog.progression([
+                            [dina, {emotes: ['Exclamation']}],
+                            [cindy, {emotes: ['Anger']}],
+                            [player]
+                        ]);
+                        dina._dflag = true;
+                    }
+                }});
+            girlModeTransition(player, _.partial(Game.setScene, 'Corridor',
+                                                 {x: 'left', orientation: 'right'}));
+        }
+    }
+
+
     // Overlays
     Crafty.e('Overlay')
         .overlay({x: 96, y: 217}, 'classDeskLeft');
