@@ -541,14 +541,6 @@ Crafty.c('GenericNPC', {
         }
     });
 
-    Crafty.c('YoungWoman', {
-        youngWoman: function(settings) {
-            return this.requires('GenericNPC')
-                .gnpc('youngWoman', settings);
-        }
-    });
-
-
 Crafty.c('Emotion', {
     animSpeed: 10,
     hideTime: 1600,

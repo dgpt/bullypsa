@@ -233,6 +233,49 @@ Crafty.scene('Park', function() {
 Crafty.scene('Library', function() {
     var player = Game.setupScene('library');
 
+    // Girl Story
+    if (State.player === 'Girl') {
+        if (State.getIndex() < 1) {
+
+
+            var cindy = Crafty.e('Cindy').cindy({x: 200, orientation: 'right'});
+            var diana = Crafty.e('Diana').diana({x: 300, orientation: 'right', portal: true})
+            var may = Crafty.e('May').may({x: 250, orientation: 'right', portal: true})
+            diana.speechWidth = 250;
+            Dialog.progression([
+                [cindy, {emotes: ['Anger']}],
+                [diana, {emotes: ['Exclamation'], next: true}],
+                [cindy, {emotes: ['Anger']}],
+                [may, {emotes: ['Anger'], next: true}],
+            ]);
+
+var playerMoveFix = function() {
+                player.enabled = true;
+                player.unbind('CloseSpeech', playerMoveFix);
+            };
+
+            player.bind("CloseSpeech", playerMoveFix);
+            player.enabled = true;
+            /*var cindy = Crafty.e('Cindy').cindy({x: 200, orientation: 'right'});
+            var diana = Crafty.e('Diana').diana({x: 300, orientation: 'right', portal: true})
+            var may = Crafty.e('May').may({x: 250, orientation: 'right', portal: true})
+                .action({onhit: function() {
+                    if (!diana._dflag) {
+                        diana.speechWidth = 250;
+                        Dialog.progression([
+                            [cindy, {emotes: ['Anger']}],
+                            [diana, {emotes: ['Exclamation'], next: true}],
+                            [cindy, {emotes: ['Anger']}],
+                            [may, {emotes: ['Anger']}],
+                        ]);
+                        diana._dflag = true;
+                    }
+                }});
+            //girlModeTransition(player, _.partial(Game.setScene, 'Corridor',
+             //                                    {x: 'left', orientation: 'right'})); */
+        }
+    }
+
     // Overlays
     Crafty.e('Overlay')
         .overlay({x: 96, y: 265}, 'libDeskLeft');
@@ -472,8 +515,8 @@ Crafty.scene('Load', function() {
             sprYoungManL: [0, 0]
         });
         Crafty.sprite(53, 96, assets.young_woman, {
-            sprYoungWomanR: [0, 1],
-            sprYoungWomanL: [0, 0]
+            sprDianaR: [0, 1],
+            sprDianaL: [0, 0]
         });
         Crafty.sprite(48, 48, assets.emotions, {
             sprThink:       [0, 0],
