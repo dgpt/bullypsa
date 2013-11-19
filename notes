@@ -22,9 +22,6 @@ TODO:
     Make Ending
         Good Ending
         Bad Ending
-    make exandable help text link below game.
-        shows controls, etc.
-        Help (down arrow graphic)
     Populate areas with appropriate NPCs
         Park
         Street
@@ -36,6 +33,11 @@ TODO:
 
     eat some pie
     sleep
+
+TODO-DONE:
+    make exandable help text link below game.
+        shows controls, etc.
+        Help (down arrow graphic)
 
 Load:
     add loading bar
