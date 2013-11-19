@@ -211,8 +211,8 @@ Crafty.c('NPC', {
         this.requires('Actor, Tween, Delay')
             .actor(s.sprite, s);
 
-        this._patrol = _.bind(this._patrol, this);
-        this._patrol(s.path, s.pathInterval, s.pathLeftEdge, s.pathRightEdge);
+/*        this._patrol = _.bind(this._patrol, this);
+        this._patrol(s.path, s.pathInterval, s.pathLeftEdge, s.pathRightEdge);*/
 
         return this;
     },
