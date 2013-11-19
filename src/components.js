@@ -211,6 +211,7 @@ Crafty.c('NPC', {
         this.requires('Actor, Tween, Delay')
             .actor(s.sprite, s);
 
+        this._patrol = _.bind(this._patrol, this);
         this._patrol(s.path, s.pathInterval);
 
         return this;
@@ -260,16 +261,19 @@ Crafty.c('NPC', {
             var mleft = _.partial(this.moveTo, 0, pright);
             var mright = _.partial(this.moveTo, Game.width - this.w - 5, pleft);
 
-            console.log(this);
+            pleft = _.bind(pleft, this);
+            pright = _.bind(pright, this);
+            mleft = _.bind(mleft, this);
+            mright = _.bind(mright, this);
 
             if (path === "full-right") {
-                _.bind(mright, this)();
+                mright();
             } else if (path === "full-left") {
-                _.bind(mleft, this)();
+                mleft();
             } else if (path === "left-edge") {
-                _.delay(_.bind(mleft, this), interval, 0);
+                _.delay(mleft, interval, 0);
             } else if (path === "right-edge") {
-                _.delay(_.bind(mright, this), interval, 0);
+                _.delay(mright, interval, 0);
             }
         } else {
             //Do the array stuff.
