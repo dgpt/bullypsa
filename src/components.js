@@ -863,12 +863,13 @@ Crafty.c('Fader', {
                 if (!hold) {
                     //console.log('fade---]] no hold, destroying this');
                     this.destroy();
-                else {
-                    Crafty.bind('FadeEnd', _.bind(function() {
-                        Crafty.unbind('FadeEnd');
-                        this.destroy();
-                    }, this));
                 }
             });
+        console.log('fade---]] binding FadeEnd');
+        Crafty.bind('FadeEnd', _.bind(function() {
+            console.log('FadeEnd Callback!! Unbinding FadeEnd, destroying this.');
+            this.destroy();
+            Crafty.unbind('FadeEnd');
+        }, this));
     }
 });

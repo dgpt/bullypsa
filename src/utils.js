@@ -40,7 +40,7 @@ function speechResponse(callback) {
         fail('speechResponse: callback is not a function');
 
     Crafty.bind('SpeechResponse', function(e) {
-        console.log('triggered ' + e);
+        console.log('SpeechResponse: triggered ' + e);
         callback(e);
         Crafty.unbind('SpeechResponse');
     });
@@ -63,6 +63,8 @@ function showGirlLesson(e) {
 function onSpaceKey(callback) {
     var check = function(k) {
         if (k.key === Crafty.keys.SPACE) {
+            console.log('storyFadeOut--# Triggering FadeEnd');
+            Crafty.trigger('FadeEnd');
             _.isFunction(callback) ? callback() : 0;
             Crafty.unbind('KeyDown', check);
         }
