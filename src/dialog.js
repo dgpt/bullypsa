@@ -163,11 +163,11 @@ boy, young_man, mikey, tyler
         ]
     };
 
-/*    Dialog.girl.corridor[0] = {
+    Dialog.girl.corridor[0] = {
         text: [
             "Leave me alone! I'm going to tell!!"
         ]
-    };*/
+    };
 
     Dialog.may.corridor[1] = {
         text: [
@@ -600,10 +600,12 @@ Dialog.show = function(entity, settings) {
             if (_.isFunction(s.callback))
                 s.callback(selected);
             entity.trigger('SpeechFinish');
+            entity.unbind('SpeechFinish');
         }
         // Trigger response if response id (selected) is passed
         if (existy(selected)) {
             Crafty.trigger('SpeechResponse', selected);
+            Crafty.unbind('SpeechResponse');
         }
     };
     speech();
@@ -612,8 +614,8 @@ Dialog.show = function(entity, settings) {
     console.log('Dialog.show--->Index: ' + State.getIndex(s.scene));
 };
 
-// Handles back-and-forth conversations
 // Chains dialogs together.
+// Handles back-and-forth conversations
 // argsList: 2D array; Array of arrays containing args to pass to Dialog.show
 Dialog.progression = function(argsList) {
     var i = 0;
@@ -689,7 +691,7 @@ Dialog.hideInfo = function() {
 };
 
 State = {
-    scene: 'Corridor',
+    scene: 'Street',
     player: 'Girl',
     index: {
         'Room': 0,

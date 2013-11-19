@@ -139,15 +139,15 @@ Crafty.scene('Corridor', function() {
                 .action({onhit: function() {
                     if (!may._dflag) {
                         Dialog.progression([
-                            [may, {emotes: ['Exclamation'], index: 0}],
-/*                            [player, {emotes: ['Anger'], next: true}],*/
-                            [may, {emotes: ['Question'], index: 1}],
-                            [player, {emotes: ['Question'], index: 1}]
+                            [may, {emotes: ['Exclamation']}],
+                            [player, {emotes: ['Anger'], next: true}],
+                            [may, {emotes: ['Question']}],
+                            [player, {emotes: ['Question']}]
                         ]);
                         may._dflag = true;
                     }
                 }});
-            girlModeTransition(player, _.partial(Game.setScene, 'Classroom', {x: 'right', orientation: 'left'}));
+            girlModeTransition(player, _.partial(Game.setScene, 'Classroom', {orientation: 'left'}));
         }
     }
 
@@ -468,8 +468,6 @@ Crafty.scene('Load', function() {
         Crafty.asset('classDeskLeft', assets.classDeskLeft);
         Crafty.asset('classDeskMiddle', assets.classDeskMiddle);
         Crafty.asset('classDeskRight', assets.classDeskRight);
-
-        State.scene = "Street";
 
         Crafty.scene(State.scene);
     });

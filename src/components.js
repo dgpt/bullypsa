@@ -240,7 +240,7 @@ Crafty.c('NPC', {
             var dirName = dir === 1 ? 'Right' : 'Left';
 
             this.animate(dirName, this._settings.animSpeed, -1);
-            this.bind("EnterFrame", function(e) {
+            var mv = function(e) {
                 if (this.x * dir >= x * dir) {
                     this.animate(dirName + "Stop", 0);
                     this.unbind("EnterFrame");
@@ -252,7 +252,8 @@ Crafty.c('NPC', {
                         console.error("_settings is undefined. this is in the enterframe event.");
                     }
                 }
-            });
+            };
+            this.bind("EnterFrame", _.bind(mv, this));
         } else {
             console.error("_settings is undefined for some reason.");
         }
