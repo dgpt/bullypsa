@@ -47,18 +47,28 @@ Crafty.scene('Street', function() {
                     cindy.speechWidth = 220;
                     Dialog.progression([
                         [cindy, {emotes: ['Question']}],
-                        [player, {emotes: ['Exclamation']}]
+                        [player, {emotes: ['Exclamation'], next: true}]
                     ]);
                     cindy._dflag0 = true;
                 }
             }});
 
         Crafty.bind('SpeechResponse', function(e) {
-            console.log(e);
-            if (e === 0)
-                Dialog.showInfo('good');
-            else
-                Dialog.showInfo('bad');
+            player.enabled = false;
+            Game.fader.fade(70, 'out', function() {
+                if (e === 0)
+                    Dialog.showInfo('good');
+                else
+                    Dialog.showInfo('bad');
+
+                _.delay(function() {
+                    Game.fader.fade(20, 'in', function() {
+                        player.enabled = true;
+                        Crafty.trigger('FadeEnd');
+                        Game.fader.fade(50, 'in');
+                    });
+                }, 2500)
+            }, true);
         });
         var sara = Crafty.e('Sara').sara();
     }
