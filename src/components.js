@@ -249,6 +249,7 @@ Crafty.c('NPC', {
                     if (this._settings) {
                         this.x += this._settings.speed * dir;
                     } else {
+                        this.unbind("EnterFrame");
                         console.error("_settings is undefined. this is in the enterframe event.");
                     }
                 }
@@ -847,6 +848,7 @@ Crafty.c('Fader', {
         imageEnt.attr({x: -Crafty.viewport.x - imageEnt.w / 2, y: this.y, z: 100})
             .tween({alpha: fadesIn ? 0.0 : 1.0}, fadeTime)
             .bind("TweenEnd", function() {
+                this.unbind('TweenEnd');
                 this.active = false;
                 if (callback) {
                     callback();
