@@ -37,6 +37,36 @@ Crafty.scene('Room', function() {
 Crafty.scene('Street', function() {
     var player = Game.setupScene('street');
 
+    //Background NPCs
+    function genBackSettings() {
+        return {
+            path: Math.random() <= 0.5 ? 'full' : 'full-left',
+            pathInterval: Crafty.math.randomNumber(600, 4000),
+            x: Crafty.math.randomNumber(0, Game.width-10),
+            y: Game.player.y - 15,
+            z: 4
+        }
+    }
+
+    function genFrontSettings() {
+        return {
+            path: Math.random() <= 0.5 ? 'full' : 'full-left',
+            pathInterval: Crafty.math.randomNumber(600, 4000),
+            x: Crafty.math.randomNumber(0, Game.width-10),
+            y: Game.player.y,
+            z: 6
+        }
+    }
+
+    Crafty.e('Clarence').clarence(genBackSettings());
+    Crafty.e('Curtis').curtis(genBackSettings());
+    Crafty.e('Elise').elise(genBackSettings());
+    Crafty.e('Femaleb').femaleb(genBackSettings());
+    Crafty.e('Sara').sara(genBackSettings());
+
+    Crafty.e('SalaryMan').salaryMan(genFrontSettings());
+    Crafty.e('Harriet').harriet(genFrontSettings());
+
     // Girl Story
     if (State.player === 'Girl') {
         /* NPCs */
@@ -70,7 +100,6 @@ Crafty.scene('Street', function() {
                 }, 2500)
             }, true);
         });
-        var sara = Crafty.e('Sara').sara();
     }
 
     // Boy Story
