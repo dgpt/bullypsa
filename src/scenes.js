@@ -1,3 +1,17 @@
+Crafty.scene.genNPCSettings = function(front) {
+    return {
+        path: Math.random() <= 0.5 ? 'full-right' : 'full-left',
+        pathLeftEdge: Crafty.math.randomNumber(0, 100),
+        pathRightEdge: Crafty.math.randomNumber(Game.width - 100, Game.width - 64),
+        pathInterval: Crafty.math.randomNumber(600, 4000),
+        x: Crafty.math.randomNumber(0, Game.width-10),
+        y: front ? Game.player.y : Game.player.y - 15,
+        z: front ? 6 : 4,
+        speed: 1,
+        animSpeed: 60
+    }
+}
+
 Crafty.scene('Room', function() {
     var player = Game.setupScene('room');
 
@@ -37,30 +51,20 @@ Crafty.scene('Room', function() {
 Crafty.scene('Street', function() {
     var player = Game.setupScene('street');
 
-    //Background NPCs
-    function genNPCSettings(front) {
-        return {
-            path: Math.random() <= 0.5 ? 'full-right' : 'full-left',
-            pathLeftEdge: Crafty.math.randomNumber(0, 100),
-            pathRightEdge: Crafty.math.randomNumber(Game.width - 100, Game.width - 64),
-            pathInterval: Crafty.math.randomNumber(600, 4000),
-            x: Crafty.math.randomNumber(0, Game.width-10),
-            y: front ? Game.player.y : Game.player.y - 15,
-            z: front ? 6 : 4,
-            speed: 1,
-            animSpeed: 60
-        }
-    }
+    var clarenceSettings = Crafty.scene.genNPCSettings();
+    clarenceSettings.x = 250;
+    clarenceSettings.pathLeftEdge = 200;
+    clarenceSettings.pathRightEdge = 500;
+    Crafty.e('Clarence').clarence(clarenceSettings);
 
-    Crafty.e('Clarence').clarence(genNPCSettings());
-    Crafty.e('Curtis').curtis(genNPCSettings());
-    Crafty.e('Elise').elise(genNPCSettings());
-    Crafty.e('Femaleb').femaleb(genNPCSettings());
-    Crafty.e('Sara').sara(genNPCSettings());
+    Crafty.e('Curtis').curtis(Crafty.scene.genNPCSettings());
+    Crafty.e('Elise').elise(Crafty.scene.genNPCSettings());
+    Crafty.e('Femaleb').femaleb(Crafty.scene.genNPCSettings());
+    Crafty.e('Sara').sara(Crafty.scene.genNPCSettings());
 
-    Crafty.e('SalaryMan').salaryMan(genNPCSettings(true));
-    Crafty.e('Harriet').harriet(genNPCSettings(true));
-    Crafty.e('Roland').roland(genNPCSettings(true));
+    Crafty.e('SalaryMan').salaryMan(Crafty.scene.genNPCSettings(true));
+    Crafty.e('Rebecca').rebecca(Crafty.scene.genNPCSettings(true));
+    Crafty.e('Harriet').harriet(Crafty.scene.genNPCSettings(true));
 
     // Girl Story
     if (State.player === 'Girl') {
@@ -131,6 +135,9 @@ Crafty.scene('Street', function() {
 
 Crafty.scene('Corridor', function() {
     var player = Game.setupScene('corridor');
+
+    //Background NPCs
+    Crafty.e('Curtis').curtis(Crafty.scene.genNPCSettings());
 
     if (State.player === 'Girl') {
         Dialog.showInfo('scenario', false);
