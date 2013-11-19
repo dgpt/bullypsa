@@ -5,16 +5,11 @@ Room->Street/->Corridor/->Library
 BUGS:
     On scene change, if the info box is up, it jumps into the game div
 TODO:
-    Randomize responses
-        think they made them predictable
-        use a function to randomly sort the response array in Speech component
-    make exandable help text link below game.
-        shows controls, etc.
-        Help (down arrow graphic)
     Finish Girl Story
         Corridor
         Classroom
         Library
+    Figure out a good transition from girl to boy (not relating to sex-changes)
     Finish Boy Story
         Park
         Street
@@ -23,6 +18,9 @@ TODO:
     Make Ending
         Good Ending
         Bad Ending
+    make exandable help text link below game.
+        shows controls, etc.
+        Help (down arrow graphic)
     Populate areas with appropriate NPCs
         Park
         Street
@@ -31,7 +29,6 @@ TODO:
     Add point system
         Get points for right answers
         End point amount determines ending
-    Figure out a good transition from girl to boy (not relating to sex-changes)
 
     eat some pie
     sleep
