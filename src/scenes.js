@@ -38,35 +38,27 @@ Crafty.scene('Street', function() {
     var player = Game.setupScene('street');
 
     //Background NPCs
-    function genBackSettings() {
+    function genNPCSettings(front) {
         return {
             path: Math.random() <= 0.5 ? 'full-right' : 'full-left',
+            pathLeftEdge: Crafty.math.randomNumber(0, 100),
+            pathRightEdge: Crafty.math.randomNumber(Game.width - 100, Game.width - 64),
             pathInterval: Crafty.math.randomNumber(600, 4000),
             x: Crafty.math.randomNumber(0, Game.width-10),
-            y: Game.player.y - 15,
-            z: 4
+            y: front ? Game.player.y : Game.player.y - 15,
+            z: front ? 6 : 4
         }
     }
 
-    function genFrontSettings() {
-        return {
-            path: Math.random() <= 0.5 ? 'full-right' : 'full-left',
-            pathInterval: Crafty.math.randomNumber(600, 4000),
-            x: Crafty.math.randomNumber(0, Game.width-10),
-            y: Game.player.y,
-            z: 6
-        }
-    }
+    Crafty.e('Clarence').clarence(genNPCSettings());
+    Crafty.e('Curtis').curtis(genNPCSettings());
+    Crafty.e('Elise').elise(genNPCSettings());
+    Crafty.e('Femaleb').femaleb(genNPCSettings());
+    Crafty.e('Sara').sara(genNPCSettings());
 
-    Crafty.e('Clarence').clarence(genBackSettings());
-    Crafty.e('Curtis').curtis(genBackSettings());
-    Crafty.e('Elise').elise(genBackSettings());
-    Crafty.e('Femaleb').femaleb(genBackSettings());
-    Crafty.e('Sara').sara(genBackSettings());
-
-    Crafty.e('SalaryMan').salaryMan(genFrontSettings());
-    Crafty.e('Harriet').harriet(genFrontSettings());
-    Crafty.e('Roland').roland(genFrontSettings());
+    Crafty.e('SalaryMan').salaryMan(genNPCSettings(true));
+    Crafty.e('Harriet').harriet(genNPCSettings(true));
+    Crafty.e('Roland').roland(genNPCSettings(true));
 
     // Girl Story
     if (State.player === 'Girl') {
