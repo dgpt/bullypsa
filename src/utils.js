@@ -32,7 +32,7 @@ String.prototype.upperFirst = function() {
 };
 
 
-/* Convenience Functional-Style Functions 
+/* Convenience Functional-Style Functions
  *    for use in Story Mode
  */
 function speechResponse(callback) {
@@ -55,9 +55,9 @@ function storyFadeOut(callback) {
 
 function showGirlLesson(e) {
     if (e === 0)
-        Dialog.showInfo('good');
+        Dialog.showInfo('good', e);
     else if (e === 1)
-        Dialog.showInfo('bad');
+        Dialog.showInfo('bad', e);
 }
 
 function onSpaceKey(callback) {
