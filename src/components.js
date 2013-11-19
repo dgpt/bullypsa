@@ -371,55 +371,117 @@ Crafty.c('GenericNPC', {
 
 ///* Background NPCs *///
     Crafty.c('Clarence', {
-
+        clarence: function(settings) {
+            return this.requires('GenericNPC')
+                .gnpc('clarence', settings);
+        }
     });
 
     Crafty.c('Curtis', {
-
+        curtis: function(settings) {
+            return this.requires('GenericNPC')
+                .gnpc('curtis', settings);
+        }
     });
 
     Crafty.c('Elise', {
-
+        elise: function(settings) {
+            return this.requires('GenericNPC')
+                .gnpc('elise', settings);
+        }
     });
 
     Crafty.c('Femaleb', {
-
+        femaleb: function(settings) {
+            return this.requires('GenericNPC')
+                .gnpc('femaleb', settings);
+        }
     });
 
-    Crafty.c('Girl_small', {
-
+    Crafty.c('GirlSmall', {
+        girlSmall: function(settings) {
+            return this.requires('GenericNPC')
+                .gnpc('girlSmall', settings);
+        }
     });
 
     Crafty.c('Harriet', {
-
+        harriet: function(settings) {
+            return this.requires('GenericNPC')
+                .gnpc('harriet', _.defaults(settings || {}, {
+                    sprite: 'sprHarriet',
+                    //           x1 y  x2
+                    left:       [0, 2, 6],
+                    leftBlink:  [0, 0, 4],
+                    right:      [0, 3, 6],
+                    rightBlink: [0, 1, 4],
+                    z: 7
+                 }));
+        }
     });
 
     Crafty.c('Marion', {
-
+        marion: function(settings) {
+            return this.requires('GenericNPC')
+                .gnpc('marion', settings);
+        }
     });
 
-    Crafty.c('Midage_man', {
-
+    Crafty.c('MidAgeMan', {
+        midAgeMan: function(settings) {
+            return this.requires('GenericNPC')
+                .gnpc('midAgeMan', settings);
+        }
     });
 
-    Crafty.c('Midage_woman', {
-
+    Crafty.c('MidAgeWoman', {
+        midAgeWoman: function(settings) {
+            return this.requires('GenericNPC')
+                .gnpc('midAgeWoman', settings);
+        }
     });
 
+    //Tileset needs adjustment.
     Crafty.c('Miley', {
-
+        miley: function(settings) {
+            return this.requires('GenericNPC')
+                .gnpc('miley', _.defaults(settings || {}, {
+                    sprite: 'sprMiley',
+                    //           x1 y  x2
+                    left:       [0, 2, 6],
+                    right:      [0, 3, 6],
+                    z: 7
+                 }));
+        }
     });
 
     Crafty.c('Octavia', {
-
+        octavia: function(settings) {
+            return this.requires('GenericNPC')
+                .gnpc('octavia', _.defaults(settings || {}, {
+                    sprite: 'sprOctavia',
+                    //           x1 y  x2
+                    left:       [0, 2, 6],
+                    leftBlink:  [0, 0, 4],
+                    right:      [0, 3, 6],
+                    rightBlink: [0, 1, 4],
+                    z: 7
+                 }));
+        }
     });
 
     Crafty.c('Rebecca', {
-
+        rebecca: function(settings) {
+            return this.requires('GenericNPC')
+                .gnpc('rebecca', settings);
+        }
     });
 
-    Crafty.c('Salary_man', {
-
+    Crafty.c('SalaryMan', {
+        salaryMan: function(settings) {
+            return this.requires('GenericNPC')
+                .gnpc('salaryMan', settings);
+        }
     });
 
     Crafty.c('Sara', {
@@ -440,11 +502,25 @@ Crafty.c('GenericNPC', {
     });
 
     Crafty.c('Vivian', {
-
+        vivian: function(settings) {
+            return this.requires('GenericNPC')
+                .gnpc('vivian', _.defaults(settings || {}, {
+                    sprite: 'sprVivian',
+                    //           x1 y  x2
+                    left:       [0, 2, 6],
+                    leftBlink:  [0, 0, 4],
+                    right:      [0, 3, 6],
+                    rightBlink: [0, 1, 4],
+                    z: 7
+                 }));
+        }
     });
 
-    Crafty.c('Young_woman', {
-
+    Crafty.c('YoungWoman', {
+        youngWoman: function(settings) {
+            return this.requires('GenericNPC')
+                .gnpc('youngWoman', settings);
+        }
     });
 
 
