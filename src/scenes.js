@@ -66,6 +66,7 @@ Crafty.scene('Street', function() {
 
     Crafty.e('SalaryMan').salaryMan(genFrontSettings());
     Crafty.e('Harriet').harriet(genFrontSettings());
+    Crafty.e('Roland').roland(genFrontSettings());
 
     // Girl Story
     if (State.player === 'Girl') {
@@ -307,6 +308,7 @@ Crafty.scene('Load', function() {
         miley: 'assets/char/miley_53x96.png',
         octavia: 'assets/char/octavia_54x96.png',
         rebecca: 'assets/char/rebecca_53x96.png',
+        roland: 'assets/char/roland_85x96.png',
         salary_man: 'assets/char/salary_man_57x96.png',
         tyler: 'assets/char/tyler_57x96.png',
         vivian: 'assets/char/vivian_53x96.png',
@@ -421,6 +423,10 @@ Crafty.scene('Load', function() {
         Crafty.sprite(53, 96, assets.rebecca, {
             sprRebeccaR: [0, 1],
             sprRebeccaL: [0, 0]
+        });
+        Crafty.sprite(85, 96, assets.roland, {
+            sprRolandR: [0, 1],
+            sprRolandL: [0, 0]
         });
         Crafty.sprite(57, 96, assets.salary_man, {
             sprSalaryManR: [0, 1],

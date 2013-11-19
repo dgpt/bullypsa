@@ -477,6 +477,13 @@ Crafty.c('GenericNPC', {
         }
     });
 
+    Crafty.c('Roland', {
+        roland: function(settings) {
+            return this.requires('GenericNPC')
+                .gnpc('roland', settings);
+        }
+    });
+
     Crafty.c('SalaryMan', {
         salaryMan: function(settings) {
             return this.requires('GenericNPC')
