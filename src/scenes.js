@@ -238,7 +238,6 @@ Crafty.scene('Park', function() {
 
     if (State.player === "Boy") {
         if (State.getIndex() < 2) {
-            player.x = 600;
             Dialog.showInfo('scenarios', 5);
             var young_man = Crafty.e('Young_man').young_man({x: 385, orientation: 'right', portal: true})
                 .action({onhit: function() {
@@ -313,7 +312,10 @@ Crafty.scene('Library', function() {
                 }
             }});
 
-            girlModeTransition(player, _.partial(Game.setScene, 'Classroom', {orientation: 'left'}));
+            girlModeTransition(player, function() {
+                State.player = 'Boy';
+                Game.setScene('Park', {x: 'right', orientation: 'left'});
+            });
         }
     }
 

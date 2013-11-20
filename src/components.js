@@ -263,13 +263,15 @@ Crafty.c('NPC', {
     _patrolRight: function(interval, rdistance, ldistance) {
         this.moveTo(rdistance, _.bind(function() {
             //_.delay(_.partial(_.bind(this._patrolLeft, this), interval, rdistance, ldistance), interval);
-            this._patrolLeft(interval, rdistance, ldistance);
+            //this._patrolLeft(interval, rdistance, ldistance);
+            _.bind(this._patrolLeft, this)(interval, rdistance, ldistance);
         }, this));
     },
 
     _patrolLeft: function(interval, rdistance, ldistance) {
         this.moveTo(ldistance, _.bind(function() {
-            this._patrolRight(interval, rdistance, ldistance);
+            //this._patrolRight(interval, rdistance, ldistance);
+            _.bind(this._patrolRight, this)(interval, rdistance, ldistance);
         }, this));
     },
 
@@ -827,12 +829,6 @@ Crafty.c('Fader', {
         gc.fillRect(0, 0, canvas.width, canvas.height);
 
         this.image = canvas.toDataURL();
-
-/*        Crafty.bind('FadeEnd', _.bind(function(cb) {
-            cb();
-            this.fade('in');
-            //Crafty.unbind('FadeEnd');
-        }, this));*/
 
         return this;
     },

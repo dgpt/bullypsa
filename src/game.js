@@ -26,7 +26,7 @@ Game = {
         },
         park: {
             left:    [30  , 230],
-            right:   []
+            right:   [1225, 230]
         },
         corridor: {
             left:    [0   , 200],
@@ -48,36 +48,6 @@ Game = {
     /* DEBUG STUFF */
     debug: function() {
         $('#cr-stage').after(
-/*            // Debug Quick Links Table
-            '<table id="debug_right" style="position:absolute;top:10px;left:520px">' +
-            '<caption>Debug Quick Links</caption>' +
-            '<tr style="text-align:center"><td>Scenes</td><td>Players</td><td>Emotes</td>' +
-            '<tr><td><button onclick="Crafty.scene(\'Room\');Crafty(\'Player\').x=250;">Room</button></td>' +
-            '<td><button onclick="Game.changeState(0);">Boy</button></td>' +
-            '<td><button onclick="Crafty(\'Player\').emote(\'Think\')">Think</button></td>' +
-
-            '<tr><td><button onclick="Crafty.scene(\'Street\')">Street</button></td>' +
-            '<td><button onclick="Game.changeState(1);">Girl</button></td>' +
-            '<td><button onclick="Crafty(\'Player\').emote(\'Question\')">Question</button></td>' +
-
-            '<tr><td><button onclick="Crafty.scene(\'Corridor\')">Corridor</button></td>' +
-            '<td><button onclick="Game.changeState(2);">Sara</button></td>' +
-            '<td><button onclick="Crafty(\'Player\').emote(\'Exclamation\')">Exclaim</button></td>' +
-
-            '<tr><td><button onclick="Crafty.scene(\'Park\')">Park</button></td>' +
-            '<td></td>' +
-            '<td><button onclick="Crafty(\'Player\').emote(\'Music\')">Music</button></td>' +
-
-            '<tr><td><button onclick="Crafty.scene(\'Library\')">Library</button></td>' +
-            '<td></td>' +
-            '<td><button onclick="Crafty(\'Player\').emote(\'Sigh\')">Sigh</button></td>' +
-
-            '<tr><td><button onclick="Crafty.scene(\'Classroom\')">Classroom</button></td>' +
-            '<td></td>' +
-            '<td><button onclick="Crafty(\'Player\').emote(\'Anger\')">Anger</button></td>' +
-            // Set initial x
-            '<tr><td><button onclick="var xxx=+$(\'#xchange\')[0].value; var ddd = 250; Game.player.x = _.isNaN(xxx) ? ddd : (xxx < '+Game.width+' && xxx > 0 ? xxx : ddd)">Change Initial X:</button></td><td><input id="xchange" style="width:70" type="text" /></td>' +
-            '</table>' +*/
             // Debug Info Table
             '<table id="debug" style="font-size:14px;table-layout:fixed;width:120px;margin-left:auto;margin-right:auto;position:absolute;top:350px;">' +
             '<caption>Debug Info</caption>' +
