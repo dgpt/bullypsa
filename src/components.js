@@ -634,7 +634,7 @@ Crafty.c('Speech', {
             // offsets (in relation to entity)
             x: existy(entity.speechXOffset) ? entity.speechXOffset : 0,
             // Distance from head to bottom of box
-            y: -50,
+            y: _.isNumber(entity.speechY) ? entity.speechY : -50,
             z: entity._z + 11,
             // Get constrained X or Y positions
             getX: function() {
