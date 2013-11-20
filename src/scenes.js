@@ -4,7 +4,7 @@ Crafty.scene.genNPCSettings = function(front) {
         pathLeftEdge: Crafty.math.randomNumber(0, 100),
         pathRightEdge: Crafty.math.randomNumber(Game.width - 100, Game.width - 64),
         pathInterval: Crafty.math.randomNumber(600, 4000),
-        x: Crafty.math.randomNumber(0, Game.width-10),
+        x: Crafty.math.randomNumber(0, Game.width-64),
         y: front ? Game.player.y : Game.player.y - 15,
         z: front ? 6 : 4,
         speed: 1,

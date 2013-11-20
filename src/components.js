@@ -211,8 +211,8 @@ Crafty.c('NPC', {
         this.requires('Actor, Tween, Delay')
             .actor(s.sprite, s);
 
-/*        this._patrol = _.bind(this._patrol, this);
-        this._patrol(s.path, s.pathInterval, s.pathLeftEdge, s.pathRightEdge);*/
+        this._patrol = _.bind(this._patrol, this);
+        this._patrol(s.path, s.pathInterval, s.pathLeftEdge, s.pathRightEdge);
 
         return this;
     },
@@ -260,30 +260,27 @@ Crafty.c('NPC', {
         }
     },
 
+    _patrolRight: function(interval, rdistance, ldistance) {
+        this.moveTo(rdistance, _.bind(function() {
+            _.delay(_.partial(_.bind(this._patrolLeft, this), interval, rdistance, ldistance), interval);
+        }, this));
+    },
+
+    _patrolLeft: function(interval, rdistance, ldistance) {
+        this.moveTo(ldistance, _.bind(function() {
+            _.delay(_.partial(_.bind(this._patrolRight, this), interval, rdistance, ldistance), interval);
+        }, this));
+    },
+
     // Given array of x positions or specific keywords, move to each one
     // 'full': move across entire scene, then go the opposite way after given time
     // 'stop': Stay still, same as passing an empty array
     _patrol: function(path, interval, leftEdge, rightEdge) {
         if (typeof path === "string") {
-
-            var pleft = _.partial(this._patrol, 'left-edge', interval, leftEdge, rightEdge);
-            var pright = _.partial(this._patrol, 'right-edge', interval, leftEdge, rightEdge);
-            var mleft = _.partial(this.moveTo, leftEdge || 0, pright);
-            var mright = _.partial(this.moveTo, rightEdge || Game.width - this.w - 5, pleft);
-
-            pleft = _.bind(pleft, this);
-            pright = _.bind(pright, this);
-            mleft = _.bind(mleft, this);
-            mright = _.bind(mright, this);
-
             if (path === "full-right") {
-                mright();
+                this._patrolRight(interval, rightEdge, leftEdge);
             } else if (path === "full-left") {
-                mleft();
-            } else if (path === "left-edge") {
-                _.delay(mleft, interval, 0);
-            } else if (path === "right-edge") {
-                _.delay(mright, interval, 0);
+                this._patrolLeft(interval, rightEdge, leftEdge);
             }
         } else {
             console.error("path must be string");
