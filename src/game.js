@@ -178,13 +178,14 @@ Game = {
             Crafty.scene(scene);
 
         };
-        var fadeIn = function(callback, time) {
+        var fader = Crafty.e('Fader').attr({fadeTime: 25});
+        var fadeIn = function(time, callback) {
             time = _.isNumber(time) ? time : 75;
             set();
-            Crafty.e('Fader').attr({fadeTime: time}).fade('in', callback);
+            fader.fade('in', callback);
         };
         if (s.fade) {
-            Crafty.e('Fader').attr({fadeTime: 25}).fade('out', fadeIn);
+            fader.fade('out', _.partial(fadeIn, 25));
         } else {
             set();
         }

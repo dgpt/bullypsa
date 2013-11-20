@@ -821,7 +821,7 @@ Crafty.c('Fader', {
         var canvas = document.createElement('canvas');
         var gc = canvas.getContext('2d');
         canvas.width = Game.width * 3;
-        canvas.height = Game.height;
+        canvas.height = Game.height + 10;
 
         this.width = canvas.width;
 
@@ -830,11 +830,11 @@ Crafty.c('Fader', {
 
         this.image = canvas.toDataURL();
 
-        Crafty.bind('FadeEnd', _.bind(function(cb) {
+/*        Crafty.bind('FadeEnd', _.bind(function(cb) {
             cb();
             this.fade('in');
             //Crafty.unbind('FadeEnd');
-        }, this));
+        }, this));*/
 
         return this;
     },

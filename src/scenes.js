@@ -32,7 +32,7 @@ Crafty.scene('Room', function() {
             if (State.config().room.access) {
                 player.emote('Think', true);
                 player.action = function() {
-                   Game.setScene('Street', {x: 'left', orientation: 'right'});
+                   Game.setScene('Street', {fade: true, x: 'left', orientation: 'right'});
                 };
             } else {
                 Dialog.show(player, {next: true});
