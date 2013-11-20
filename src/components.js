@@ -815,7 +815,6 @@ Crafty.c('Fader', {
         var canvas = document.createElement('canvas');
         var gc = canvas.getContext('2d');
         canvas.width = Game.width * 3;
-        console.log('canvas width: ' + canvas.width);
         canvas.height = Game.height;
 
         this.width = canvas.width;
@@ -831,37 +830,34 @@ Crafty.c('Fader', {
     // Fades in or out
     // if inOrOut is 'in' or 'out' it will fade in or out respectively
     fade: function(inOrOut, callback, hold) {
-        //console.log('fade---]]] STARTING TO FADE ' + inOrOut.toUpperCase());
         var fadesIn = inOrOut == 'in' ? true : false;
         var imageEnt = Crafty.e('2D, DOM, Image, Tween').image(this.image);
 
         imageEnt.active = true;
 
         imageEnt.alpha = fadesIn ? 1.0 : 0.0;
-        //console.log('fade---]] Binding TweenEnd to imageEnt');
         imageEnt.attr({x: -Crafty.viewport.x - imageEnt.w / 2, y: this.y, z: 100})
             .tween({alpha: fadesIn ? 0.0 : 1.0}, this.fadeTime)
             .bind("TweenEnd", function() {
-                //console.log('fade---]] Unbinding TweenEnd. '+ (this === imageEnt)+' \'this\': ');
-                //console.log(this.__c);
                 this.unbind('TweenEnd');
                 this.active = false;
-                //console.log('fade---]] Callback = ' + callback);
                 if (_.isFunction(callback)) {
-                    //console.log('fade---]] Callback');
                     callback();
                 }
-                //console.log('Hold: ' + hold);
                 if (!hold) {
-                    //console.log('fade---]] no hold, destroying this');
                     this.destroy();
                 }
             });
-        console.log('fade---]] binding FadeEnd');
-        Crafty.bind('FadeEnd', _.bind(function() {
-            console.log('FadeEnd Callback!! Unbinding FadeEnd, destroying this.');
-            this.destroy();
+
+        Crafty.bind('FadeEnd', _.bind(function(cb) {
+            if (hold) {
+                imageEnt.destroy();
+                cb();
+                this.fade('in', _.bind(this.destroy, this));
+            }
             Crafty.unbind('FadeEnd');
         }, this));
+
+        return this;
     }
 });
