@@ -208,7 +208,7 @@ boy, young_man, mikey, tyler
 ///* Classroom *///
     Dialog.scenarios.classroom[0] = {
         text: [
-            "Lindsay has told Ms. Barton about the pictures on Facebook. Ms. Barton goes out to the corridor and sends the bullies to the principal's office. Lindsay goes back out in the hallway and the girls keep teasing her."
+            "Lindsay has told Ms. Barton about the pictures on Facebook. Ms. Barton goes out to the corridor and sends the bullies to the principal's office. Lindsay goes into the classroom and classmates keep teasing her for getting the teacher involved."
         ]
     };
 
@@ -229,7 +229,7 @@ boy, young_man, mikey, tyler
             Dialog.text.response
         ],
         response:[[
-            "*Go back to the classroom and wait until next class*",
+            "*Leave the classroom and wait until the next class*",
             "*Push Cindy and start a fight*"
         ]]
     };
@@ -237,13 +237,13 @@ boy, young_man, mikey, tyler
     // Good
     Dialog.lessons.classroom[0] = {
         text: [
-            "Lindsay decided that it would be a better choice to go into the classroom and wait it out so the bullies would not have anyone to attack or call names. This was a great choice! She prevented them from continuing their bullying by removing herself from the situation. If it continues, she will want to make sure to get an adult involved."
+            "Lindsay decided that it would be a better choice to go to a favorite teacher's classroom where she knows she will be safe from the bullying so the bullies would not have anyone to attack or call names. This was a great choice! She prevented them from continuing their bullying by removing herself from the situation. If it continues, she will want to make sure to get an adult involved."
         ]
     };
     // Bad
     Dialog.lessons.classroom[1] = {
         text: [
-            "Lindsay should not get physical and start to push. It would be better to walk away into another room with an adult or with other kids and wait for them to leave. Fighting is never a good idea. If you fight back, the bullying could become worse and adults might see you as part of the problem."
+            "Lindsay should not get physical and start to push. It would be better to leave and go somewhere there is a trusted adult so that there is nobody for them to pick on. Fighting is never a good idea. If you fight back, the bullying could become worse and adults might see you as part of the problem."
         ]
     };
 
@@ -720,8 +720,8 @@ Dialog.hideInfo = function() {
 };
 
 State = {
-    scene: 'Room',
-    player: 'Girl',
+    scene: 'Street',
+    player: 'Boy',
     index: {
         'Room': 0,
         'Street': 0,
