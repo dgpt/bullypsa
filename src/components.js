@@ -262,12 +262,15 @@ Crafty.c('NPC', {
 
     _patrolRight: function(interval, rdistance, ldistance) {
         this.moveTo(rdistance, _.bind(function() {
+            //_.delay(_.partial(_.bind(this._patrolLeft, this), interval, rdistance, ldistance), interval);
+            //this._patrolLeft(interval, rdistance, ldistance);
             _.bind(this._patrolLeft, this)(interval, rdistance, ldistance);
         }, this));
     },
 
     _patrolLeft: function(interval, rdistance, ldistance) {
         this.moveTo(ldistance, _.bind(function() {
+            //this._patrolRight(interval, rdistance, ldistance);
             _.bind(this._patrolRight, this)(interval, rdistance, ldistance);
         }, this));
     },
