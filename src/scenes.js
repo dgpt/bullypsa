@@ -363,7 +363,7 @@ Crafty.scene('Library', function() {
     Crafty.e('Portal')
         .portal({x: Game.width - 55})
         .action(function() {
-            if (State.config().corridor) {
+            if (State.config().corridor.access) {
                 player.emote('Think', true);
                 player.action = function() {
                     Game.setScene('Corridor', {fade: true, x: 'down', orientation: 'left'});
@@ -383,18 +383,18 @@ Crafty.scene('Classroom', function() {
     // Girl Story
     if (State.player === 'Girl') {
         if (State.getIndex() < 1) {
-            var cindy = Crafty.e('Cindy').cindy({x: 200, orientation: 'right'});
-            var dina = Crafty.e('Dina').dina({x: 300, orientation: 'right', portal: true})
+            var dina = Crafty.e('Dina').dina({x: 200, orientation: 'right'});
+            var cindy = Crafty.e('Cindy').cindy({x: 300, orientation: 'right', portal: true})
                 .action({onhit: function() {
-                    if (!dina._dflag) {
-                        dina.speechWidth = 250;
+                    if (!cindy._dflag) {
+                        cindy.speechWidth = 250;
                         player.speechY = -20;
                         Dialog.progression([
                             [dina, {emotes: ['Exclamation']}],
                             [cindy, {emotes: ['Anger']}],
                             [player, {next: true}]
                         ]);
-                        dina._dflag = true;
+                        cindy._dflag = true;
                     }
                 }});
             girlModeTransition(player, _.partial(Game.setScene, 'Corridor',
