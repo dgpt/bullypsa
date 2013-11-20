@@ -185,9 +185,6 @@ Game = {
         Crafty.background('black');
         //Game.debug();
 
-        // Gotta do this here because components.js loads after game.js
-        Game.fader = Crafty.e('Fader');
-
         Crafty.scene('Load');
 
         Game.addHelpLink();

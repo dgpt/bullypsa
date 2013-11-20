@@ -587,31 +587,31 @@ Dialog.show = function(entity, settings) {
     var i = 0;
     // Cycles through text array, spawning a speech bubble for each entry
     var speech = function(selected) {
-        console.log(selected);
         if (i < text.length) {
             if (_.isArray(s.emotes) && _.isString(s.emotes[i]))
                 entity.emote(s.emotes[i].upperFirst());
             Crafty.e('Speech').speech(entity, text[i], _.isArray(response) && response[i]);
             i += 1;
         } else {
-            // May not be necessary. Leaving commented just in case.
-            // Dialog.progression->unbindAll should take care of it.
-            //entity.unbind('CloseSpeech');
+            //console.log('D.show---) Unbinding CloseSpeech on ' + entity.name);
+            entity.unbind('CloseSpeech');
             if (_.isFunction(s.callback))
                 s.callback(selected);
+            // SpeechFinish triggers when all indices of speech have been cycled through.
+            //console.log('D.show---) Triggering speechFinish on '+ entity.name);
             entity.trigger('SpeechFinish');
-            entity.unbind('SpeechFinish');
         }
         // Trigger response if response id (selected) is passed
         if (existy(selected)) {
+            //console.log('D.show---) Triggering SpeechResponse - GLOBAL');
             Crafty.trigger('SpeechResponse', selected);
-            Crafty.unbind('SpeechResponse');
         }
     };
     speech();
+    //console.log('D.show---) Binding CloseSpeech on ' + entity.name);
     entity.bind('CloseSpeech', speech);
     if (s.next) State.next(s.scene);
-    console.log('Dialog.show--->Index: ' + State.getIndex(s.scene));
+    //console.log('Dialog.show--->Index: ' + State.getIndex(s.scene));
 };
 
 // Chains dialogs together.
@@ -621,21 +621,16 @@ Dialog.progression = function(argsList) {
     var i = 0;
     var speech = function() {
         var args = argsList[i];
+        var prevArgs = i > 0 ? argsList[i - 1] : args;
         if (!existy(args)) {
-            unbindAll();
             return;
         }
+        //console.log('----)unbinding SpeechFinish from ' + prevArgs[0].name);
+        prevArgs[0].unbind('SpeechFinish', speech);
+        //console.log('----)binding SpeechFinish to ' + args[0].name);
         args[0].bind('SpeechFinish', speech);
         Dialog.show.apply(null, args);
         i++;
-    };
-    // Make sure all events are unbind-ed when finished to avoid weirdness
-    var unbindAll = function() {
-        for (var j = 0; j < argsList.length; j++) {
-            var entity = argsList[j][0];
-            entity.unbind('SpeechFinish');
-            entity.unbind('CloseSpeech');
-        }
     };
     speech();
 };
