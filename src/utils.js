@@ -67,8 +67,7 @@ function onSpaceKey(callback) {
     var check = function(k) {
         if (k.key === Crafty.keys.SPACE) {
             console.log('storyFadeOut--# Triggering FadeEnd');
-            Crafty.trigger('FadeEnd');
-            _.isFunction(callback) ? callback() : 0;
+            Crafty.trigger('FadeEnd', _.isFunction(callback) ? callback : null);
             Crafty.unbind('KeyDown', check);
         }
     };
