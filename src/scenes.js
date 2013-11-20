@@ -388,6 +388,17 @@ Crafty.scene('Classroom', function() {
         }
     }
 
+    if (State.getIndex() >= 10) {
+        player.x = 340;
+        var girl = Crafty.e('GirlLame').girlLame({x: 440, orientation: 'left', portal: true})
+        var rebecca = Crafty.e('Rebecca').rebecca({x: 385, orientation: 'right', portal: true})
+        rebecca.bind('CloseSpeech', function() { player.enabled = true; rebecca.unbind('CloseSpeech');
+            //End game stuff goes here.
+        });
+        Dialog.progression([
+            [rebecca, {emotes: ['Anger']}],
+        ]);
+    }
 
     // Overlays
     Crafty.e('Overlay')

@@ -388,6 +388,12 @@ Crafty.c('GenericNPC', {
     });
 
 ///* Background NPCs *///
+    Crafty.c('GirlLame', {
+        girlLame: function(settings) {
+            return this.requires('GenericNPC')
+                .gnpc('girl', settings);
+        }
+    });
     Crafty.c('Clarence', {
         clarence: function(settings) {
             return this.requires('GenericNPC')
