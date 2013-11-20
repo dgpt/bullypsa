@@ -208,13 +208,13 @@ Game.onHelpUp = function() {
     var uopen = 'help-button-up-open';
     var dopen = 'help-button-down-open';
     var helpText = $('<div id="helpText" style="width: '+ Game.width +'px;">'+
-    "Help:<br>Sometimes the game will be a little too small. Hold the CTRL button and use your mouse's scroll wheel to increase or decrease the zoom."+
-    "<br><br>Is the game not working? We highly recommend using either <a href='https://www.google.com/intl/en/chrome/browser/'>Chrome</a> or <a href='http://www.mozilla.org/en-US/firefox/new/'>Firefox</a> as your browser to play this game."+
-    "<br><br>Controls:<br>"+
-    "Remember you will only use the arrow keys and the space bar in this game.<ul>"+
-    "<li>Use the arrow keys to move left and right.<br>"+
-    "<li>When a choice is available use the up and down arrows keys to select your choice and press space to confirm."+
-    "<li>Use the space bar to travel to new areas when an emote pops up.<li>Use the space bar to continue through dialog.</ul></div>");
+    'Help:<br>Sometimes the game will be a little too small. Hold the CTRL button and use your mouse\'s scroll wheel to increase or decrease the zoom.'+
+    '<br><br>Is the game not working? We highly recommend using a current version of <a href="http://windows.microsoft.com/en-us/internet-explorer/download-ie">Internet Explorer 11</a>, <a href="https://www.google.com/intl/en/chrome/browser/">Google Chrome</a>, or <a href="http://www.mozilla.org/en-US/firefox/new/">Mozilla Firefox</a> as your browser to play this game. The game will <em>not</em> work with any version of Internet Explorer previous to 11.'+
+    '<br><br>Controls:<br>'+
+    'Remember you will only use the arrow keys and the space bar in this game.<ul>'+
+    '<li>Use the arrow keys to move left and right.'+
+    '<li>When a choice is available use the up and down arrows keys to select your choice and press space to confirm.'+
+    '<li>Use the space bar to travel to new areas when an emote pops up.<li>Use the space bar to continue through dialog.</ul></div>');
 
     if ($help.hasClass(dclosed)) {
         $(document.body).append(helpText);
