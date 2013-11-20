@@ -152,11 +152,12 @@ Game = {
     // Uses Game.playerPos to determine position, pass settings.x to match the key entry from Game.playerPos.scene (typically left, right)
     // If Game.playerPos.scene is not an object, do not pass anything for settings.x
     setScene: function(scene, settings) {
-        Game.fader.fade(25, "out", function() {
-            var s = _.defaults(settings || {}, {
-                orientation: 'right',
-                x: 0
-            });
+        var s = _.defaults(settings || {}, {
+            orientation: 'right',
+            x: 0,
+            fade: false
+        });
+        var set = function() {
             if (!_.isString(scene) || !(scene in Crafty._scenes))
                 fail('Game.setScene: scene is invalid');
             if (s.orientation !== 'left' && s.orientation !== 'right')
@@ -176,8 +177,17 @@ Game = {
             State.scene = scene;
             Crafty.scene(scene);
 
-            Game.fader.fade(25, "in");
-        });
+        };
+        var fadeIn = function(callback, time) {
+            time = _.isNumber(time) ? time : 75;
+            set();
+            Crafty.e('Fader').attr({fadeTime: time}).fade('in', callback);
+        };
+        if (s.fade) {
+            Crafty.e('Fader').attr({fadeTime: 25}).fade('out', fadeIn);
+        } else {
+            set();
+        }
     },
 
     start: function() {

@@ -326,13 +326,13 @@ boy, young_man, mikey, tyler
     // Good
     Dialog.lessons.library[0] = {
         text: [
-            "It is hard to ignore people when they are calling you names. Just keep moving to where you were going. Showing them that you are not concerned about what they have to say takes away their power while name-calling will only make things worse!"
+            "Lindsay believes in herself and tells Cyndi, Diana, and May that she likes who she is and what she looks like. Then she walks away leaving them to ponder what she just said. By stating her position without any emotion, the bullies did not get the response they were looking for. This is the best way to gain control of a situation and not let a bully cut you down!"
         ]
     };
     // Bad
     Dialog.lessons.library[1] = {
         text: [
-            "Lindsay believes in herself and tells Cyndi, Diana, and May that she likes who she is and what she looks like. Then she walks away leaving them to ponder what she just said. By stating her position without any emotion, the bullies did not get the response they were looking for. This is the best way to gain control of a situation and not let a bully cut you down!"
+            "It is hard to ignore people when they are calling you names. Just keep moving to where you were going. Showing them that you are not concerned about what they have to say takes away their power while name-calling will only make things worse!"
         ]
     };
 
@@ -521,7 +521,47 @@ boy, young_man, mikey, tyler
         ]
     };
 
+////////////////////////////////////
+///////  End Scenes   /////////////
+//////////////////////////////////
+/* End Scene indices start at 10 */
+///* Bad *///
+    Dialog.rebecca.classroom[10] = {
+        text: [
+            "You two have made some bad choices today, those choices have landed in you in detention. This will give you some time to think about what you could have done differently."
+        ]
+    };
 
+///* Good *///
+    Dialog.boy.park[10] = {
+        text: [
+            "Way to go! You made the best decisions! When you get to the end of the day it's really all about being happy. So standing up for yourself is really the best option in the long run!"
+        ]
+    };
+
+    Dialog.girl.park[10] = {
+        text: [
+            "I'm so glad we were able to stick up for ourselves and each other.  When we stick together bullies have less power over us."
+        ]
+    };
+
+///* Both *///
+    Dialog.girl.park[11] = {
+        text: [
+            "By playing this game, you have encountered some situations that you either have come across, or might in the future. Learning to make the correct choices ahead of time makes it easier to make the correct choice in the heat of the moment. Practice making good choices, and believe that you are worth it. Take the Bullying Ends with Me pledge now to promise to be part of the solution and not part of the problem. "+br+
+            "http://www.pacer.org/bullying/digitalpetition/"
+        ]
+    };
+
+    Dialog.scenarios.park[10] = {
+        text: [
+            "Bullying can make a child feel helpless. Kids may want to handle it on their own to feel in control again. They may fear being seen as weak or a tattletale."+br+
+            "Kids may fear backlash from the kid who bullied them."+br+
+            "Bullying can be a humiliating experience. Kids may not want adults to know what is being said about them, whether true or false. They may also fear that adults will judge them or punish them for being weak."+br+
+            "Kids who are bullied may already feel socially isolated. They may feel like no one cares or could understand."+br+
+            "Kids may fear being rejected by their peers. Friends can help protect kids from bullying, and kids can fear losing this support."
+        ]
+    };
 
 // USES GLOBALS: State.scene, State.index
 // returns dialog array for given entity, scene and index
