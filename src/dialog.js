@@ -317,9 +317,9 @@ boy, young_man, mikey, tyler
             Dialog.text.response
         ],
         response: [[
-            "Whatever! You are all a bunch of ugly peacocks!",
             "I like who I am and what I look like."+br+
-            "*Walk away*"
+            "*Walk away*",
+            "Whatever! You are all a bunch of ugly peacocks!"
         ]]
     };
     // Lessons
