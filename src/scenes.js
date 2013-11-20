@@ -90,7 +90,6 @@ Crafty.scene('Street', function() {
     // Boy Story
     if (State.player === 'Boy') {
         if (State.getIndex() < 2) {
-            player.x = 1360;
             Dialog.showInfo('scenarios', 5);
             var mikey = Crafty.e('Mikey').mikey({x: 1282, orientation: 'right', portal: true})
                 .action({onhit: function() {
@@ -386,7 +385,7 @@ Crafty.scene('Classroom', function() {
                     }
                 }});
             girlModeTransition(player, _.partial(Game.setScene, 'Corridor',
-                                                 {x: 'left', orientation: 'right'}));
+                                                 {x: 'up', orientation: 'right'}));
         }
     }
 
