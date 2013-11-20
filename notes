@@ -3,35 +3,37 @@ Level Order
 Room->Street/->Corridor/->Library
 
 BUGS:
-    On scene change, if the info box is up, it jumps into the game div
-
     In components.js with the npc component moveTo will sometimes say _settings is not defined when in the EnterFrame event. Currently we are ignoring this and it appears to work fine, but we may want to check this out if we getan unexplainable error.
 
 
 TODO:
-    Finish Girl Story
-        Corridor
-        Classroom
-        Library
-    Figure out a good transition from girl to boy (not relating to sex-changes)
-    Finish Boy Story
-        Park
-        Street
-        Corridor
-        Library
     Make Ending
         Good Ending
         Bad Ending
-    Midage man-
-        in too many scenes, creepy.
     Add point system
         Get points for right answers
         End point amount determines ending
     Emotes
         Make them die faster
 
-    eat some pie
-    sleep
+    Ending
+        Add them in
+
+    during transitions
+        make sure player is disabled
+
+    Corridor
+        move may back a little
+        remove creepy midage man
+
+    street
+        remove rebecca
+
+    Classroom
+        add rebecca
+
+    Lesson Time
+        Add 'press space to continue'
 
 TODO-DONE:
     make exandable help text link below game.
