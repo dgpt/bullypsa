@@ -206,6 +206,26 @@ Crafty.scene('Corridor', function() {
 Crafty.scene('Park', function() {
     var player = Game.setupScene('park');
 
+    if (State.player === "Boy") {
+        if (State.getIndex() < 2) {
+            player.x = 600;
+            Dialog.showInfo('scenarios', 5);
+            var young_man = Crafty.e('Young_man').young_man({x: 385, orientation: 'right', portal: true})
+                .action({onhit: function() {
+                    if (!young_man._dflag) {
+                        Dialog.progression([
+                            [young_man, {emotes: ['Exclamation']}],
+                            [player, {emotes: ['Anger'], next: true}],
+                            [young_man, {emotes: ['Exclamation']}],
+                            [player, {emotes: ['Anger'], next: true}],
+                        ]);
+                        young_man._dflag = true;
+                    }
+                }});
+            boyModeTransition(player, _.partial(Game.setScene, 'Street', {orientation: 'left'}));
+        }
+    }
+
     Crafty.e('Roland').roland(Crafty.scene.genNPCSettings());
     Crafty.e('Elise').elise(Crafty.scene.genNPCSettings());
     Crafty.e('Sara').sara(Crafty.scene.genNPCSettings());
@@ -503,8 +523,8 @@ Crafty.scene('Load', function() {
             sprVivianL: [0, 2]
         });
         Crafty.sprite(57, 96, assets.young_man, {
-            sprYoungManR: [0, 1],
-            sprYoungManL: [0, 0]
+            sprYoung_manR: [0, 1],
+            sprYoung_manL: [0, 0]
         });
         Crafty.sprite(53, 96, assets.young_woman, {
             sprDianaR: [0, 1],
