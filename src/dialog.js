@@ -589,7 +589,7 @@ Dialog.get = function(entity, scene, index) {
         warn('Dialog.get: Dialog['+entity+']['+scene+']['+index+'] does not exist.');
         return;
     }
-    console.log('Dialog.get: Dialog['+entity+']['+scene+']['+index+']');
+    //console.log('Dialog.get: Dialog['+entity+']['+scene+']['+index+']');
     return d;
 };
 
@@ -680,6 +680,7 @@ Dialog.progression = function(argsList) {
 // \\ default: type == 'good': 0; type == 'bad': 1; type == 'scenario': 0;
 // scene: opt; str; scene name to pull lesson text from. default: current
 Dialog.showInfo = function(type, index, scene) {
+    Dialog.hideInfo();
     var bgcolor;
     var dialogType = 'lessons';
     if (type === 'good') {
@@ -703,7 +704,12 @@ Dialog.showInfo = function(type, index, scene) {
             .append(html);
     };
     setupInfoBox();
-    Crafty.bind('SceneChange', Dialog.hideInfo);
+    var handleInfoBug = function() {
+        // Ugh the hacks...
+        if (dialogType === 'lessons' || scene === 'Room')
+            return Dialog.hideInfo();
+    };
+    Crafty.bind('SceneChange', handleInfoBug);
 };
 
 Dialog.hideInfo = function() {
