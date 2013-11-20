@@ -186,6 +186,7 @@ Game = {
         if (s.fade) {
             Crafty.e('Fader').attr({fadeTime: 25}).fade('out', fadeIn);
         } else {
+            set();
         }
     },
 
