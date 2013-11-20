@@ -824,6 +824,12 @@ Crafty.c('Fader', {
 
         this.image = canvas.toDataURL();
 
+        Crafty.bind('FadeEnd', _.bind(function(cb) {
+            cb();
+            this.fade('in');
+            //Crafty.unbind('FadeEnd');
+        }, this));
+
         return this;
     },
 
@@ -848,15 +854,6 @@ Crafty.c('Fader', {
                     this.destroy();
                 }
             });
-
-        Crafty.bind('FadeEnd', _.bind(function(cb) {
-            if (hold) {
-                imageEnt.destroy();
-                cb();
-                this.fade('in', _.bind(this.destroy, this));
-            }
-            Crafty.unbind('FadeEnd');
-        }, this));
 
         return this;
     }
