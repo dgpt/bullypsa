@@ -101,8 +101,7 @@ boy, young_man, mikey, tyler
             "In this game, you'll be entering different scenarios to help you become aware of common bullying situations that you might find yourself in. You will have (2) choices to choose from; one right and one wrong."+br+br+"(Press space to continue)",
             "Being bullied and then choosing to be able to stand up to the things that are the hardest for you is difficult sometimes. It is also important to know how you can help others who are being bullied. Practicing making the right choices will help you know just what to do next time you find yourself in a similar situation.",
             "Stand up and believe in yourself, make the right choices, you can do it! What happens next depends on your answer."+br+br+
-            "(Press the left arrow key or A to move left.)"+br+
-            "(Press the right arrow key or D to move right.)"
+            "(Use the left and right arrow keys to move)"
         ]
     };
     Dialog.girl.room[1] = {
@@ -458,22 +457,22 @@ boy, young_man, mikey, tyler
             Dialog.text.response
         ],
         response: [[
+            "*Ignore Tyler and walk away*",
             "I'll show you who's short!"+br+
-            "*Kick Tyler in the shin*",
-            "*Ignore Tyler and walk away*"
+            "*Kick Tyler in the shin*"
         ]]
     };
     // Lessons
     // Good
     Dialog.lessons.corridor[2] = {
         text: [
-            "Joe should leave it alone and go to another area to avoid any confrontation. Fighting is never the right choice and usually will let bullies know what your weak spots are so that they know how to pick on you again in the future."
+            "Joe made the right choice by leaving the situation and not reacting to the name-calling. Showing emotion to their insults would have been the wrong choice. By walking away, Joe sent a message to the bullies that he wasn't going to let their name-calling bother him."
         ]
     };
     // Bad
     Dialog.lessons.corridor[3] = {
         text: [
-            "Joe made the right choice by leaving the situation and not reacting to the name-calling. Showing emotion to their insults would have been the wrong choice. By walking away, Joe sent a message to the bullies that he wasn't going to let their name-calling bother him."
+            "Joe should leave it alone and go to another area to avoid any confrontation. Fighting is never the right choice and usually will let bullies know what your weak spots are so that they know how to pick on you again in the future."
         ]
     };
 

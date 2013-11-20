@@ -89,14 +89,14 @@ Crafty.scene('Street', function() {
 
     // Boy Story
     if (State.player === 'Boy') {
-        if (State.getIndex() < 2) {
+        if (State.getIndex() < 1) {
             Dialog.showInfo('scenarios', 5);
             var mikey = Crafty.e('Mikey').mikey({x: 1282, orientation: 'right', portal: true})
                 .action({onhit: function() {
                     if (!mikey._dflag) {
                         Dialog.progression([
-                            [mikey, {emotes: ['Exclamation']}],
-                            [player, {emotes: ['Anger'], next: true}],
+                            [mikey, {index: 0, emotes: ['Exclamation']}],
+                            [player, {index: 0, emotes: ['Anger'], next: true}],
                         ]);
                         mikey._dflag = true;
                     }
@@ -319,7 +319,7 @@ Crafty.scene('Library', function() {
     }
 
     if (State.player === 'Boy') {
-        if (State.getIndex() < 2) {
+        if (State.getIndex() < 1) {
             player.x = 600;
             var tyler = Crafty.e('Tyler').tyler({x: 345, orientation: 'right', portal: true})
             var mikey = Crafty.e('Mikey').mikey({x: 385, orientation: 'right', portal: true})
