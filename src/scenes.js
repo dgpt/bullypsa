@@ -145,7 +145,7 @@ Crafty.scene('Corridor', function() {
     //Crafty.e('Miley').miley(Crafty.scene.genNPCSettings());
 
     if (State.player === 'Girl') {
-        if (State.getIndex() < 2) {
+        if (State.getIndex() < 1) {
             Dialog.showInfo('scenarios');
             // Add more girls to the group
             var may = Crafty.e('May').may({x: 385, orientation: 'left', portal: true})
