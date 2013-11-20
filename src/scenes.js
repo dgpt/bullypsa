@@ -112,7 +112,7 @@ Crafty.scene('Street', function() {
             if (State.config().room.access) {
                 player.emote('Think', true);
                 player.action = function() {
-                    Game.setScene('Room', {x: 'right', orientation: 'left'});
+                    Game.setScene('Room', {fade: true, x: 'right', orientation: 'left'});
                 };
             }
         }, function() {
@@ -123,10 +123,12 @@ Crafty.scene('Street', function() {
     Crafty.e('Portal')
         .portal({x: Game.width - 45})
         .action(function() {
-            player.emote('Think', true);
-            player.action = function() {
-                Game.setScene('Park', {x: 'left', orientation: 'right'});
-            };
+            if (State.config().park.access) {
+                player.emote('Think', true);
+                player.action = function() {
+                    Game.setScene('Park', {fade: true, x: 'left', orientation: 'right'});
+                };
+            }
         }, function() {
             player.action = null;
         });
@@ -135,10 +137,12 @@ Crafty.scene('Street', function() {
     Crafty.e('Portal')
         .portal({x: 1195, w: 80, boundary: false})
         .action(function() {
-            player.emote('Think', true);
-            player.action = function() {
-                Game.setScene('Corridor', {x: 'left', orientation: 'right'});
-            };
+            if (State.config().corridor.access) {
+                player.emote('Think', true);
+                player.action = function() {
+                    Game.setScene('Corridor', {fade: true, x: 'left', orientation: 'right'});
+                };
+            }
         }, function() { player.action = null; });
 }, function() {
     Crafty.unbind('KeyDown');
@@ -198,30 +202,36 @@ Crafty.scene('Corridor', function() {
     Crafty.e('Portal')
         .portal({orientation: 'left'})
         .action(function() {
-            player.emote('Think', true);
-            player.action = function() {
-                Game.setScene('Street', {x: 'stairs', orientation: 'right'});
-            };
+            if (State.config().street.access) {
+                player.emote('Think', true);
+                player.action = function() {
+                    Game.setScene('Street', {fade: true, x: 'stairs', orientation: 'right'});
+                };
+            }
         }, function() { player.action = null; });
 
     // Upstairs - Classroom
     Crafty.e('Portal')
         .portal({x: 740, w: 60, boundary: false})
         .action(function() {
-            player.emote('Think', true);
-            player.action = function() {
-                Game.setScene('Classroom', {orientation: 'left'});
-            };
+            if (State.config().classroom.access) {
+                player.emote('Think', true);
+                player.action = function() {
+                    Game.setScene('Classroom', {fade: true, orientation: 'left'});
+                };
+            }
         }, function() { player.action = null; });
 
     // Downstairs - Library
     Crafty.e('Portal')
         .portal({x: 870, w: 60, boundary: false})
         .action(function() {
-            player.emote('Think', true);
-            player.action = function() {
-                Game.setScene('Library', {orientation: 'left'});
-            };
+            if (State.config().library.access) {
+                player.emote('Think', true);
+                player.action = function() {
+                    Game.setScene('Library', {fade: true, orientation: 'left'});
+                };
+            }
         }, function() { player.action = null; });
 
     // Right - bound
@@ -261,10 +271,12 @@ Crafty.scene('Park', function() {
     Crafty.e('Portal')
         .portal({orientation: 'left'})
         .action(function() {
-            player.emote('Think', true);
-            player.action = function() {
-                Game.setScene('Street', {x: 'right', orientation: 'left'});
-            };
+            if (State.config().street.access) {
+                player.emote('Think', true);
+                player.action = function() {
+                    Game.setScene('Street', {fade: true, x: 'right', orientation: 'left'});
+                };
+            }
         }, function() {
             player.action = null;
         });
@@ -352,10 +364,12 @@ Crafty.scene('Library', function() {
     Crafty.e('Portal')
         .portal({x: Game.width - 55})
         .action(function() {
-            player.emote('Think', true);
-            player.action = function() {
-                Game.setScene('Corridor', {x: 'down', orientation: 'left'});
-            };
+            if (State.config().corridor) {
+                player.emote('Think', true);
+                player.action = function() {
+                    Game.setScene('Corridor', {fade: true, x: 'down', orientation: 'left'});
+                };
+            }
         }, function() {
             player.action = null;
         });
@@ -417,10 +431,12 @@ Crafty.scene('Classroom', function() {
     Crafty.e('Portal')
         .portal({x: Game.width - 175})
         .action(function() {
-            player.emote('Think', true);
-            player.action = function() {
-                Game.setScene('Corridor', {x: 'up', orientation: 'left'});
-            };
+            if (State.config().corridor.access) {
+                player.emote('Think', true);
+                player.action = function() {
+                    Game.setScene('Corridor', {fade: true, x: 'up', orientation: 'left'});
+                };
+            }
         }, function() { player.action = null; });
 });
 

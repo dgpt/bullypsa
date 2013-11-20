@@ -746,26 +746,37 @@ State = {
 
     // These handle game progression.
     _girl: function() {
-        var s = _.clone(State._default);
+        var s = State._default();
 
         if (State.getIndex('Room') >= 2) {
             s.room.access = true;
             s.room.complete = true;
         }
 
+        if (State.getIndex('Classroom') >= 1)
+            s.library.access = true;
+
         return s;
     },
 
     _boy: function() {
-        var s = _.clone(State._default);
+        var s = State._default();
 
         return s;
     },
 
-    _default: {
-        room: {
-            complete: false,
-            access: false
-        }
+    _default: function() {
+        return {
+            room: {
+                complete: false,
+                access: false
+            },
+
+            street: {},
+            park: {},
+            corridor: {},
+            classroom: {},
+            library: {}
+        };
     }
 };
