@@ -180,8 +180,7 @@ Crafty.scene('Corridor', function() {
     }
 
     if (State.player === 'Boy') {
-        if (State.getIndex() < 2) {
-            player.x = 100;
+        if (State.getIndex() < 1) {
             var tyler = Crafty.e('Tyler').tyler({x: 500, orientation: 'left', portal: true})
                 .action({onhit: function() {
                     if (!tyler._dflag) {
