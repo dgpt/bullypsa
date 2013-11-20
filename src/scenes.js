@@ -239,8 +239,9 @@ Crafty.scene('Library', function() {
 
 
             var cindy = Crafty.e('Cindy').cindy({x: 200, orientation: 'right'});
-            var diana = Crafty.e('Diana').diana({x: 300, orientation: 'right', portal: true})
-            var may = Crafty.e('May').may({x: 250, orientation: 'right', portal: true})
+            var diana = Crafty.e('Diana').diana({x: 300, orientation: 'right'});
+            var may = Crafty.e('May').may({x: 250, orientation: 'right'});
+            may.bind('CloseSpeech', function() { player.enabled = true; may.unbind('CloseSpeech');});
             diana.speechWidth = 250;
             Dialog.progression([
                 [cindy, {emotes: ['Anger']}],
@@ -248,33 +249,9 @@ Crafty.scene('Library', function() {
                 [cindy, {emotes: ['Anger']}],
                 [may, {emotes: ['Anger'], next: true}],
             ]);
-
-var playerMoveFix = function() {
-                player.enabled = true;
-                player.unbind('CloseSpeech', playerMoveFix);
-            };
-
-            player.bind("CloseSpeech", playerMoveFix);
-            player.enabled = true;
-            /*var cindy = Crafty.e('Cindy').cindy({x: 200, orientation: 'right'});
-            var diana = Crafty.e('Diana').diana({x: 300, orientation: 'right', portal: true})
-            var may = Crafty.e('May').may({x: 250, orientation: 'right', portal: true})
-                .action({onhit: function() {
-                    if (!diana._dflag) {
-                        diana.speechWidth = 250;
-                        Dialog.progression([
-                            [cindy, {emotes: ['Anger']}],
-                            [diana, {emotes: ['Exclamation'], next: true}],
-                            [cindy, {emotes: ['Anger']}],
-                            [may, {emotes: ['Anger']}],
-                        ]);
-                        diana._dflag = true;
-                    }
-                }});
-            //girlModeTransition(player, _.partial(Game.setScene, 'Corridor',
-             //                                    {x: 'left', orientation: 'right'})); */
         }
     }
+
 
     // Overlays
     Crafty.e('Overlay')
