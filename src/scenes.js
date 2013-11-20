@@ -42,7 +42,7 @@ Crafty.scene('Room', function() {
         });
 
     Dialog.show(player, {next: true, callback: function() {
-        Dialog.showInfo('scenario', 0);
+        Dialog.showInfo('scenario', 0, 'Room');
     }});
 }, function() {
     this.unbind('KeyDown');
@@ -313,6 +313,9 @@ Crafty.scene('Library', function() {
 
             girlModeTransition(player, function() {
                 State.player = 'Boy';
+                for (var scn in State.index) {
+                    State.index[scn] = 0;
+                }
                 Game.setScene('Park', {x: 'right', orientation: 'left'});
             });
         }
@@ -376,6 +379,7 @@ Crafty.scene('Classroom', function() {
                 .action({onhit: function() {
                     if (!dina._dflag) {
                         dina.speechWidth = 250;
+                        player.speechY = -20;
                         Dialog.progression([
                             [dina, {emotes: ['Exclamation']}],
                             [cindy, {emotes: ['Anger']}],
@@ -389,6 +393,7 @@ Crafty.scene('Classroom', function() {
         }
     }
 
+    // End Game -- Bad
     if (State.getIndex() >= 10) {
         player.x = 340;
         var girl = Crafty.e('GirlLame').girlLame({x: 440, orientation: 'left', portal: true})
