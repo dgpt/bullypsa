@@ -832,11 +832,11 @@ Crafty.c('Fader', {
 
         this.image = canvas.toDataURL();
 
-        Crafty.bind('FadeEnd', _.bind(function(cb) {
+/*        Crafty.bind('FadeEnd', _.bind(function(cb) {
             cb();
             this.fade('in');
             //Crafty.unbind('FadeEnd');
-        }, this));
+        }, this));*/
 
         return this;
     },

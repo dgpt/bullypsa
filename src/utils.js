@@ -50,7 +50,14 @@ function storyFadeOut(callback) {
     if (!_.isFunction(callback))
         fail('storyFadeOut: callback is not a function');
 
-    Crafty.e('Fader').fade('out', callback, true);
+    var fader = Crafty.e('Fader');
+    fader.fade('out', function() {
+        Crafty.bind('FadeEnd', function(cb) {
+            cb();
+            fader.fade('in');
+        });
+        callback();
+    }, true);
 }
 
 function storyShowLesson(gender, e) {
@@ -67,6 +74,7 @@ function onSpaceKey(callback) {
     var check = function(k) {
         if (k.key === Crafty.keys.SPACE) {
             console.log('storyFadeOut--# Triggering FadeEnd');
+            //callback();
             Crafty.trigger('FadeEnd', _.isFunction(callback) ? callback : null);
             Crafty.unbind('KeyDown', check);
         }
