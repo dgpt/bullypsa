@@ -236,19 +236,34 @@ Crafty.scene('Library', function() {
     // Girl Story
     if (State.player === 'Girl') {
         if (State.getIndex() < 1) {
+            player.x = 750;
 
-
-            var cindy = Crafty.e('Cindy').cindy({x: 200, orientation: 'right'});
-            var diana = Crafty.e('Diana').diana({x: 300, orientation: 'right'});
-            var may = Crafty.e('May').may({x: 250, orientation: 'right'});
+            var cindy = Crafty.e('Cindy').cindy({x: 500, orientation: 'right'});
+            var diana = Crafty.e('Diana').diana({x: 600, orientation: 'right'});
+            var may = Crafty.e('May').may({x: 550, orientation: 'right'});
             may.bind('CloseSpeech', function() { player.enabled = true; may.unbind('CloseSpeech');});
             diana.speechWidth = 250;
             Dialog.progression([
-                [cindy, {emotes: ['Anger']}],
+                [cindy, {emotes: ['Exclamation']}],
                 [diana, {emotes: ['Exclamation'], next: true}],
-                [cindy, {emotes: ['Anger']}],
-                [may, {emotes: ['Anger'], next: true}],
+                [cindy, {}],
+                [may, {emotes: ['Exclamation'], next: true}],
             ]);
+
+            diana.action({onhit: function() {
+                if (!diana._dflag) {
+                    Dialog.progression([
+                        [may],
+                        [cindy],
+                        [diana, {next: true}],
+                        [cindy,],
+                        [player, {emotes: ['Exclamation']}],
+                    ]);
+                    diana._dflag = true;
+                }
+            }});
+
+            girlModeTransition(player, _.partial(Game.setScene, 'Classroom', {orientation: 'left'}));
         }
     }
 
