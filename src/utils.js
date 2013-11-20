@@ -50,7 +50,7 @@ function storyFadeOut(callback) {
     if (!_.isFunction(callback))
         fail('storyFadeOut: callback is not a function');
 
-    Crafty.e('Fader').fade('out', callback, true);
+    var fader = Crafty.e('Fader').fade('out', callback, true);
 }
 
 function storyShowLesson(gender, e) {
