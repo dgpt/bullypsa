@@ -209,7 +209,7 @@ boy, young_man, mikey, tyler
 ///* Classroom *///
     Dialog.scenarios.classroom[0] = {
         text: [
-            "Lindsay has told Ms. Barton about the pictures on Facebook. Ms. Barton goes out to the corridor and sends the bullies to the principal’s office. Lindsay goes back out in the hallway and the girls keep teasing her."
+            "Lindsay has told Ms. Barton about the pictures on Facebook. Ms. Barton goes out to the corridor and sends the bullies to the principal's office. Lindsay goes back out in the hallway and the girls keep teasing her."
         ]
     };
 
@@ -275,7 +275,7 @@ boy, young_man, mikey, tyler
 
     Dialog.may.library[1] = {
         text: [
-            "Right?! I mean look at her, she doesn’t even try to look like she’s cool. She could at least color her hair like everyone else. I mean, who even looks like that anymore."
+            "Right?! I mean look at her, she doesn't even try to look like she's cool. She could at least color her hair like everyone else. I mean, who even looks like that anymore."
         ]
     };
 
@@ -633,25 +633,20 @@ Dialog.show = function(entity, settings) {
             Crafty.e('Speech').speech(entity, text[i], _.isArray(response) && response[i]);
             i += 1;
         } else {
-            //console.log('D.show---) Unbinding CloseSpeech on ' + entity.name);
             entity.unbind('CloseSpeech');
             if (_.isFunction(s.callback))
                 s.callback(selected);
             // SpeechFinish triggers when all indices of speech have been cycled through.
-            //console.log('D.show---) Triggering speechFinish on '+ entity.name);
             entity.trigger('SpeechFinish');
         }
         // Trigger response if response id (selected) is passed
         if (existy(selected)) {
-            //console.log('D.show---) Triggering SpeechResponse - GLOBAL');
             Crafty.trigger('SpeechResponse', selected);
         }
     };
     speech();
-    //console.log('D.show---) Binding CloseSpeech on ' + entity.name);
     entity.bind('CloseSpeech', speech);
     if (s.next) State.next(s.scene);
-    //console.log('Dialog.show--->Index: ' + State.getIndex(s.scene));
 };
 
 // Chains dialogs together.
@@ -665,9 +660,7 @@ Dialog.progression = function(argsList) {
         if (!existy(args)) {
             return;
         }
-        //console.log('----)unbinding SpeechFinish from ' + prevArgs[0].name);
         prevArgs[0].unbind('SpeechFinish', speech);
-        //console.log('----)binding SpeechFinish to ' + args[0].name);
         args[0].bind('SpeechFinish', speech);
         Dialog.show.apply(null, args);
         i++;
@@ -688,7 +681,6 @@ Dialog.progression = function(argsList) {
 // \\ default: type == 'good': 0; type == 'bad': 1; type == 'scenario': 0;
 // scene: opt; str; scene name to pull lesson text from. default: current
 Dialog.showInfo = function(type, index, scene) {
-    Crafty.unbind('SceneChange', setupInfoBox);
     var bgcolor;
     var dialogType = 'lessons';
     if (type === 'good') {
@@ -712,12 +704,7 @@ Dialog.showInfo = function(type, index, scene) {
             .append(html);
     };
     setupInfoBox();
-    // Only hideInfo on the second call
-    // Otherwise info would hide instantly
-    Crafty.bind('SceneChange', _.after(2, function() {
-        Dialog.hideInfo();
-        Crafty.unbind('SceneChange', setupInfoBox);
-    }));
+    Crafty.bind('SceneChange', Dialog.hideInfo);
 };
 
 Dialog.hideInfo = function() {
@@ -726,7 +713,7 @@ Dialog.hideInfo = function() {
 };
 
 State = {
-    scene: 'Corridor',
+    scene: 'Room',
     player: 'Girl',
     index: {
         'Room': 0,
