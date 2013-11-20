@@ -89,7 +89,21 @@ Crafty.scene('Street', function() {
 
     // Boy Story
     if (State.player === 'Boy') {
-
+        if (State.getIndex() < 2) {
+            player.x = 600;
+            Dialog.showInfo('scenarios', 5);
+            var mikey = Crafty.e('Mikey').mikey({x: 845, orientation: 'left', portal: true})
+                .action({onhit: function() {
+                    if (!mikey._dflag) {
+                        Dialog.progression([
+                            [mikey, {emotes: ['Exclamation']}],
+                            [player, {emotes: ['Anger'], next: true}],
+                        ]);
+                        mikey._dflag = true;
+                    }
+                }});
+            boyModeTransition(player, _.partial(Game.setScene, 'Street', {orientation: 'left'}));
+        }
     }
 
     // Boundaries
@@ -216,8 +230,8 @@ Crafty.scene('Park', function() {
                         Dialog.progression([
                             [young_man, {emotes: ['Exclamation']}],
                             [player, {emotes: ['Anger'], next: true}],
-                            [young_man, {emotes: ['Exclamation']}],
-                            [player, {emotes: ['Anger'], next: true}],
+                            [young_man],
+                            [player, {next: true}],
                         ]);
                         young_man._dflag = true;
                     }
