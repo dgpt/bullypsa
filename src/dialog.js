@@ -363,7 +363,7 @@ boy, young_man, mikey, tyler
 
     Dialog.young_man.park[1] = {
         text: [
-            "Whatever! You are just a baby who can’t catch a ball. I’m not going to let you play on my team again!"
+            "Whatever! You are just a baby who can't catch a ball. I'm not going to let you play on my team again!"
         ]
     };
 
@@ -372,22 +372,22 @@ boy, young_man, mikey, tyler
             Dialog.text.response
         ],
         response: [[
+            "I don't like being talked to like that. I am not going to play with you if you treat me that way. Everyone makes mistakes sometimes.",
             "Fine, I'm going to take your ball!"+br+
-            "*Start a fight with the bullies*",
-            "I don't like being talked to like that. I am not going to play with you if you treat me that way. Everyone makes mistakes sometimes."
+            "*Start a fight with the bullies*"
         ]]
     };
     // Lessons
-    // Good
-    Dialog.lessons.park[2] = {
-        text: [
-            "Joe decides to stand up for himself, he tells them he does not like what they are saying and everybody makes a mistake sometime. He does the right thing by walking away to avoid a confrontation. Speaking up without starting a fight takes away the power a bully has."
-        ]
-    };
-    // Bad
+    // good
     Dialog.lessons.park[3] = {
         text: [
             "Joe decides to give them a taste of their own medicine, saying he would take their ball. Then in anger, he starts a fight with them. A better choice would be to walk away. Fighting lets them know that what they said was a good way to get a reaction out of you and things will probably get worse in the future!"
+        ]
+    };
+    // bad
+    Dialog.lessons.park[2] = {
+        text: [
+            "Joe decides to stand up for himself, he tells them he does not like what they are saying and everybody makes a mistake sometime. He does the right thing by walking away to avoid a confrontation. Speaking up without starting a fight takes away the power a bully has."
         ]
     };
 
@@ -467,13 +467,13 @@ boy, young_man, mikey, tyler
     // Good
     Dialog.lessons.corridor[2] = {
         text: [
-            "Joe made the right choice by leaving the situation and not reacting to the name-calling. Showing emotion to their insults would have been the wrong choice. By walking away, Joe sent a message to the bullies that he wasn't going to let their name-calling bother him."
+            "Joe should leave it alone and go to another area to avoid any confrontation. Fighting is never the right choice and usually will let bullies know what your weak spots are so that they know how to pick on you again in the future."
         ]
     };
     // Bad
     Dialog.lessons.corridor[3] = {
         text: [
-            "Joe should leave it alone and go to another area to avoid any confrontation. Fighting is never the right choice and usually will let bullies know what your weak spots are so that they know how to pick on you again in the future."
+            "Joe made the right choice by leaving the situation and not reacting to the name-calling. Showing emotion to their insults would have been the wrong choice. By walking away, Joe sent a message to the bullies that he wasn't going to let their name-calling bother him."
         ]
     };
 
@@ -713,7 +713,7 @@ Dialog.hideInfo = function() {
 };
 
 State = {
-    scene: 'Classroom',
+    scene: 'Park',
     player: 'Boy',
     index: {
         'Room': 0,

@@ -60,15 +60,20 @@ function storyFadeOut(callback) {
     }, true);
 }
 
-function storyShowLesson(gender, e) {
-    if (gender === 'Boy')
-        e += 2;
+function girlShowLesson(e) {
     if (e === 0)
         Dialog.showInfo('good', e);
-    else if (e === 1)
+    if (e === 1)
         Dialog.showInfo('bad', e);
 }
 
+function boyShowLesson(e) {
+    e += 2;
+    if (e === 2)
+        Dialog.showInfo('good', e);
+    else if (e === 3)
+        Dialog.showInfo('bad', e);
+}
 
 function onSpaceKey(callback) {
     var check = function(k) {
@@ -82,10 +87,10 @@ function onSpaceKey(callback) {
     Crafty.bind('KeyDown', check);
 }
 
-function storyModeTransition(gender, player, setScene) {
+function storyModeTransition(showLesson, player, setScene) {
     speechResponse(function(e) {
         var fadeCallback = function() {
-            storyShowLesson(gender, e);
+            showLesson(e);
             onSpaceKey(setScene);
         };
         player.enabled = false;
@@ -93,5 +98,5 @@ function storyModeTransition(gender, player, setScene) {
     });
 };
 
-var girlModeTransition = _.partial(storyModeTransition, 'Girl');
-var boyModeTransition = _.partial(storyModeTransition, 'Boy');
+var girlModeTransition = _.partial(storyModeTransition, girlShowLesson);
+var boyModeTransition = _.partial(storyModeTransition, boyShowLesson);
