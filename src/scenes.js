@@ -102,7 +102,7 @@ Crafty.scene('Street', function() {
                         mikey._dflag = true;
                     }
                 }});
-            boyModeTransition(player, _.partial(Game.setScene, 'Street', {orientation: 'left'}));
+            boyModeTransition(player, _.partial(Game.setScene, 'Corridor', {x: 'left', orientation: 'right'}));
         }
     }
 
@@ -252,7 +252,7 @@ Crafty.scene('Park', function() {
                         young_man._dflag = true;
                     }
                 }});
-            boyModeTransition(player, _.partial(Game.setScene, 'Street', {orientation: 'left'}));
+            boyModeTransition(player, _.partial(Game.setScene, 'Street', {x: 'right', orientation: 'left'}));
         }
     }
 
@@ -333,7 +333,8 @@ Crafty.scene('Library', function() {
                         mikey._dflag = true;
                     }
                 }});
-            boyModeTransition(player, _.partial(Game.setScene, 'Street', {orientation: 'left'}));
+            //boyModeTransition(player, _.partial(Game.setScene, 'Street', {orientation: 'left'}));
+            //Trigger ending
         }
     }
 
