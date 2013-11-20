@@ -708,6 +708,8 @@ Dialog.showInfo = function(type, index, scene) {
         // Ugh the hacks...
         if (dialogType === 'lessons' || scene === 'Room')
             return Dialog.hideInfo();
+
+        Crafty.unbind('SceneChange');
     };
     Crafty.bind('SceneChange', handleInfoBug);
 };

@@ -83,14 +83,13 @@ Crafty.scene('Street', function() {
                     }
                 }});
             girlModeTransition(player, _.partial(Game.setScene, 'Corridor',
-                                                 {x: 'left', orientation: 'right'}));
+                                                 {showInfo: ['scenarios'], x: 'left', orientation: 'right'}));
         }
     }
 
     // Boy Story
     if (State.player === 'Boy') {
         if (State.getIndex() < 1) {
-            Dialog.showInfo('scenarios', 5);
             var mikey = Crafty.e('Mikey').mikey({x: 1282, orientation: 'right', portal: true})
                 .action({onhit: function() {
                     if (!mikey._dflag) {
@@ -101,7 +100,7 @@ Crafty.scene('Street', function() {
                         mikey._dflag = true;
                     }
                 }});
-            boyModeTransition(player, _.partial(Game.setScene, 'Corridor', {x: 'left', orientation: 'right'}));
+            boyModeTransition(player, _.partial(Game.setScene, 'Corridor', {showInfo: ['scenarios', 5], x: 'left', orientation: 'right'}));
         }
     }
 
@@ -159,7 +158,6 @@ Crafty.scene('Corridor', function() {
 
     if (State.player === 'Girl') {
         if (State.getIndex() < 1) {
-            Dialog.showInfo('scenarios');
             // Add more girls to the group
             var may = Crafty.e('May').may({x: 385, orientation: 'left', portal: true})
                 .action({onhit: function() {
@@ -173,14 +171,13 @@ Crafty.scene('Corridor', function() {
                         may._dflag = true;
                     }
                 }});
-            girlModeTransition(player, _.partial(Game.setScene, 'Classroom', {orientation: 'left'}));
+            girlModeTransition(player, _.partial(Game.setScene, 'Classroom', {showInfo: ['scenarios'], orientation: 'left'}));
         }
     }
 
     if (State.player === 'Boy') {
         if (State.getIndex() < 2) {
             player.x = 100;
-            Dialog.showInfo('scenarios', 5);
             var tyler = Crafty.e('Tyler').tyler({x: 500, orientation: 'left', portal: true})
                 .action({onhit: function() {
                     if (!tyler._dflag) {
@@ -236,8 +233,7 @@ Crafty.scene('Park', function() {
     var player = Game.setupScene('park');
 
     if (State.player === "Boy") {
-        if (State.getIndex() < 2) {
-            Dialog.showInfo('scenarios', 5);
+        if (State.getIndex() < 1) {
             var young_man = Crafty.e('Young_man').young_man({x: 385, orientation: 'right', portal: true})
                 .action({onhit: function() {
                     if (!young_man._dflag) {
@@ -250,7 +246,7 @@ Crafty.scene('Park', function() {
                         young_man._dflag = true;
                     }
                 }});
-            boyModeTransition(player, _.partial(Game.setScene, 'Street', {x: 'right', orientation: 'left'}));
+            boyModeTransition(player, _.partial(Game.setScene, 'Street', {showInfo: ['scenarios', 5], x: 'right', orientation: 'left'}));
         }
     }
 
@@ -316,7 +312,7 @@ Crafty.scene('Library', function() {
                 for (var scn in State.index) {
                     State.index[scn] = 0;
                 }
-                Game.setScene('Park', {x: 'right', orientation: 'left'});
+                Game.setScene('Park', {showInfo: ['scenarios', 5], x: 'right', orientation: 'left'});
             });
         }
     }
@@ -383,7 +379,7 @@ Crafty.scene('Classroom', function() {
                         Dialog.progression([
                             [dina, {emotes: ['Exclamation']}],
                             [cindy, {emotes: ['Anger']}],
-                            [player]
+                            [player, {next: true}]
                         ]);
                         dina._dflag = true;
                     }

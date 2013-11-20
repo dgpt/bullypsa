@@ -125,7 +125,8 @@ Game = {
         var s = _.defaults(settings || {}, {
             orientation: 'right',
             x: 0,
-            fade: false
+            fade: false,
+            showInfo: false
         });
         var set = function() {
             if (!_.isString(scene) || !(scene in Crafty._scenes))
@@ -146,7 +147,6 @@ Game = {
 
             State.scene = scene;
             Crafty.scene(scene);
-
         };
         var fader = Crafty.e('Fader').attr({fadeTime: 25});
         var fadeIn = function(time, callback) {
@@ -154,10 +154,18 @@ Game = {
             set();
             fader.fade('in', callback);
         };
+        var infoBoxFix = function() {
+            if (_.isArray(s.showInfo)) {
+                Dialog.showInfo.apply(null, s.showInfo);
+            } else {
+                Dialog.hideInfo();
+            }
+        };
         if (s.fade) {
-            fader.fade('out', _.partial(fadeIn, 25));
+            fader.fade('out', _.partial(fadeIn, 25, infoBoxFix));
         } else {
             set();
+            infoBoxFix();
         }
     },
 
