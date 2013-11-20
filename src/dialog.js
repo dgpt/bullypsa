@@ -429,7 +429,7 @@ boy, young_man, mikey, tyler
     };
 
 ///* Corridor *///
-    Dialog.scenarios.street[5] = {
+    Dialog.scenarios.corridor[5] = {
         text: [
             "On the way to class..."
         ]
@@ -686,7 +686,7 @@ Dialog.hideInfo = function() {
 };
 
 State = {
-    scene: 'Park',
+    scene: 'Library',
     player: 'Boy',
     index: {
         'Room': 0,

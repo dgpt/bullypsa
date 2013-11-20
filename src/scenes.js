@@ -90,9 +90,9 @@ Crafty.scene('Street', function() {
     // Boy Story
     if (State.player === 'Boy') {
         if (State.getIndex() < 2) {
-            player.x = 600;
+            player.x = 1360;
             Dialog.showInfo('scenarios', 5);
-            var mikey = Crafty.e('Mikey').mikey({x: 845, orientation: 'left', portal: true})
+            var mikey = Crafty.e('Mikey').mikey({x: 1282, orientation: 'right', portal: true})
                 .action({onhit: function() {
                     if (!mikey._dflag) {
                         Dialog.progression([
@@ -179,7 +179,23 @@ Crafty.scene('Corridor', function() {
     }
 
     if (State.player === 'Boy') {
-
+        if (State.getIndex() < 2) {
+            player.x = 100;
+            Dialog.showInfo('scenarios', 5);
+            var tyler = Crafty.e('Tyler').tyler({x: 500, orientation: 'left', portal: true})
+                .action({onhit: function() {
+                    if (!tyler._dflag) {
+                        Dialog.progression([
+                            [tyler, {emotes: ['Exclamation']}],
+                            [player, {emotes: ['Anger'], next: true}],
+                            [tyler],
+                            [player, {emotes: ['Question'], next: true}],
+                        ]);
+                        tyler._dflag = true;
+                    }
+                }});
+            boyModeTransition(player, _.partial(Game.setScene, 'Library', {orientation: 'left'}));
+        }
     }
 
     // Left - To Street
@@ -301,6 +317,25 @@ Crafty.scene('Library', function() {
         }
     }
 
+    if (State.player === 'Boy') {
+        if (State.getIndex() < 2) {
+            player.x = 600;
+            var tyler = Crafty.e('Tyler').tyler({x: 345, orientation: 'right', portal: true})
+            var mikey = Crafty.e('Mikey').mikey({x: 385, orientation: 'right', portal: true})
+                .action({onhit: function() {
+                    if (!mikey._dflag) {
+                        Dialog.progression([
+                            [mikey, {emotes: ['Exclamation']}],
+                            [tyler, {emotes: ['Exclamation'], next: true}],
+                            [mikey],
+                            [player, {emotes: ['Question'], next: true}],
+                        ]);
+                        mikey._dflag = true;
+                    }
+                }});
+            boyModeTransition(player, _.partial(Game.setScene, 'Street', {orientation: 'left'}));
+        }
+    }
 
     // Overlays
     Crafty.e('Overlay')
