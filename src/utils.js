@@ -77,10 +77,12 @@ function onSpaceKey(callback) {
 
 function storyModeTransition(gender, player, setScene) {
     speechResponse(function(e) {
+        var fadeCallback = function() {
+            storyShowLesson(gender, e);
+            onSpaceKey(setScene);
+        };
         player.enabled = false;
-        storyFadeOut(_.partial(storyShowLesson, gender, e));
-        onSpaceKey(setScene);
-        return 'speechResponse Callback Complete';
+        storyFadeOut(fadeCallback);
     });
 };
 
