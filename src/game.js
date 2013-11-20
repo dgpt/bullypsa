@@ -182,9 +182,14 @@ Game = {
 
 Game.addHelpLink = function() {
    //Add a hyperlink for help.
-    var helpLink = $('<div id="help-button" class="help-button-up-closed"></div>')
+    var uclosed = 'help-button-up-closed';
+    var dclosed = 'help-button-down-closed';
+    var uopen = 'help-button-up-open';
+    var dopen = 'help-button-down-open';
+    var helpLink = $('<div id="help-button" class="'+dopen+' '+dclosed+' '+uopen+' '+uclosed+'"></div>')
         .mousedown(Game.onHelpDown).mouseup(Game.onHelpUp);
     $(document.body).append(helpLink);
+    helpLink.removeClass(dopen).removeClass(dclosed).removeClass(uopen);
 };
 
 //When you click on the help hyperlink.
@@ -209,7 +214,7 @@ Game.onHelpUp = function() {
     var dopen = 'help-button-down-open';
     var helpText = $('<div id="helpText" style="width: '+ Game.width +'px;">'+
     'Help:<br>Sometimes the game will be a little too small. Hold the CTRL button and use your mouse\'s scroll wheel to increase or decrease the zoom.'+
-    '<br><br>Is the game not working? We highly recommend using a current version of <a href="http://windows.microsoft.com/en-us/internet-explorer/download-ie">Internet Explorer 11</a>, <a href="https://www.google.com/intl/en/chrome/browser/">Google Chrome</a>, or <a href="http://www.mozilla.org/en-US/firefox/new/">Mozilla Firefox</a> as your browser to play this game. The game will <em>not</em> work with any version of Internet Explorer previous to 11.'+
+    '<br><br>Is the game not working? We highly recommend using a current version of <a href="https://www.google.com/intl/en/chrome/browser/">Google Chrome</a> or <a href="http://www.mozilla.org/en-US/firefox/new/">Mozilla Firefox</a>. The game will <em>not</em> work with any version of Internet Explorer.'+
     '<br><br>Controls:<br>'+
     'Remember you will only use the arrow keys and the space bar in this game.<ul>'+
     '<li>Use the arrow keys to move left and right.'+
