@@ -823,7 +823,7 @@ Crafty.c('Fader', {
         var canvas = document.createElement('canvas');
         var gc = canvas.getContext('2d');
         canvas.width = Game.width * 3;
-        canvas.height = Game.height;
+        canvas.height = Game.height + 10;
 
         this.width = canvas.width;
 
