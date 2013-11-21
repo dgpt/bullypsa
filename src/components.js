@@ -179,24 +179,6 @@ Crafty.c('Player', {
 });
 
 Crafty.c('NPC', {
-    /*
-    TODO:
-        Add patrol route
-            make possible to walk through area, then walk back after a given time
-                people always walking in crowded areas
-                (but not just walking back and forth - realism)
-
-        Default positions
-            x defaults to full scene route (back and forth patrol)
-            y defaults to Game.player.y
-
-        Actions
-            spawn portals that trigger player actions
-
-        Automated Speech
-            keep player enabled, cycle speech at given interval
-    */
-
     npc: function(settings) {
         var s = _.defaults(settings || {}, {
             x: 0,
@@ -211,8 +193,31 @@ Crafty.c('NPC', {
         this.requires('Actor, Tween, Delay')
             .actor(s.sprite, s);
 
-        this._patrol = _.bind(this._patrol, this);
-        this._patrol(s.path, s.pathInterval, s.pathLeftEdge, s.pathRightEdge);
+        if (s.path !== 'stop') {
+            var moveTo = _.bind(this.moveTo, this);
+            var dir = s.path === 'full-left' ? 'left' : 'right';
+            var moving = false;
+            var patrol = function() {
+                if (!moving) {
+                    if (dir === 'left') {
+                        moving = true;
+                        moveTo(s.pathLeftEdge, function() {
+                            dir = 'right';
+                            moving = false;
+                        });
+                    }
+                    if (dir === 'right') {
+                        moving = true;
+                        moveTo(s.pathRightEdge, function() {
+                            dir = 'left';
+                            moving = false;
+                        });
+                    }
+                }
+            };
+            patrol();
+            Crafty.e('Idler').start(patrol, s.pathInterval);
+        }
 
         return this;
     },
@@ -258,37 +263,7 @@ Crafty.c('NPC', {
         } else {
             console.error("_settings is undefined for some reason.");
         }
-    },
-
-    _patrolRight: function(interval, rdistance, ldistance) {
-        this.moveTo(rdistance, _.bind(function() {
-            //_.delay(_.partial(_.bind(this._patrolLeft, this), interval, rdistance, ldistance), interval);
-            //this._patrolLeft(interval, rdistance, ldistance);
-            _.bind(this._patrolLeft, this)(interval, rdistance, ldistance);
-        }, this));
-    },
-
-    _patrolLeft: function(interval, rdistance, ldistance) {
-        this.moveTo(ldistance, _.bind(function() {
-            //this._patrolRight(interval, rdistance, ldistance);
-            _.bind(this._patrolRight, this)(interval, rdistance, ldistance);
-        }, this));
-    },
-
-    // Given array of x positions or specific keywords, move to each one
-    // 'full': move across entire scene, then go the opposite way after given time
-    // 'stop': Stay still, same as passing an empty array
-    _patrol: function(path, interval, leftEdge, rightEdge) {
-        if (typeof path === "string") {
-            if (path === "full-right") {
-                this._patrolRight(interval, rightEdge, leftEdge);
-            } else if (path === "full-left") {
-                this._patrolLeft(interval, rightEdge, leftEdge);
-            }
-        } else {
-            console.error("path must be string");
-        }
-    },
+    }
 });
 
 /***** Players ******/
