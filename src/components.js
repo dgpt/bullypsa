@@ -12,7 +12,7 @@ Crafty.c('Actor', {
             animBlinkSpeed: 15,     // lower = faster
             blinkSpeed: 3750,       // in milliseconds
             y: Game.player.y,
-            z: 2,
+            z: 20,
             orientation: Game.player.orientation // left or right
         });
 
@@ -132,7 +132,7 @@ Crafty.c('Player', {
     player: function(settings) {
         var s = _.defaults(settings, {
             speed: 3,
-            z: 5,
+            z: 50,
             x: Game.player.x,
             y: Game.player.y
         });
@@ -324,7 +324,7 @@ Crafty.c('GenericNPC', {
             right: [0, 1, 6],
             x: 0,
             y: Game.player.y,
-            z: 5
+            z: 50
         });
         this.requires('NPC').npc(s);
         return this;
@@ -439,7 +439,7 @@ Crafty.c('GenericNPC', {
                     leftBlink:  [0, 0, 4],
                     right:      [0, 3, 6],
                     rightBlink: [0, 1, 4],
-                    z: 7
+                    z: 70
                  }));
         }
     });
@@ -474,7 +474,7 @@ Crafty.c('GenericNPC', {
                     //           x1 y  x2
                     left:       [0, 2, 6],
                     right:      [0, 3, 6],
-                    z: 7
+                    z: 70
                  }));
         }
     });
@@ -489,7 +489,7 @@ Crafty.c('GenericNPC', {
                     leftBlink:  [0, 0, 4],
                     right:      [0, 3, 6],
                     rightBlink: [0, 1, 4],
-                    z: 7
+                    z: 70
                  }));
         }
     });
@@ -525,7 +525,7 @@ Crafty.c('GenericNPC', {
                 right:      [0, 3, 6],
                 rightBlink: [0, 1, 4],
                 x: 150,
-                z: 7
+                z: 70
             });
             this.requires('NPC').npc(s);
             return this;
@@ -634,8 +634,8 @@ Crafty.c('Speech', {
             // offsets (in relation to entity)
             x: existy(entity.speechXOffset) ? entity.speechXOffset : 0,
             // Distance from head to bottom of box
-            y: _.isNumber(entity.speechY) ? entity.speechY : -50,
-            z: entity._z + 11,
+            y: _.isNumber(entity.speechYOffset) ? entity.speechYOffset : -50,
+            z: entity._z + 110,
             // Get constrained X or Y positions
             getX: function() {
                 var x = (entity.x - (s.w / 3)) + s.x;
@@ -805,7 +805,7 @@ Crafty.c('Overlay', {
         pos = _.defaults(pos || {}, {
             x: 0,
             y: 0,
-            z: 10
+            z: 450
         });
         this.attr(pos)
             .image(Crafty.asset(asset));
@@ -842,7 +842,7 @@ Crafty.c('Fader', {
         imageEnt.active = true;
 
         imageEnt.alpha = fadesIn ? 1.0 : 0.0;
-        imageEnt.attr({x: -Crafty.viewport.x - imageEnt.w / 2, y: this.y, z: 100})
+        imageEnt.attr({x: -Crafty.viewport.x - imageEnt.w / 2, y: this.y, z: 500})
             .tween({alpha: fadesIn ? 0.0 : 1.0}, this.fadeTime)
             .bind("TweenEnd", function() {
                 this.unbind('TweenEnd');

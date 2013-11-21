@@ -1,15 +1,21 @@
 Crafty.scene.genNPCSettings = function(front) {
-    return {
+    var r = Crafty.math.randomNumber;
+
+    var s = {
         path: Math.random() <= 0.5 ? 'full-right' : 'full-left',
-        pathLeftEdge: Crafty.math.randomNumber(0, 100),
-        pathRightEdge: Crafty.math.randomNumber(Game.width - 100, Game.width - 64),
-        pathInterval: Crafty.math.randomNumber(600, 4000),
-        x: Crafty.math.randomNumber(0, Game.width-64),
-        y: front ? Game.player.y : Game.player.y - 15,
-        z: front ? 6 : 4,
+        pathLeftEdge: r(0, 100),
+        pathRightEdge: r(Game.width - 100, Game.width - 64),
+        pathInterval: r(600, 4000),
+        x: r(0, Game.width-64),
         speed: 1,
         animSpeed: 60
-    }
+    };
+    s.y = front ? Game.player.y + r(2, 7) : Game.player.y - r(2, 20);
+    var dif = Math.round(Game.player.y - s.y);
+    var d = dif / Math.abs(dif);
+    s.z = d < 0 ? (-d * 60) + dif : 40 - dif;
+    console.log(s.z);
+    return s;
 }
 
 Crafty.scene('Room', function() {
