@@ -59,19 +59,20 @@ function storyFadeOut(callback) {
     }, true);
 }
 
-function girlShowLesson(e) {
-    if (e === 0)
-        Dialog.showInfo('good', e);
-    if (e === 1)
-        Dialog.showInfo('bad', e);
-}
+function storyShowLesson(e) {
+    var res = e;
+    if (State.player === 'Boy')
+        res += 2;
 
-function boyShowLesson(e) {
-    e += 2;
-    if (e === 2)
-        Dialog.showInfo('good', e);
-    else if (e === 3)
-        Dialog.showInfo('bad', e);
+    Game.points.total++;
+    if (e === 0) {
+        Game.points.current++;
+        Dialog.showInfo('good', res);
+    } else if (e === 1) {
+        Game.points.current--;
+        Dialog.showInfo('bad', res);
+    }
+    console.log('Total Points: ' + Game.points.total + ' Current Points: ' + Game.points.current);
 }
 
 function onSpaceKey(callback) {
@@ -95,5 +96,12 @@ function storyModeTransition(showLesson, player, setScene) {
     });
 };
 
-var girlModeTransition = _.partial(storyModeTransition, girlShowLesson);
-var boyModeTransition = _.partial(storyModeTransition, boyShowLesson);
+var girlModeTransition = _.partial(storyModeTransition, storyShowLesson);
+var boyModeTransition = _.partial(storyModeTransition, storyShowLesson);
+
+function fadeToEnd() {
+    Crafty.e('Fader').attr({fadeTime: 100})
+        .fade('out', function() {
+            Crafty.scene('End');
+    });
+};

@@ -266,12 +266,27 @@ Crafty.scene('Park', function() {
         }
     }
 
-    Crafty.e('Roland').roland(Crafty.scene.genNPCSettings());
-    Crafty.e('Elise').elise(Crafty.scene.genNPCSettings());
-    Crafty.e('Sara').sara(Crafty.scene.genNPCSettings());
-    Crafty.e('Marion').marion(Crafty.scene.genNPCSettings());
-    Crafty.e('GirlSmall').girlSmall(Crafty.scene.genNPCSettings());
-    Crafty.e('MidAgeWoman').midAgeWoman(Crafty.scene.genNPCSettings());
+    if (State.getIndex() >= 10) {
+        var girl = Crafty.e('GirlLame').girlLame({x: 577, orientation: 'left'});
+        player.disableControl();
+        player.x = 469;
+        Crafty.viewport.x -= 50;
+        Dialog.progression([
+            [player, {emote: ['Exclamation']}],
+            [girl, {emote: ['Music'], next: true, callback: function() {
+                girl.speechXOffset = -100;
+                girl.speechYOffset = 35;
+            }}],
+            [girl, {callback: fadeToEnd}]
+        ]);
+    } else {
+        Crafty.e('Roland').roland(Crafty.scene.genNPCSettings());
+        Crafty.e('Elise').elise(Crafty.scene.genNPCSettings());
+        Crafty.e('Sara').sara(Crafty.scene.genNPCSettings());
+        Crafty.e('Marion').marion(Crafty.scene.genNPCSettings());
+        Crafty.e('GirlSmall').girlSmall(Crafty.scene.genNPCSettings());
+        Crafty.e('MidAgeWoman').midAgeWoman(Crafty.scene.genNPCSettings());
+    }
 
     // Left - to street
     Crafty.e('Portal')
@@ -351,8 +366,19 @@ Crafty.scene('Library', function() {
                         mikey._dflag = true;
                     }
                 }});
-            //boyModeTransition(player, _.partial(Game.setScene, 'Street', {orientation: 'left'}));
-            //Trigger ending
+
+            var ending = function() {
+                State.index.park = 10;
+                State.index.classroom = 10;
+                if (Game.points.total / Game.points.current >= 0.5)
+                    return ['Park', 'left'];
+                else
+                    return ['Classroom'];
+            };
+            boyModeTransition(player, function() {
+                var end = ending();
+                Game.setScene(end[0], {x: end[1], orientation: 'left'});
+            });
         }
     }
 
@@ -412,13 +438,16 @@ Crafty.scene('Classroom', function() {
     // End Game -- Bad
     if (State.getIndex() >= 10) {
         player.x = 340;
-        var girl = Crafty.e('GirlLame').girlLame({x: 440, orientation: 'left', portal: true})
-        var rebecca = Crafty.e('Rebecca').rebecca({x: 385, orientation: 'right', portal: true})
-        rebecca.bind('CloseSpeech', function() { player.enabled = true; rebecca.unbind('CloseSpeech');
-            //End game stuff goes here.
-        });
+        player.disableControl();
+        var girl = Crafty.e('GirlLame').girlLame({x: 440, orientation: 'left'})
+        var rebecca = Crafty.e('Rebecca').rebecca({x: 385, orientation: 'right'})
+        girl.speechXOffset = -140;
+        girl.speechYOffset = 110;
+        rebecca.speechYOffset = -20;
+        girl.bind('CloseSpeech', fadeToEnd);
         Dialog.progression([
             [rebecca, {emotes: ['Anger']}],
+            [girl, {index: 11, scene: 'park'}]
         ]);
     }
 
@@ -444,6 +473,28 @@ Crafty.scene('Classroom', function() {
                 };
             }
         }, function() { player.action = null; });
+});
+
+Crafty.scene('End', function() {
+    Crafty.viewport.x = 0;
+    Crafty.viewport.y = 0;
+    Dialog.showInfo('scenarios', 10, 'Park');
+    var canw = Crafty.canvas._canvas.width;
+    var canh = Crafty.canvas._canvas.height;
+    var endText = Crafty.e('2D, DOM, Text')
+        .text('The End')
+        .textColor('#FFFFFF', .8)
+        .textFont({size: '60px', weight: 'bold'})
+        .attr({x: canw / 4, y: canh / 3, w: canw, h: canh});
+
+    console.log(endText._x);
+    _.delay(function() {
+        Crafty.e('2D, DOM, Text')
+            .text('<a id="play-again" href="'+window.location.href+'">Play Again?</a>')
+            .textColor('#FFFFFF', .8)
+            .textFont({size: '30px'})
+            .attr({x: endText._x + 50, y: endText._y + 100, w: 550, h: 250});
+    }, 3750);
 });
 
 Crafty.scene('Load', function() {

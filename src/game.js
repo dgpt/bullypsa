@@ -4,6 +4,11 @@ Game = {
     width: 600,
     height: 330,
 
+    points: {
+        current: 0,
+        total: 0
+    },
+
     // Use to place player in a more logical position between scenes
     player: {
         // These are all default values and will be changed
