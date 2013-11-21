@@ -3,9 +3,9 @@ Crafty.scene.genNPCSettings = function(front) {
 
     var s = {
         path: Math.random() <= 0.5 ? 'full-right' : 'full-left',
-        pathLeftEdge: r(0, 100),
-        pathRightEdge: r(Game.width - 100, Game.width - 64),
-        pathInterval: r(600, 4000),
+        pathLeftEdge: r(0, 500),
+        pathRightEdge: r(Game.width - 500, Game.width - 66),
+        pathInterval: r(3000, 30000),
         x: r(0, Game.width-64),
         speed: 1,
         animSpeed: 60
@@ -14,7 +14,6 @@ Crafty.scene.genNPCSettings = function(front) {
     var dif = Math.round(Game.player.y - s.y);
     var d = dif / Math.abs(dif);
     s.z = d < 0 ? (-d * 60) + dif : 40 - dif;
-    console.log(s.z);
     return s;
 }
 
