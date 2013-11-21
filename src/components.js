@@ -517,14 +517,14 @@ Crafty.c('GenericNPC', {
                     leftBlink:  [0, 0, 4],
                     right:      [0, 3, 6],
                     rightBlink: [0, 1, 4],
-                    z: 7
+                    z: 70
                  }));
         }
     });
 
 Crafty.c('Emotion', {
     animSpeed: 10,
-    hideTime: 1600,
+    hideTime: 1000,
     fadeTime: 60,
     // Offset from player pos
     xOffset: 5,
