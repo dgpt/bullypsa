@@ -25,7 +25,7 @@ Game = {
             right:   [600 , 187]
         },
         street: {
-            left:    [0   , 230],
+            left:    [0   , 222],
             stairs:  [1200, 230],
             right:   [1430, 230]
         },
@@ -34,7 +34,7 @@ Game = {
             right:   [1225, 230]
         },
         corridor: {
-            left:    [0   , 200],
+            left:    [0   , 210],
             up:      [745 , 220],
             down:    [870 , 220]
         },
