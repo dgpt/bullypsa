@@ -500,10 +500,10 @@ boy, young_man, mikey, tyler
             Dialog.text.response
         ],
         response: [[
-            "I heard what you said about Lindsay and me. You're gonna pay for that!"+br+
-            "*Punch Mikey*",
             "Why do you have to act like such a bully? So not cool."+br+
-            "*Walk Away*"
+            "*Walk Away*",
+            "I heard what you said about Lindsay and me. You're gonna pay for that!"+br+
+            "*Punch Mikey*"
         ]]
     };
     // Lessons
@@ -527,14 +527,14 @@ boy, young_man, mikey, tyler
 ///* Bad *///
     Dialog.rebecca.classroom[10] = {
         text: [
-            "You two have made some bad choices today, those choices have landed in you in detention. This will give you some time to think about what you could have done differently."
+            "You two have made some bad choices today which have landed in you in detention. This will give you some time to think about what you could have done differently."
         ]
     };
 
 ///* Good *///
     Dialog.boy.park[10] = {
         text: [
-            "Way to go! You made the best decisions! When you get to the end of the day it's really all about being happy. So standing up for yourself is really the best option in the long run!"
+            "Way to go! You made the best decisions! When you get to the end of the day it's really all about being happy. Standing up for yourself is really the best option in the long run!"
         ]
     };
 
@@ -547,18 +547,19 @@ boy, young_man, mikey, tyler
 ///* Both *///
     Dialog.girl.park[11] = {
         text: [
-            "By playing this game, you have encountered some situations that you either have come across, or might in the future. Learning to make the correct choices ahead of time makes it easier to make the correct choice in the heat of the moment. Practice making good choices, and believe that you are worth it. Take the Bullying Ends with Me pledge now to promise to be part of the solution and not part of the problem. "+br+
-            "http://www.pacer.org/bullying/digitalpetition/"
+            "By playing this game, you have encountered some situations that you either have or might come across in the future. Learning to make the correct choices ahead of time makes it easier to make the correct choice in the heat of the moment. "+
+            "Practice making good choices, and believe that you are worth it."+br+br+
+            "Take the <a href=\"http://www.pacer.org/bullying/digitalpetition/\">Bullying Ends with Me</a> pledge now to promise to be part of the solution and not part of the problem. "
         ]
     };
 
     Dialog.scenarios.park[10] = {
         text: [
-            "Bullying can make a child feel helpless. Kids may want to handle it on their own to feel in control again. They may fear being seen as weak or a tattletale."+br+
-            "Kids may fear backlash from the kid who bullied them."+br+
-            "Bullying can be a humiliating experience. Kids may not want adults to know what is being said about them, whether true or false. They may also fear that adults will judge them or punish them for being weak."+br+
-            "Kids who are bullied may already feel socially isolated. They may feel like no one cares or could understand."+br+
-            "Kids may fear being rejected by their peers. Friends can help protect kids from bullying, and kids can fear losing this support."
+            "<p>Bullying can make a child feel helpless. Kids may want to handle it on their own to feel in control again. They may fear being seen as weak or a tattletale.</p>"+
+            "<p>Kids may fear backlash from the kid who bullied them.</p>"+
+            "<p>Bullying can be a humiliating experience. Kids may not want adults to know what is being said about them, whether true or false. They may also fear that adults will judge them or punish them for being weak.</p>"+
+            "<p>Kids who are bullied may already feel socially isolated. They may feel like no one cares or could understand.</p>"+
+            "<p>Kids may fear being rejected by their peers. Friends can help protect kids from bullying, and kids can fear losing this support.</p>"
         ]
     };
 
@@ -720,11 +721,11 @@ Dialog.hideInfo = function() {
 };
 
 State = {
-    scene: 'Street',
-    player: 'Boy',
+    scene: 'Park',
+    player: 'Girl',
     index: {
         'Room': 0,
-        'Street': 0,
+        'Street': 3,
         'Corridor': 0,
         'Park': 0,
         'Library': 0,

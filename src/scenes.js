@@ -161,7 +161,6 @@ Crafty.scene('Corridor', function() {
     //Background NPCs
     Crafty.e('Curtis').curtis(Crafty.scene.genNPCSettings());
     Crafty.e('Femaleb').femaleb(Crafty.scene.genNPCSettings());
-    Crafty.e('MidAgeMan').midAgeMan(Crafty.scene.genNPCSettings());
     Crafty.e('Octavia').octavia(Crafty.scene.genNPCSettings());
     Crafty.e('Vivian').vivian(Crafty.scene.genNPCSettings());
     //Crafty.e('Miley').miley(Crafty.scene.genNPCSettings());
@@ -169,7 +168,9 @@ Crafty.scene('Corridor', function() {
     if (State.player === 'Girl') {
         if (State.getIndex() < 1) {
             // Add more girls to the group
-            var may = Crafty.e('May').may({x: 385, orientation: 'left', portal: true})
+            var diana = Crafty.e('Diana').diana({x: 465, orientation: 'left'});
+            var elise = Crafty.e('Elise').elise({x: 490, orientation: 'left'});
+            var may = Crafty.e('May').may({x: 555, orientation: 'left', portal: true})
                 .action({onhit: function() {
                     if (!may._dflag) {
                         Dialog.progression([
@@ -394,7 +395,7 @@ Crafty.scene('Classroom', function() {
                 .action({onhit: function() {
                     if (!cindy._dflag) {
                         cindy.speechWidth = 250;
-                        player.speechY = -20;
+                        player.speechYOffset = -20;
                         Dialog.progression([
                             [dina, {emotes: ['Exclamation']}],
                             [cindy, {emotes: ['Anger']}],
