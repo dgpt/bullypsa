@@ -256,7 +256,7 @@ boy, young_man, mikey, tyler
 
     Dialog.cindy.library[0] = {
         text: [
-            "I heard she liked Joe."
+            "I heard she likes Joe."
         ]
     };
 
@@ -590,7 +590,6 @@ Dialog.get = function(entity, scene, index) {
         warn('Dialog.get: Dialog['+entity+']['+scene+']['+index+'] does not exist.');
         return;
     }
-    //console.log('Dialog.get: Dialog['+entity+']['+scene+']['+index+']');
     return d;
 };
 
@@ -699,15 +698,19 @@ Dialog.showInfo = function(type, index, scene) {
 
     var setupInfoBox = function() {
         var totalWidth = Crafty.viewport.width + width + padding * 2;
-        var html = '<div id="lesson-container" style="padding: '+padding+'px; box-shadow: inset 0 0 20px '+bgcolor+'; background-color: '+'#FFFFFF'+'; width: '+width+'; height: '+(Game.height-40)+'; z-index: 1000">'+text+'</div>';
-        $('#cr-stage')
+        var lessonDiv = '<div id="lesson-container" style="padding: '+padding+'px; box-shadow: inset 0 0 20px '+bgcolor+'; background-color: '+'#FFFFFF'+'; width: '+width+'; height: '+(Game.height-40)+'; z-index: 1000">'+text+'</div>';
+        var cr_stage = $('#cr-stage')
             .css('width', totalWidth)
-            .append(html);
+            .append(lessonDiv);
+        if (dialogType === 'lessons') {
+            var instructionDiv = '<div id="lesson-instruct" style="z-index: 1000; position: absolute; top: 150px; left: 90px; width: 650px; height: 500px">Press Space to Continue</div>';
+            cr_stage.append(instructionDiv);
+        }
     };
     setupInfoBox();
     var handleInfoBug = function() {
         // Ugh the hacks...
-        if (dialogType === 'lessons' || scene === 'Room')
+        if (dialogType === 'lessons' || scene === 'Room' || scene === 'End')
             return Dialog.hideInfo();
 
         Crafty.unbind('SceneChange');
@@ -717,15 +720,16 @@ Dialog.showInfo = function(type, index, scene) {
 
 Dialog.hideInfo = function() {
     $('#lesson-container').detach();
+    $('#lesson-instruct').detach();
     $('#cr-stage').css('width', Crafty.viewport.width);
 };
 
 State = {
-    scene: 'Park',
+    scene: 'Room',
     player: 'Girl',
     index: {
         'Room': 0,
-        'Street': 3,
+        'Street': 0,
         'Corridor': 0,
         'Park': 0,
         'Library': 0,

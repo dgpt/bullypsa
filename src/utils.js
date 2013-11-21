@@ -72,12 +72,12 @@ function storyShowLesson(e) {
         Game.points.current--;
         Dialog.showInfo('bad', res);
     }
-    console.log('Total Points: ' + Game.points.total + ' Current Points: ' + Game.points.current);
 }
 
 function onSpaceKey(callback) {
     var check = function(k) {
         if (k.key === Crafty.keys.SPACE) {
+            $('#lesson-instruct').remove();
             Crafty.trigger('FadeEnd', _.isFunction(callback) ? callback : null);
             Crafty.unbind('KeyDown', check);
         }

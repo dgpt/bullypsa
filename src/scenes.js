@@ -162,13 +162,12 @@ Crafty.scene('Corridor', function() {
     Crafty.e('Femaleb').femaleb(Crafty.scene.genNPCSettings());
     Crafty.e('Octavia').octavia(Crafty.scene.genNPCSettings());
     Crafty.e('Vivian').vivian(Crafty.scene.genNPCSettings());
-    //Crafty.e('Miley').miley(Crafty.scene.genNPCSettings());
 
     if (State.player === 'Girl') {
         if (State.getIndex() < 1) {
             // Add more girls to the group
-            var diana = Crafty.e('Diana').diana({x: 465, orientation: 'left'});
-            var elise = Crafty.e('Elise').elise({x: 490, orientation: 'left'});
+            var diana = Crafty.e('Diana').diana({x: 590, y: 191, z: 20, orientation: 'left'});
+            var elise = Crafty.e('Elise').elise({x: 639, y: 204, orientation: 'left'});
             var may = Crafty.e('May').may({x: 555, orientation: 'left', portal: true})
                 .action({onhit: function() {
                     if (!may._dflag) {
@@ -314,20 +313,56 @@ Crafty.scene('Library', function() {
         if (State.getIndex() < 1) {
             player.x = 750;
 
-            var cindy = Crafty.e('Cindy').cindy({x: 500, orientation: 'right'});
-            var diana = Crafty.e('Diana').diana({x: 600, orientation: 'right'});
-            var may = Crafty.e('May').may({x: 550, orientation: 'right'});
+            var cindy = Crafty.e('Cindy').cindy({x: 100, y: 173, orientation: 'right'});
+            var diana = Crafty.e('Diana').diana({x: cindy.x + 100, y: cindy.y, orientation: 'right'});
+            var may = Crafty.e('May').may({x: cindy.x + 50, y: cindy.y + 19, z: cindy.z + 12, orientation: 'right'});
             may.bind('CloseSpeech', function() { player.enabled = true; may.unbind('CloseSpeech');});
             diana.speechWidth = 250;
-            Dialog.progression([
-                [cindy, {emotes: ['Exclamation']}],
-                [diana, {emotes: ['Exclamation'], next: true}],
-                [cindy, {}],
-                [may, {emotes: ['Exclamation'], next: true}],
-            ]);
+            var xoff = 400;
+            var cOldXOff = cindy.speechXOffset;
+            var dOldXOff = diana.speechXOffset;
+            var mOldXOff = may.speechXOffset;
+            cindy.speechXOffset =  xoff - 100;
+            diana.speechXOffset = xoff - 180;
+            may.speechXOffset = xoff - 240;
+            Crafty.e('Portal')
+                .portal({x: cindy.x + xoff, boundary: false})
+                .action(function() {
+                    if (!cindy._dflag) {
+                        Dialog.progression([
+                            [cindy, {emotes: ['Exclamation'], callback: function() { player.enabled = true; }}],
+                        ]);
+                        cindy._dflag = true;
+                    }
+                });
 
+            Crafty.e('Portal')
+                .portal({x: cindy.x + xoff - 60, boundary: false})
+                .action(function() {
+                    if (!diana._dflag) {
+                        Dialog.progression([
+                            [diana, {emotes: ['Exclamation'], next: true, callback: function() { player.enabled = true; }}],
+                        ]);
+                        diana_dflag = true;
+                    }
+                });
+
+            Crafty.e('Portal')
+                .portal({x: cindy.x + xoff - 120, boundary: false})
+                .action(function() {
+                    if (!cindy._dflag0) {
+                        Dialog.progression([
+                            [cindy, {}],
+                            [may, {emotes: ['Exclamation'], next: true}]
+                        ]);
+                        cindy._dflag0 = true;
+                    }
+                });
             diana.action({onhit: function() {
-                if (!diana._dflag) {
+                if (!diana._dflag0) {
+                    cindy.speechXOffset = cOldXOff;
+                    diana.speechXOffset = dOldXOff;
+                    may.speechXOffset = mOldXOff;
                     Dialog.progression([
                         [may],
                         [cindy],
@@ -335,7 +370,7 @@ Crafty.scene('Library', function() {
                         [cindy,],
                         [player, {emotes: ['Exclamation']}],
                     ]);
-                    diana._dflag = true;
+                    diana._dflag0 = true;
                 }
             }});
 
@@ -351,11 +386,12 @@ Crafty.scene('Library', function() {
 
     if (State.player === 'Boy') {
         if (State.getIndex() < 1) {
-            player.x = 600;
-            var tyler = Crafty.e('Tyler').tyler({x: 345, orientation: 'right', portal: true})
-            var mikey = Crafty.e('Mikey').mikey({x: 385, orientation: 'right', portal: true})
+            player.x = 777;
+            var tyler = Crafty.e('Tyler').tyler({x: 100, y: 178, z: 30, orientation: 'right', portal: true})
+            var mikey = Crafty.e('Mikey').mikey({x: 140, orientation: 'right', portal: true})
                 .action({onhit: function() {
                     if (!mikey._dflag) {
+                        player.speechYOffset = -38;
                         Dialog.progression([
                             [mikey, {emotes: ['Exclamation']}],
                             [tyler, {emotes: ['Exclamation'], next: true}],
@@ -367,16 +403,16 @@ Crafty.scene('Library', function() {
                 }});
 
             var ending = function() {
-                State.index.park = 10;
-                State.index.classroom = 10;
                 if (Game.points.total / Game.points.current >= 0.5)
                     return ['Park', 'left'];
                 else
                     return ['Classroom'];
             };
             boyModeTransition(player, function() {
+                State.index['Park'] = 10;
+                State.index['Classroom'] = 10;
                 var end = ending();
-                Game.setScene(end[0], {x: end[1], orientation: 'left'});
+                Game.setScene(end[0], {x: end[1], orientation: 'right'});
             });
         }
     }
@@ -416,6 +452,7 @@ Crafty.scene('Classroom', function() {
     if (State.player === 'Girl') {
         if (State.getIndex() < 1) {
             var dina = Crafty.e('Dina').dina({x: 200, orientation: 'right'});
+            var miley = Crafty.e('Miley').miley({x: 250, orientation: 'right'});
             var cindy = Crafty.e('Cindy').cindy({x: 300, orientation: 'right', portal: true})
                 .action({onhit: function() {
                     if (!cindy._dflag) {
@@ -429,8 +466,8 @@ Crafty.scene('Classroom', function() {
                         cindy._dflag = true;
                     }
                 }});
-            girlModeTransition(player, _.partial(Game.setScene, 'Corridor',
-                                                 {x: 'up', orientation: 'right'}));
+            girlModeTransition(player, _.partial(Game.setScene, 'Library',
+                                                 {orientation: 'left'}));
         }
     }
 
@@ -477,7 +514,9 @@ Crafty.scene('Classroom', function() {
 Crafty.scene('End', function() {
     Crafty.viewport.x = 0;
     Crafty.viewport.y = 0;
-    Dialog.showInfo('scenarios', 10, 'Park');
+    Crafty.bind('SceneChange', function() {
+        Dialog.showInfo('scenarios', 10, 'Park');
+    });
     var canw = Crafty.canvas._canvas.width;
     var canh = Crafty.canvas._canvas.height;
     var endText = Crafty.e('2D, DOM, Text')
@@ -486,7 +525,6 @@ Crafty.scene('End', function() {
         .textFont({size: '60px', weight: 'bold'})
         .attr({x: canw / 4, y: canh / 3, w: canw, h: canh});
 
-    console.log(endText._x);
     _.delay(function() {
         Crafty.e('2D, DOM, Text')
             .text('<a id="play-again" href="'+window.location.href+'">Play Again?</a>')

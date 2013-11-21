@@ -3,26 +3,16 @@ Level Order
 Room->Street/->Corridor/->Library
 
 BUGS:
-    In components.js with the npc component moveTo will sometimes say _settings is not defined when in the EnterFrame event. Currently we are ignoring this and it appears to work fine, but we may want to check this out if we getan unexplainable error.
 
 
 TODO:
-    Make Ending
-        Good Ending
-        Bad Ending
-    Add point system
-        Get points for right answers
-        End point amount determines ending
     Emotes
+        Add all of them in
         Make them die faster
-
-    Ending
-        Add them in
-
-    during transitions
-        make sure player is disabled
+            -- check
 
     Corridor
+        add more bullies to group
         move may back a little
         remove creepy midage man
 
@@ -31,19 +21,17 @@ TODO:
 
     Classroom
         add rebecca
+        afterwards, make player spawn in lib, not cor
+
+    Library
+        Move girl group back
+        boy: switch dialogs
+            move boys back
 
     Lesson Time
         Add 'press space to continue'
 
-TODO-DONE:
-    make exandable help text link below game.
-        shows controls, etc.
-        Help (down arrow graphic)
-    Populate areas with appropriate NPCs
-        Park
-        Street
-        Corridor
-        Classroom
+
 Load:
     add loading bar
     loading screen is bigger than game screen
